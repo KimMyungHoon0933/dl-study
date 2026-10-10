@@ -125,11 +125,11 @@ print("np.dot(a, a.T): ",np.dot(a, a.T),"np.dot(b, b.T): ", np.dot(b, b.T))
 
 - a,b shape
 
-![Alt text](../../images/01-introduce/Shape.png)
+![Alt text](../../images/01-introduce/Shape1.png)
 
 - a.T.shpae , b.T.shape
 
-![Alt text](../../images/01-introduce/T_Shape.png)
+![Alt text](../../images/01-introduce/T_Shape1.png)
 
 - a.dot 
 
