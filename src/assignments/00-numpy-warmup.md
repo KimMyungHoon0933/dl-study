@@ -4,7 +4,7 @@
 
 ## 문제 1 
 
-### 코드
+- ### 코드
 
 
 ```a = np.random.rand(1000000)
@@ -29,7 +29,7 @@ print(c_dot==c_for)
 print(np.allclose(c_dot,c_for))
 ```
 
-### for과 np.dot 걸린 시간 비교 
+- ### for과 np.dot 걸린 시간 비교 
 
 | 방법 | 소요시간 | 배수 |
 | --- |  --- | --- |
