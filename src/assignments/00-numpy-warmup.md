@@ -149,7 +149,7 @@ numpy에서 전치를 진행하면 (5,) 그대로 나오게 되게 된다. <br>�
 
 ## 문제 4
 
-### relu 함수가 꺽이는 위치 
+- relu 함수가 꺽이는 위치 
 
 >    ```
 >    def relu(x):
@@ -182,7 +182,7 @@ $$
 <br>
 
 
-### relu sum 그림
+- relu sum 그림
 
 ![Alt text](../../images/01-introduce/relu_100.png)
 
@@ -193,7 +193,7 @@ relu 함수를 더한 결과는 비선형 함수로 나온다.
 
 
 
-### linear sum 그림
+- linear sum 그림
 
 ![Alt text](../../images/01-introduce/linear_100.png)
 
