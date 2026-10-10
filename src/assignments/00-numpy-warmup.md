@@ -117,19 +117,19 @@ $$
 x=-\frac{b}{w}
 $$
 
-    relu sum 그림
+- relu sum 그림
 
 ![Alt text](../../images/01-introduce/relu_100.png)
 
 relu 함수를 더한 결과는 비선형 함수로 나온다.
 
-    linear sum 그림
+- linear sum 그림
 
 ![Alt text](../../images/01-introduce/linear_100.png)
 
 linear 함수 자체를 여러번 더해도 결국 선형성을 띄기에 직선 형태를 가진다.
 
-    활성화 함수의 역활
+- 활성화 함수의 역활
 
 활성화 함수는 입력 값으로 가중치를 곱한 뒤에 비선형 함수를 만드는 역활을 한다.
 
