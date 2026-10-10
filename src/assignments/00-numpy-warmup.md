@@ -77,9 +77,13 @@ print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,k
 
 ![Alt text](../../images/01-introduce/column_sum_True.png)
 
+각 원소를 해당 열의 합으로 나누어, 각 열의 합이 1이 되도록 정규화한다
+
 - 각 열 정규화한 결과값(keepdims=False)
 
 ![Alt text](../../images/01-introduce/column_sum_False.png)
+
+
 
 - 각 열의 값의 합 
 
@@ -94,6 +98,13 @@ print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,k
 - 각 행 정규화한 결과값(keepdims=False)
 
 ![Alt text](../../images/01-introduce/row_sum_False2.png)
+
+- 행일 때 keepdims=False면 오류가 발생하는 이유
+
+keepdims는 차원을 유지하여 결과값을 만들어낸다. axis=0 일때 keepdims=False이면  (4,)이 된다.
+이때 넘파이 계산 법칙으로 인해서 (1,4)의 형태로 정렬되고 브로드 캐스팅에 의해서 (1,4)는 (3,4)이 되어 a와 a.sum이 나누지는 것이 가능하지만
+axis=1일 때 keepdims=False (3,)이 되어 넘파이에 의해서 (1,3)이 되어지는데 (3,4)과 (1,3)은 마지막 차원이 맞지 않기에  
+브로드 캐스팅이 불가능 하여서 계산이 되지 않고 오류가 발생한다.
 
 
 - 각 행의 값의 합
