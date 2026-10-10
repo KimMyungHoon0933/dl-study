@@ -101,15 +101,18 @@ def relu(x):
 ```
 ![Alt text](../../images/01-introduce/relu.png)
 
-relu 함수는 y값이 0이 되는 지점에서 꺽이게 된다. relu는 활성화 함수로 사용되어 보통 식은 다음과 같다.
+relu 함수는 y값이 0이 되는 지점에서 꺽이게 된다. relu는 활성화 함수로 사용될 때 식은 다음과 같다.
 
 $$
-y = \operatorname{ReLU}(wx+b)
+y = \mathrm{ReLU}(wx+b)
 $$
 
 여기서 relu는 w*x + b이 0이 되는 지점에서 꺽이기에 다음과 같이 전개하여 0이 되는 x 지점을 구할 수 있다
 $$
-    w*x+b = 0
-    x =-\frac{b}{w}
+wx+b=0
+$$
+
+$$
+x=-\frac{b}{w}
 $$
 
