@@ -106,7 +106,7 @@ keepdims는 차원을 유지하여 결과값을 만들어낸다. axis=0 일때 k
 NumPy의 Broadcasting 규칙에 따라 (4,)는 (1,4)처럼 오른쪽부터 정렬하여 비교되며 (1,4)는 (3,4)이 되어,a와 a.sum이 나누지는 것이 가능하다. <br><br>
 하지만 axis=1일 때 keepdims=False (3,)이 되어 넘파이에 의해서 (1,3)이 되어지지만 , <br>
 (3,4)과 (1,3)은 마지막 차원이 맞지 않기에  브로드 캐스팅이 불가능 하여서 계산이 되지 않고 오류가 발생한다.
-
+<br><br>
 
 - 각 행의 값의 합
 
@@ -149,7 +149,7 @@ numpy에서 전치를 진행하면 (5,) 그대로 나오게 되게 된다. <br>�
 
 ## 문제 4
 
-- relu 함수가 꺽이는 위치 
+### relu 함수가 꺽이는 위치 
 
 >    ```
 >    def relu(x):
@@ -182,7 +182,7 @@ $$
 <br>
 
 
-- relu sum 그림
+### relu sum 그림
 
 ![Alt text](../../images/01-introduce/relu_100.png)
 
@@ -193,7 +193,7 @@ relu 함수를 더한 결과는 비선형 함수로 나온다.
 
 
 
-- linear sum 그림
+### linear sum 그림
 
 ![Alt text](../../images/01-introduce/linear_100.png)
 
@@ -211,18 +211,18 @@ linear 함수 자체를 여러번 더해도 결국 선형성을 띄기에 직선
 
 ## 문제 5
 
-- lstsq
+### lstsq
 
 
-- n=10일 때 y_pred
+### n=10일 때 y_pred
 
 ![Alt text](../../images/01-introduce/H_10.png)
 
-- n=20일 때 y_pred
+### n=20일 때 y_pred
 
 ![Alt text](../../images/01-introduce/H_20.png)
 
-- n=100일 때 y_pred
+### n=100일 때 y_pred
 
 ![Alt text](../../images/01-introduce/H_100.png)
 
@@ -231,7 +231,7 @@ linear 함수 자체를 여러번 더해도 결국 선형성을 띄기에 직선
 
 
 
-- 실제 신경망 학습과 차이:
+### 실제 신경망 학습과 차이:
 
 ## 막혔던 것 
 
