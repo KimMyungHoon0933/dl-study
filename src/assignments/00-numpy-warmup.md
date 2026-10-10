@@ -80,7 +80,7 @@ print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,k
 
 - 각 열 정규화한 결과값(keepdims=False)
 
-![Alt text](../../images/01-introduce/column_sum_false.png)
+![Alt text](../../images/01-introduce/column_sum_False.png)
 
 - 각 열의 값의 합 
 
@@ -88,9 +88,14 @@ print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,k
 
 
 
-- 각 열 정규화한 결과값(keepdims=True)
+- 각 행 정규화한 결과값(keepdims=True)
 
 ![Alt text](../../images/01-introduce/row_sum.png)
+
+- 각 행 정규화한 결과값(keepdims=False)
+
+![Alt text](../../images/01-introduce/row_sum_False.png)
+
 
 - 각 행의 값의 합
 
