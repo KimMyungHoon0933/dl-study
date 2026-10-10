@@ -4,7 +4,7 @@
 
 ## 문제 1 
 
-- 코드
+### 코드
 
 
 ```a = np.random.rand(1000000)
@@ -29,7 +29,7 @@ print(c_dot==c_for)
 print(np.allclose(c_dot,c_for))
 ```
 
-- for과 np.dot 걸린 시간 비교 
+### for과 np.dot 걸린 시간 비교 
 
 | 방법 | 소요시간 | 배수 |
 | --- |  --- | --- |
@@ -40,21 +40,21 @@ for의 경우에는 넘파이 라이브러리와 파이썬 사이에 데이터�
 넘파이 dot의 경우에는 c 언어 안에서만 연산을 진행하여 오버헤드가 없다는 차이점을 가진다.
 
 
--  결과값 비교 
+###  결과값 비교 
 
 | 방법 | 결과값 | 
 | --- |  --- | 
 | np.dot | 249917.35091018977 | 
 | for loop | 249917.35091018115 | 
 
-- 정확히 같지 않은 이유 
+### 정확히 같지 않은 이유 
 
 내부 연산 과정에서 순서가 다르게 되는데 이로 인해 컴퓨터 상에 부동 소수점 연산과정에서의
 반올림이 달라지게 되면서 오차가 생길 수 있다.
 
 ## 문제 2
 
-- 코드
+### 코드
 
 ```
 a=np.random.rand(3, 4)
@@ -73,33 +73,33 @@ print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,k
 <br>
 <br>
 
-- 각 열 정규화한 결과값(keepdims=True)
+### 각 열 정규화한 결과값(keepdims=True)
 
 ![Alt text](../../images/01-introduce/column_sum_True.png)
 
 각 원소를 해당 열의 합으로 나누어, 각 열의 합이 1이 되도록 정규화한다
 
-- 각 열 정규화한 결과값(keepdims=False)
+### 각 열 정규화한 결과값(keepdims=False)
 
 ![Alt text](../../images/01-introduce/column_sum_False.png)
 
 
 
-- 각 열의 값의 합 
+### 각 열의 값의 합 
 
 ![Alt text](../../images/01-introduce/result_column_sum.png)
 
 
 
-- 각 행 정규화한 결과값(keepdims=True)
+### 각 행 정규화한 결과값(keepdims=True)
 
 ![Alt text](../../images/01-introduce/row_sum.png)
 
-- 각 행 정규화한 결과값(keepdims=False)
+### 각 행 정규화한 결과값(keepdims=False)
 
 ![Alt text](../../images/01-introduce/row_sum_False2.png)
 
-- 행일 때 keepdims=False면 오류가 발생하는 이유
+### 행일 때 keepdims=False면 오류가 발생하는 이유
 
 keepdims는 차원을 유지하여 결과값을 만들어낸다. axis=0 일때 keepdims=False이면  (4,)이 된다.
 <br>
@@ -108,13 +108,13 @@ NumPy의 Broadcasting 규칙에 따라 (4,)는 (1,4)처럼 오른쪽부터 정�
 (3,4)과 (1,3)은 마지막 차원이 맞지 않기에  브로드 캐스팅이 불가능 하여서 계산이 되지 않고 오류가 발생한다.
 <br><br>
 
-- 각 행의 값의 합
+### 각 행의 값의 합
 
 ![Alt text](../../images/01-introduce/result_row_sum.png)
 
 ## 문제 3
 
-- 코드
+### 코드
 
 ```
 a = np.random.randn(5)
@@ -124,11 +124,11 @@ print("a.T.shape: " ,a.T.shape , "b.T.shape: ", b.T.shape)
 print("np.dot(a, a.T): ",np.dot(a, a.T),"np.dot(b, b.T): ", np.dot(b, b.T))
 ```
 
-- a,b shape
+### a,b shape
 
 ![Alt text](../../images/01-introduce/Shape1.png)
 
-- a.T.shpae , b.T.shape
+### a.T.shpae , b.T.shape
 
 ![Alt text](../../images/01-introduce/T_Shape1.png)
 
@@ -138,18 +138,18 @@ numpy에서 전치를 진행하면 (5,) 그대로 나오게 되게 된다. <br>�
 <br>
 하지만 2차원 행렬의 경우 축이 두개 이기에 두 축을 변화이 가능하다 따라서 전치를 진행하면 (5,1) 차원이 (1,5)로 변환된다.
 
-- a.dot 
+### a.dot 
 
 ![Alt text](../../images/01-introduce/a_dot.png)
 
-- b.dot
+### b.dot
 
 ![Alt text](../../images/01-introduce/b_dot.png)
 
 
 ## 문제 4
 
-- relu 함수가 꺽이는 위치 
+### relu 함수가 꺽이는 위치 
 
 >    ```
 >    def relu(x):
@@ -182,7 +182,7 @@ $$
 <br>
 
 
-- relu sum 그림
+### relu sum 그림
 
 ![Alt text](../../images/01-introduce/relu_100.png)
 
@@ -193,7 +193,7 @@ relu 함수를 더한 결과는 비선형 함수로 나온다.
 
 
 
-- linear sum 그림
+### linear sum 그림
 
 ![Alt text](../../images/01-introduce/linear_100.png)
 
@@ -204,7 +204,7 @@ linear 함수 자체를 여러번 더해도 결국 선형성을 띄기에 직선
 
 
 
-- 활성화 함수의 역활
+### 활성화 함수의 역활
 
 활성화 함수는 입력 값으로 가중치를 곱한 뒤에 비선형 함수를 만드는 역활을 한다.
 
