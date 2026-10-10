@@ -68,6 +68,7 @@ print("행의 합 keepdims True 결과값: \n",a/a.sum(axis=1,keepdims=True))
 print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,keepdims=True), 1))
 ```
 
+
 - 각 열의 합으로 나누어 정규화한 결과값 및 각 열의 합
 
 ![Alt text](../../images/01-introduce/column_sum.png)
@@ -104,9 +105,10 @@ print("np.dot(a, a.T): ",np.dot(a, a.T),"np.dot(b, b.T): ", np.dot(b, b.T))
 >        return x 
 >    ```
 
-- 그래프
 
 ![Alt text](../../images/01-introduce/relu.png)
+
+
 
 relu 함수는 y값이 0이 되는 지점에서 꺽이게 된다. relu는 활성화 함수로 사용될 때 식은 다음과 같다.
 
@@ -132,6 +134,8 @@ $$
 
 relu 함수를 더한 결과는 비선형 함수로 나온다.
 
+
+
 - linear sum 그림
 
 ![Alt text](../../images/01-introduce/linear_100.png)
@@ -143,6 +147,7 @@ linear 함수 자체를 여러번 더해도 결국 선형성을 띄기에 직선
 - 활성화 함수의 역활
 
 활성화 함수는 입력 값으로 가중치를 곱한 뒤에 비선형 함수를 만드는 역활을 한다.
+
 
 ## 문제 5
 
