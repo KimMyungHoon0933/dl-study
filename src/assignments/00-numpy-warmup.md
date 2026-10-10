@@ -74,3 +74,36 @@ print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,k
 각 열의 합으로 나누어 정규화한 결과값 및 각 행의 합
 
 ![Alt text](../../images/01-introduce/row_sum.png)
+
+## 문제 3
+
+```
+a = np.random.randn(5)
+b = np.random.randn(5, 1)
+print("a.shape: " ,a.shape , "b.shape: ", b.shape)
+print("a.T.shape: " ,a.T.shape , "b.T.shape: ", b.T.shape)
+print("np.dot(a, a.T): ",np.dot(a, a.T),"np.dot(b, b.T): ", np.dot(b, b.T))
+```
+
+a,b shape
+
+![Alt text](../../images/01-introduce/row_sum.png)
+
+
+## 문제 4
+
+- relu 함수가 꺽이는 위치 
+코드
+```
+def relu(x):
+    x=np.maximum(0,x)
+    return x 
+```
+![Alt text](../../images/01-introduce/relu.png)
+
+relu 함수는 y값이 0이 되는 지점에서 꺽이게 된다. relu는 활성화 함수로 사용되어 보통 식은 다음과 같다.
+    y=relu(w*x + b)
+여기서 relu는 w*x + b이 0이 되는 지점에서 꺽이기에 다음과 같이 전개하여 0이 되는 x 지점을 구할 수 있다
+    w*x+b = 0
+    x =-\frac{b}{w}
+        
