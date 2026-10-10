@@ -48,6 +48,7 @@ for의 경우에는 넘파이 라이브러리와 파이썬 사이에 데이터�
 | for loop | 249917.35091018115 | 
 
 - 정확히 같지 않은 이유 
+
 내부 연산 과정에서 순서가 다르게 되는데 이로 인해 컴퓨터 상에 부동 소수점 연산과정에서의
 반올림이 달라지게 되면서 오차가 생길 수 있다.
 
@@ -96,14 +97,14 @@ print("np.dot(a, a.T): ",np.dot(a, a.T),"np.dot(b, b.T): ", np.dot(b, b.T))
 ## 문제 4
 
 - relu 함수가 꺽이는 위치 
-    코드
+
 >    ```
 >    def relu(x):
 >        x=np.maximum(0,x)
 >        return x 
 >    ```
 
-    그래프
+- 그래프
 
 ![Alt text](../../images/01-introduce/relu.png)
 
@@ -123,6 +124,8 @@ $$
 x=-\frac{b}{w}
 $$
 
+
+
 - relu sum 그림
 
 ![Alt text](../../images/01-introduce/relu_100.png)
@@ -134,6 +137,8 @@ relu 함수를 더한 결과는 비선형 함수로 나온다.
 ![Alt text](../../images/01-introduce/linear_100.png)
 
 linear 함수 자체를 여러번 더해도 결국 선형성을 띄기에 직선 형태를 가진다.
+
+
 
 - 활성화 함수의 역활
 
