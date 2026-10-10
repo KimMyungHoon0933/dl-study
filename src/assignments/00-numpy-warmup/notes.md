@@ -75,29 +75,29 @@ print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,k
 
 - ### 각 열 정규화한 결과값(keepdims=True)
 
-![Alt text](../../images/01-introduce/column_sum_True.png)
+![Alt text](../../../images/01-introduce/column_sum_True.png)
 
 각 원소를 해당 열의 합으로 나누어, 각 열의 합이 1이 되도록 정규화한다
 
 - ### 각 열 정규화한 결과값(keepdims=False)
 
-![Alt text](../../images/01-introduce/column_sum_False.png)
+![Alt text](../../../images/01-introduce/column_sum_False.png)
 
 
 
 - ### 각 열의 값의 합 
 
-![Alt text](../../images/01-introduce/result_column_sum.png)
+![Alt text](../../../images/01-introduce/result_column_sum.png)
 
 
 
 - ### 각 행 정규화한 결과값(keepdims=True)
 
-![Alt text](../../images/01-introduce/row_sum.png)
+![Alt text](../../../images/01-introduce/row_sum.png)
 
 - ### 각 행 정규화한 결과값(keepdims=False)
 
-![Alt text](../../images/01-introduce/row_sum_False2.png)
+![Alt text](../../../images/01-introduce/row_sum_False2.png)
 
 - ### 행일 때 keepdims=False면 오류가 발생하는 이유
 
@@ -110,7 +110,7 @@ NumPy의 Broadcasting 규칙에 따라 (4,)는 (1,4)처럼 오른쪽부터 정�
 
 - ### 각 행의 값의 합
 
-![Alt text](../../images/01-introduce/result_row_sum.png)
+![Alt text](../../../images/01-introduce/result_row_sum.png)
 
 ## 문제 3
 
@@ -126,11 +126,11 @@ print("np.dot(a, a.T): ",np.dot(a, a.T),"np.dot(b, b.T): ", np.dot(b, b.T))
 
 - ### a,b shape
 
-![Alt text](../../images/01-introduce/Shape1.png)
+![Alt text](../../../images/01-introduce/Shape1.png)
 
 - ### a.T.shpae , b.T.shape
 
-![Alt text](../../images/01-introduce/T_Shape1.png)
+![Alt text](../../../images/01-introduce/T_Shape1.png)
 
 선형대수학에서는 전치를 진행하게 된다면 행과 열이 바뀌어야 하지만
 numpy에서 전치를 진행하면 (5,) 그대로 나오게 되게 된다. <br>이는 넘파이 1차원 배열은 행과 열이 정의 되지않기에
@@ -140,13 +140,13 @@ numpy에서 전치를 진행하면 (5,) 그대로 나오게 되게 된다. <br>�
 
 - ### dot(a,a.T) 
 
-![Alt text](../../images/01-introduce/a_dot.png)
+![Alt text](../../../images/01-introduce/a_dot.png)
 
 
 
 - ### dot(b,b.T) 
 
-![Alt text](../../images/01-introduce/b_dot.png)
+![Alt text](../../../images/01-introduce/b_dot.png)
 
 
 ## 문제 4
@@ -160,7 +160,7 @@ numpy에서 전치를 진행하면 (5,) 그대로 나오게 되게 된다. <br>�
 >    ```
 
 
-![Alt text](../../images/01-introduce/relu.png)
+![Alt text](../../../images/01-introduce/relu.png)
 
 
 
@@ -185,7 +185,7 @@ $$
 
 - ### 꺽이는 지점 표시
 
-![Alt text](../../images/01-introduce/relu_꺽이는지점.png)
+![Alt text]../../../images/01-introduce/relu_꺽이는지점.png)
 
 파란 색은 w=2,b=3이기에 꺽이는 지점은 -3/2이며, 노란색은 w=1 b=-3으로 꺽이는 지점은 3이다<br>
 마지막으로 초록색은 w=-2 b=1로 꺽이는 지점은 1/2이다.
@@ -193,12 +193,12 @@ $$
 
 - ### relu 3개 더한 그래프
 
-![Alt text](../../images/01-introduce/relu_sum.png)
+![Alt text](../../../images/01-introduce/relu_sum.png)
 
 
 - ### relu 합 100 그림
 
-![Alt text](../../images/01-introduce/relu_100.png)
+![Alt text](../../../images/01-introduce/relu_100.png)
 
 relu 함수 자체는 두개의 직선 함수가 결합되어 기울기가 두 구간에서 다르기에 비선형 함수라고 할 수 있다. <br>
 따라서 수치적으로 다른 relu 함수들을 여러개 더한 결과는 기울기가 변화하는 지점이 여러 구간에서 존재하는 함수이다.<br> 
@@ -211,7 +211,7 @@ relu 함수 자체는 두개의 직선 함수가 결합되어 기울기가 두 �
 
 - ### linear sum 그림
 
-![Alt text](../../images/01-introduce/linear_100.png)
+![Alt text](../../../images/01-introduce/linear_100.png)
 
 linear 함수 자체를 여러번 더해도 결국 선형성을 띄기에 직선 형태를 가진다. <br>
 이는 선형 함수는 기울기가 변화하는 구간이 없기에 그 기울기가 계속 유지되게 되면서 직선의 성질을 가지게 된다.<br>
@@ -244,15 +244,15 @@ r은 잔차로 데이터와 추정된 값의 차이로 이 추정된 잔차값�
 
 ### n=10일 때 y_pred
 
-![Alt text](../../images/01-introduce/H_10.png)
+![Alt text](../../../images/01-introduce/H_10.png)
 
 ### n=20일 때 y_pred
 
-![Alt text](../../images/01-introduce/H_20.png)
+![Alt text](../../../images/01-introduce/H_20.png)
 
 ### n=100일 때 y_pred
 
-![Alt text](../../images/01-introduce/H_100.png)
+![Alt text](../../../images/01-introduce/H_100.png)
 
 <br>
 <br>
