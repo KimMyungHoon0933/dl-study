@@ -4,7 +4,7 @@
 
 ## 문제 1 
 
-코드:
+- 코드
 
 
 ```a = np.random.rand(1000000)
@@ -29,7 +29,7 @@ print(c_dot==c_for)
 print(np.allclose(c_dot,c_for))
 ```
 
-
+- for과 np.dot 걸린 시간 비교 
 
 | 방법 | 소요시간 | 배수 |
 | --- |  --- | --- |
@@ -53,6 +53,7 @@ for의 경우에는 넘파이 라이브러리와 파이썬 사이에 데이터�
 
 ## 문제 2
 
+- 코드
 
 ```a=np.random.rand(3, 4)
 column_sum=0
@@ -66,16 +67,18 @@ print("행의 합 keepdims True 결과값: \n",a/a.sum(axis=1,keepdims=True))
 print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,keepdims=True), 1))
 ```
 
-각 열의 합으로 나누어 정규화한 결과값 및 각 열의 합
+- 각 열의 합으로 나누어 정규화한 결과값 및 각 열의 합
 
 ![Alt text](../../images/01-introduce/column_sum.png)
 
 
-각 열의 합으로 나누어 정규화한 결과값 및 각 행의 합
+- 각 열의 합으로 나누어 정규화한 결과값 및 각 행의 합
 
 ![Alt text](../../images/01-introduce/row_sum.png)
 
 ## 문제 3
+
+- 코드
 
 ```
 a = np.random.randn(5)
@@ -85,7 +88,7 @@ print("a.T.shape: " ,a.T.shape , "b.T.shape: ", b.T.shape)
 print("np.dot(a, a.T): ",np.dot(a, a.T),"np.dot(b, b.T): ", np.dot(b, b.T))
 ```
 
-a,b shape
+- a,b shape
 
 ![Alt text](../../images/01-introduce/row_sum.png)
 
@@ -93,12 +96,15 @@ a,b shape
 ## 문제 4
 
 - relu 함수가 꺽이는 위치 
-코드
-```
-def relu(x):
-    x=np.maximum(0,x)
-    return x 
-```
+    코드
+>    ```
+>    def relu(x):
+>        x=np.maximum(0,x)
+>        return x 
+>    ```
+
+    그래프
+
 ![Alt text](../../images/01-introduce/relu.png)
 
 relu 함수는 y값이 0이 되는 지점에서 꺽이게 된다. relu는 활성화 함수로 사용될 때 식은 다음과 같다.
