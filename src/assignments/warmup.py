@@ -34,7 +34,6 @@ print("\n\n\n\n\n")
 
 # 과제 2
 a=np.random.rand(3, 4)
-column_sum=0
 print("열 정규화 keepdims False 결과값: \n",a/a.sum(axis=0,keepdims=False))
 print("\n\n\n\n\n")
 print("열 정규화 keepdims True 결과값: \n",a/a.sum(axis=0,keepdims=True))

@@ -58,7 +58,6 @@ for의 경우에는 넘파이 라이브러리와 파이썬 사이에 데이터�
 
 ```
 a=np.random.rand(3, 4)
-column_sum=0
 print("열 정규화 keepdims False 결과값: \n",a/a.sum(axis=0,keepdims=False))
 print("열 정규화 keepdims True 결과값: \n",a/a.sum(axis=0,keepdims=True))
 print("각 열의 합: ",(a/a.sum(axis=0,keepdims=True)).sum(axis=0,keepdims=True))
