@@ -140,15 +140,15 @@ linear 함수 자체를 여러번 더해도 결국 선형성을 띄기에 직선
 
 - n=10일 때 y_pred
 
-![Alt text](../../images/01-introduce/h_10.png)
+![Alt text](../../images/01-introduce/H_10.png)
 
 - n=20일 때 y_pred
 
-![Alt text](../../images/01-introduce/h_20.png)
+![Alt text](../../images/01-introduce/H_20.png)
 
 - n=100일 때 y_pred
 
-![Alt text](../../images/01-introduce/h_100.png)
+![Alt text](../../images/01-introduce/H_100.png)
 
 
 - 실제 신경망 학습과 차이:
