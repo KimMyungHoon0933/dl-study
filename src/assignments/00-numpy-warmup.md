@@ -1,4 +1,4 @@
-# 과제 numpy 워밍업
+# numpy 워밍업
 
 
 
@@ -117,3 +117,42 @@ $$
 x=-\frac{b}{w}
 $$
 
+- relu sum 그림
+
+![Alt text](../../images/01-introduce/relu_100.png)
+
+relu 함수를 더한 결과는 비선형 함수로 나온다.
+
+- linear sum 그림
+
+![Alt text](../../images/01-introduce/linear_100.png)
+
+linear 함수 자체를 여러번 더해도 결국 선형성을 띄기에 직선 형태를 가진다.
+
+- 활성화 함수의 역활
+
+활성화 함수는 입력 값으로 가중치를 곱한 뒤에 비선형 함수를 만드는 역활을 한다.
+
+## 문제 5
+
+- lstsq
+
+
+- n=10일 때 y_pred
+
+![Alt text](../../images/01-introduce/h_10.png)
+
+- n=20일 때 y_pred
+
+![Alt text](../../images/01-introduce/h_20.png)
+
+- n=100일 때 y_pred
+
+![Alt text](../../images/01-introduce/h_100.png)
+
+
+- 실제 신경망 학습과 차이:
+
+## 막혔던 것 
+
+## 아직 모르겠는 것
