@@ -232,7 +232,7 @@ linear 함수 자체를 여러번 더해도 결국 선형성을 띄기에 직선
 
 ## 문제 5
 
-### np.linear.lstsq란? 
+- ### np.linear.lstsq란? 
 
 최소자승법(Least Squares)은 어떠한 함수 또는 모델을 데이터 세트에 맞추는 기법이라고 할 수 있다. <br>
 이를 수학적으로는 보통 다음과 같다.
@@ -242,28 +242,28 @@ $$
 r은 잔차로 데이터와 추정된 값의 차이로 이 추정된 잔차값이 최소화하는 방법을 최소자승법이라고 할 수 있다.
 이는 선형대수학적으로 풀 수 있지만 np.linear.lstsq는 이를 svd를 통해서 최소자승법 문제를 해결한다. 
 
-### n=10일 때 y_pred
+- ### n=10일 때 y_pred
 
 ![Alt text](../../../images/01-introduce/H_10.png)
 
-### n=20일 때 y_pred
+- ### n=20일 때 y_pred
 
 ![Alt text](../../../images/01-introduce/H_20.png)
 
-### n=100일 때 y_pred
+- ### n=100일 때 y_pred
 
 ![Alt text](../../../images/01-introduce/H_100.png)
 
 <br>
 <br>
 
-### n에 따른 mse값 
+- ### n에 따른 mse값 
 
-![Alt text](../../images/01-introduce/mse.png)
+![Alt text](../../../images/01-introduce/mse.png)
 
 n이 커질수록 오차가 작아지는 현상을 가진다.
 
-### 실제 신경망 학습과 차이:
+- ### 실제 신경망 학습과 차이:
 
 실제 신경망의 경우 w,b를 gradient descent로 하여 least Squares를 구하게 된다. <br>
 이를 통해 relu 함수를 더하여  만들어지는 최종 함수는 다양한 비선형 함수로 표현될 수 있다는 장점을 가지게 된다. <br>
