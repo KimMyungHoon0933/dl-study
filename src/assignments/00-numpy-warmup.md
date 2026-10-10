@@ -63,7 +63,8 @@ print("\n\n\n\n\n")
 
 #print("행의 합 keepdims False 결과값: \n",a/a.sum(axis=1,keepdims=False))
 print("행의 합 keepdims True 결과값: \n",a/a.sum(axis=1,keepdims=True))
-print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,keepdims=True), 1))```
+print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,keepdims=True), 1))
+```
 
 각 열의 합으로 나누어 정규화한 결과값 및 각 열의 합
 ![Alt text](../../images/01-introduce/각 열의 합.png)
