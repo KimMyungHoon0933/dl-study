@@ -35,13 +35,23 @@ print("\n\n\n\n\n")
 # 과제 2
 a=np.random.rand(3, 4)
 column_sum=0
-print("열의 합 keepdims False 결과값: \n",a/a.sum(axis=0,keepdims=False))
-print("열의 합 keepdims True 결과값: \n",a/a.sum(axis=0,keepdims=True))
+print("열 정규화 keepdims False 결과값: \n",a/a.sum(axis=0,keepdims=False))
+print("\n\n\n\n\n")
+print("열 정규화 keepdims True 결과값: \n",a/a.sum(axis=0,keepdims=True))
+print("\n\n\n\n\n")
+print("각 열의 합: ",(a/a.sum(axis=0,keepdims=True)).sum(axis=0,keepdims=True))
+print("\n\n\n\n\n")
 print("각 열 검사:", np.isclose((a/a.sum(axis=0,keepdims=True)).sum(axis=0,keepdims=True), 1))
 print("\n\n\n\n\n")
 
-#print("행의 합 keepdims False 결과값: \n",a/a.sum(axis=1,keepdims=False))
-print("행의 합 keepdims True 결과값: \n",a/a.sum(axis=1,keepdims=True))
+
+
+#print("행 정규화 keepdims False 결과값: \n",a/a.sum(axis=1,keepdims=False))
+print("행 정규화 keepdims True 결과값: \n",a/a.sum(axis=1,keepdims=True))
+print("\n\n\n\n\n")
+print("각 행의 합: ",(a/a.sum(axis=1,keepdims=True)).sum(axis=1,keepdims=True))
+
+print("\n\n\n\n\n")
 print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,keepdims=True), 1))
 print("\n\n\n\n\n")
 
@@ -49,8 +59,10 @@ print("\n\n\n\n\n")
 a = np.random.randn(5)
 b = np.random.randn(5, 1)
 print("a.shape: " ,a.shape , "b.shape: ", b.shape)
+print("\n\n\n\n\n")
 print("a.T.shape: " ,a.T.shape , "b.T.shape: ", b.T.shape)
-print("np.dot(a, a.T): ",np.dot(a, a.T),"np.dot(b, b.T): ", np.dot(b, b.T))
+print("\n\n\n\n\n")
+print("np.dot(a, a.T): ",np.dot(a, a.T),"\n\n\n\nnp.dot(b, b.T):\n ",np.dot(b, b.T))
 print("\n\n\n\n\n")
 
 
@@ -229,7 +241,7 @@ for i in n_array:
     c = np.linalg.lstsq(H, y_true, rcond=None)[0]
     y_pred=H@c
     mse_array.append( mse(y_pred,y_true))
-print( mse_array)
+
 plt.plot(n_array,mse_array)
 plt.yscale("log")
 plt.show()

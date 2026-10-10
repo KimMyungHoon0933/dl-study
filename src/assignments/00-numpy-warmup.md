@@ -56,27 +56,45 @@ for의 경우에는 넘파이 라이브러리와 파이썬 사이에 데이터�
 
 - 코드
 
-```a=np.random.rand(3, 4)
+```
+a=np.random.rand(3, 4)
 column_sum=0
-print("열의 합 keepdims False 결과값: \n",a/a.sum(axis=0,keepdims=False))
-print("열의 합 keepdims True 결과값: \n",a/a.sum(axis=0,keepdims=True))
+print("열 정규화 keepdims False 결과값: \n",a/a.sum(axis=0,keepdims=False))
+print("열 정규화 keepdims True 결과값: \n",a/a.sum(axis=0,keepdims=True))
+print("각 열의 합: ",(a/a.sum(axis=0,keepdims=True)).sum(axis=0,keepdims=True))
 print("각 열 검사:", np.isclose((a/a.sum(axis=0,keepdims=True)).sum(axis=0,keepdims=True), 1))
-print("\n\n\n\n\n")
 
-#print("행의 합 keepdims False 결과값: \n",a/a.sum(axis=1,keepdims=False))
-print("행의 합 keepdims True 결과값: \n",a/a.sum(axis=1,keepdims=True))
+#print("행 정규화 keepdims False 결과값: \n",a/a.sum(axis=1,keepdims=False))
+print("행 정규화 keepdims True 결과값: \n",a/a.sum(axis=1,keepdims=True))
+print("각 행의 합: ",(a/a.sum(axis=1,keepdims=True)).sum(axis=1,keepdims=True))
 print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,keepdims=True), 1))
+
 ```
 
+<br>
+<br>
 
-- 각 열의 합으로 나누어 정규화한 결과값 및 각 열의 합
+- 각 열 정규화한 결과값(keepdims=True)
 
-![Alt text](../../images/01-introduce/column_sum.png)
+![Alt text](../../images/01-introduce/column_sum_True.png)
+
+- 각 열 정규화한 결과값(keepdims=False)
+
+![Alt text](../../images/01-introduce/column_sum_false.png)
+
+- 각 열의 값의 합 
+
+![Alt text](../../images/01-introduce/result_column_sum.png)
 
 
-- 각 열의 합으로 나누어 정규화한 결과값 및 각 행의 합
+
+- 각 열 정규화한 결과값(keepdims=True)
 
 ![Alt text](../../images/01-introduce/row_sum.png)
+
+- 각 행의 값의 합
+
+![Alt text](../../images/01-introduce/result_row_sum.png)
 
 ## 문제 3
 
@@ -92,7 +110,19 @@ print("np.dot(a, a.T): ",np.dot(a, a.T),"np.dot(b, b.T): ", np.dot(b, b.T))
 
 - a,b shape
 
-![Alt text](../../images/01-introduce/row_sum.png)
+![Alt text](../../images/01-introduce/shape.png)
+
+- a.T.shpae , b.T.shape
+
+![Alt text](../../images/01-introduce/T_shape.png)
+
+- a.dot 
+
+![Alt text](../../images/01-introduce/a_dot.png)
+
+- b.dot
+
+![Alt text](../../images/01-introduce/b_dot.png)
 
 
 ## 문제 4
