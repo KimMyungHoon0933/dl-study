@@ -128,9 +128,11 @@ print("np.dot(a, a.T): ",np.dot(a, a.T),"np.dot(b, b.T): ", np.dot(b, b.T))
 
 ![Alt text](../../../images/01-introduce/Shape1.png)
 
-- ### a.T.shpae , b.T.shape
+- ### a.T.shape , b.T.shape
 
 ![Alt text](../../../images/01-introduce/T_Shape1.png)
+
+- ### a.T.shape가 a.shape와 동일한 이유
 
 선형대수학에서는 전치를 진행하게 된다면 행과 열이 바뀌어야 하지만
 numpy에서 전치를 진행하면 (5,) 그대로 나오게 되게 된다. <br>이는 넘파이 1차원 배열은 행과 열이 정의 되지않기에
@@ -147,6 +149,8 @@ numpy에서 전치를 진행하면 (5,) 그대로 나오게 되게 된다. <br>�
 - ### dot(b,b.T) 
 
 ![Alt text](../../../images/01-introduce/b_dot.png)
+
+- ### dot(a,a.T) 와 dot(b,b.T) 가 다른 이유
 
 
 ## 문제 4
@@ -200,6 +204,8 @@ $$
 
 ![Alt text](../../../images/01-introduce/relu_100.png)
 
+- ### 왜 relu함수 값을 더하면 비선형 함수가 나오는 이유
+
 relu 함수 자체는 두개의 직선 함수가 결합되어 기울기가 두 구간에서 다르기에 비선형 함수라고 할 수 있다. <br>
 따라서 수치적으로 다른 relu 함수들을 여러개 더한 결과는 기울기가 변화하는 지점이 여러 구간에서 존재하는 함수이다.<br> 
 이렇게 relu함수를 합 한 함수는 기울기가 계속 변화할 수 있게 되면서 다양한 비선형 함수의 형태 표현할 수 있게 된다.
@@ -212,6 +218,8 @@ relu 함수 자체는 두개의 직선 함수가 결합되어 기울기가 두 �
 - ### linear sum 그림
 
 ![Alt text](../../../images/01-introduce/linear_100.png)
+
+### 선형 함수는 값을 더해도 선형 함수이다.
 
 linear 함수 자체를 여러번 더해도 결국 선형성을 띄기에 직선 형태를 가진다. <br>
 이는 선형 함수는 기울기가 변화하는 구간이 없기에 그 기울기가 계속 유지되게 되면서 직선의 성질을 가지게 된다.<br>
