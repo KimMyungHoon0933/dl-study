@@ -85,7 +85,7 @@ print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,k
 
 
 
-- ### 각 열의 값의 합 
+- ### 각 열의 합 
 
 ![Alt text](../../../images/01-introduce/result_column_sum.png)
 
@@ -108,7 +108,7 @@ NumPy의 Broadcasting 규칙에 따라 (4,)는 (1,4)처럼 오른쪽부터 정�
 (3,4)과 (1,3)은 마지막 차원이 맞지 않기에  브로드 캐스팅이 불가능 하여서 계산이 되지 않고 오류가 발생한다.
 <br><br>
 
-- ### 각 행의 값의 합
+- ### 각 행의 합
 
 ![Alt text](../../../images/01-introduce/result_row_sum.png)
 
