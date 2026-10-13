@@ -181,9 +181,9 @@ print("\n\n\n\n\n")
 def H_calculater(x,w,b,n):
     H= relu(x[:,np.newaxis] * w[np.newaxis,:n] + b[np.newaxis,:n])
     return H
-def c_create(H,relu_number):
+def c_create(H,n):
 
-    c=np.linalg.lstsq(H[:relu_number], y_true, rcond=None)[0]
+    c=np.linalg.lstsq(H[:n], y_true, rcond=None)[0]
     return c
 
 def mse(a,b):
