@@ -10,21 +10,21 @@ import time
 a = np.random.rand(1000000)
 b = np.random.rand(1000000)
 
-tic_dot = time.time()
+start = time.perf_counter()
 c_dot = np.dot(a,b)
-toc_dot = time.time()
+end = time.perf_counter()
 
 print("np.dot을 통한 결과값: ",c_dot)
-print("넘파이 dot 걸린 시간: " + str(1000*(toc_dot-tic_dot))+" ms")
+print("넘파이 dot 걸린 시간: " + str(1000*(end-start))+" s")
 
 c_for=0
-tic_for = time.time()
+start = time.perf_counter()
 for i in range(1000000):
     c_for += a[i]*b[i]
-toc_for = time.time()
+end = time.perf_counter()
 
 print("for을 통한 결과값: ",c_for)
-print("for loop 걸린 시간: " + str(1000*(toc_for-tic_for))+" ms")
+print("for loop 걸린 시간: " + str(1000*(end-start))+" s")
 print(c_dot==c_for)
 print(np.allclose(c_dot,c_for))
 
@@ -203,12 +203,12 @@ c = np.random.randn(200)
 r = np.random.uniform(-5, 5, 200)
 b = -w * r 
 
-H= H_calculater(x,w,b,10)
+H= H_calculater(x,w,b,5)
 c=np.linalg.lstsq(H, y_true, rcond=None)[0] #H*c=y가 같아지는 c를 찾는 것이기에 차원이 안맞아도 y_true의 차원이 되게 하는 차원 c를 구하는 것임
 y_pred=H@c
 
-plt.plot(x,y_true,label="y_true_n=10",color="blue")
-plt.plot(x,y_pred,label="y_pred_n=10",color="green")
+plt.plot(x,y_true,label="y_true_n=5",color="blue")
+plt.plot(x,y_pred,label="y_pred_n=5",color="green")
 plt.legend(loc="upper right")
 plt.show()
 

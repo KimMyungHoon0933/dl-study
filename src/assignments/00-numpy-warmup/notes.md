@@ -7,24 +7,26 @@
 - ### 코드
 
 
-```a = np.random.rand(1000000)
+```import time
+
+a = np.random.rand(1000000)
 b = np.random.rand(1000000)
 
-tic_dot = time.time()
+start = time.perf_counter()
 c_dot = np.dot(a,b)
-toc_dot = time.time()
+end = time.perf_counter()
 
 print("np.dot을 통한 결과값: ",c_dot)
-print("넘파이 dot 걸린 시간: " + str(1000*(toc_dot-tic_dot))+" ms")
+print("넘파이 dot 걸린 시간: " + str(1000*(end-start))+" s")
 
 c_for=0
-tic_for = time.time()
+start = time.perf_counter()
 for i in range(1000000):
     c_for += a[i]*b[i]
-toc_for = time.time()
+end = time.perf_counter()
 
 print("for을 통한 결과값: ",c_for)
-print("for loop 걸린 시간: " + str(1000*(toc_for-tic_for))+" ms")
+print("for loop 걸린 시간: " + str(1000*(end-start))+" s")
 print(c_dot==c_for)
 print(np.allclose(c_dot,c_for))
 ```
@@ -33,8 +35,8 @@ print(np.allclose(c_dot,c_for))
 
 | 방법 | 소요시간 | 배수 |
 | --- |  --- | --- |
-| np.dot | 10.07 | 1배 |
-| for loop | 155.92 | 15배 |
+| np.dot | 10.92 | 1배 |
+| for loop | 163.625 | 16배 |
 
 - ### for과 np.dot의 걸리시간이 차이나는 이유
 
@@ -260,15 +262,15 @@ r은 잔차로 데이터와 추정된 값의 차이로 이 추정된 잔차값�
 
 - ### n=10일 때 y_pred
 
-![Alt text](../../../images/01-introduce/H_10.png)
+![Alt text](../../../images/01-introduce/n_5.png)
 
 - ### n=20일 때 y_pred
 
-![Alt text](../../../images/01-introduce/H_20.png)
+![Alt text](../../../images/01-introduce/n_20.png)
 
 - ### n=100일 때 y_pred
 
-![Alt text](../../../images/01-introduce/H_100.png)
+![Alt text](../../../images/01-introduce/n_100.png)
 
 
 
