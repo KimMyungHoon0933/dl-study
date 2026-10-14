@@ -25,8 +25,9 @@ end = time.perf_counter()
 
 print("for을 통한 결과값: ",c_for)
 print("for loop 걸린 시간: " + str(1000*(end-start))+" s")
-print(c_dot==c_for)
-print(np.allclose(c_dot,c_for))
+print("\n\n\n\n\n")
+print("c_dot==c_for: ",c_dot==c_for)
+print("np.allclose(c_dot,c_for): ", np.allclose(c_dot,c_for))
 
 print("\n\n\n\n\n")
 
