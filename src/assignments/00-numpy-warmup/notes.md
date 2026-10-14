@@ -87,31 +87,27 @@ print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,k
 <br>
 <br>
 
-### 2.2 각 열 정규화한 결과값(keepdims=True)
 
-![Alt text](../../../images/01-introduce/column_sum_True.png)
+### 2.2 각 열 정규화한 결과 
 
-
-
-### 2.3 각 열 정규화한 결과값(keepdims=False)
-
-![Alt text](../../../images/01-introduce/column_sum_False.png)
+| `keepdims=True` | `keepdims=False` |
+| :---: | :---: |
+| ![Alt text](../../../images/01-introduce/column_sum_True.png)| ![Alt text](../../../images/01-introduce/column_sum_False.png)|
 
 
 
-### 2.4 각 열의 합 
+### 2.3 각 열의 합 
 
 ![Alt text](../../../images/01-introduce/result_column_sum.png)
 
 
 
-### 2.5 각 행 정규화한 결과값(keepdims=True)
+### 2.4 각 행 정규화한 결과값
 
-![Alt text](../../../images/01-introduce/row_sum.png)
+| `keepdims=True` | `keepdims=False` |
+| :---: | :---: |
+| ![Alt text](../../../images/01-introduce/row_sum.png)| ![Alt text](../../../images/01-introduce/row_sum_False2.png)|
 
-### 2.6 각 행 정규화한 결과값(keepdims=False)
-
-![Alt text](../../../images/01-introduce/row_sum_False2.png)
 
 **keepdims=False면 오류가 발생하는 이유**
 
@@ -122,7 +118,7 @@ NumPy의 Broadcasting 규칙에 따라 (4,)는 (1,4)처럼 오른쪽부터 정�
 (3,4)과 (1,3)은 마지막 차원이 맞지 않기에  브로드 캐스팅이 불가능 하여서 계산이 되지 않고 오류가 발생한다.
 <br><br>
 
-### 2.7 각 행의 합
+### 2.5 각 행의 합
 
 ![Alt text](../../../images/01-introduce/result_row_sum.png)
 
