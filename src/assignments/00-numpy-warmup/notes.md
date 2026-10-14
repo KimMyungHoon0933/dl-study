@@ -228,7 +228,7 @@ $$
 
 - ### relu 합 100 그림
 
-![Alt text](../../../images/01-introduce/relu_100.png)
+![Alt text](../../../images/01-introduce/relu_10_50_100.png)
 
 - ### relu함수 값을 더하면 비선형 함수가 나오는 이유
 
@@ -242,7 +242,7 @@ relu 함수 자체는 두개의 직선 함수가 결합되어 기울기가 두 �
 
 - ### linear sum 그림
 
-![Alt text](../../../images/01-introduce/linear_100.png)
+![Alt text](../../../images/01-introduce/linear_10_50_100.png)
 
 - ### 선형 함수는 값을 더해도 선형 함수이다.
 

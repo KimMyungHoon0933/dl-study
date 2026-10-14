@@ -89,10 +89,35 @@ def relu_for_result(x,relu_number):
         result+=c[i]*activate
     return result
 
+def relu_w_b_c_for_result(x,w,c,r,relu_number):
+
+    b = -w * r # 꺾이는 위치 r을 먼저 [-5,5] 사이 값으로 정하고, 이미 알고 있는 w를 이용해서 그 위치에서 꺾이게 하는 b를 구하는 식임.
+    
+    result=np.zeros(200)
+    
+
+    for i in range(relu_number):
+        activate=relu(w[i]*x+b[i])
+        result+=c[i]*activate
+    return result
+    
+
 def linear_for_result(x,relu_number):
     w = np.random.randn(relu_number)
     c = np.random.randn(relu_number)
     r = np.random.uniform(-5, 5, relu_number)
+
+    b = -w * r # 꺾이는 위치 r을 먼저 [-5,5] 사이 값으로 정하고, 이미 알고 있는 w를 이용해서 그 위치에서 꺾이게 하는 b를 구하는 식임.
+    
+    result=np.zeros(200)
+    
+
+    for i in range(relu_number):
+        activate=w[i]*x+b[i]
+        result+=c[i]*activate
+    return result
+
+def linear_w_b_c_for_result(x,w,c,r,relu_number):
 
     b = -w * r # 꺾이는 위치 r을 먼저 [-5,5] 사이 값으로 정하고, 이미 알고 있는 w를 이용해서 그 위치에서 꺾이게 하는 b를 구하는 식임.
     
@@ -152,25 +177,36 @@ plt.plot(x,y6,label="ReLU sum3", color="green")
 plt.legend(loc="upper right")
 plt.show()
 
+w_10 = np.random.randn(10)
+c_10 = np.random.randn(10)
+r_10 = np.random.uniform(-5, 5, 10)
 
-result_10=relu_for_result(x,10)
+w_50 = np.random.randn(50)
+c_50 = np.random.randn(50)
+r_50 = np.random.uniform(-5, 5, 50)
+
+w_100 = np.random.randn(100)
+c_100 = np.random.randn(100)
+r_100 = np.random.uniform(-5, 5, 100)
+
+result_10=relu_w_b_c_for_result(x,w_10,c_10,r_10,10)
 plt.plot(x,result_10,label="ReLU sum10", color="blue")
 
-result_50=relu_for_result(x,50)
+result_50=relu_w_b_c_for_result(x,w_50,c_50,r_50,50)
 plt.plot(x,result_50,label="ReLU sum50", color="orange")
 
-result_100=relu_for_result(x,100)
+result_100=relu_w_b_c_for_result(x,w_100,c_100,r_100,100)
 plt.plot(x,result_100,label="ReLU sum100", color="green")
 plt.legend(loc="upper right")
 plt.show()
 
-result_10=linear_for_result(x,10)
+result_10=linear_w_b_c_for_result(x,w_10,c_10,r_10,10)
 plt.plot(x,result_10,label="linear sum10", color="blue")
 
-result_50=linear_for_result(x,50)
+result_50=linear_w_b_c_for_result(x,w_50,c_50,r_50,50)
 plt.plot(x,result_50,label="linear sum50", color="orange")
 
-result_100=linear_for_result(x,100)
+result_100=linear_w_b_c_for_result(x,w_100,c_100,r_100,100)
 plt.plot(x,result_100,label="linear sum100", color="green")
 plt.legend(loc="upper right")
 plt.show()
