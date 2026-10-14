@@ -61,14 +61,14 @@ for의 경우에는 넘파이 라이브러리와 파이썬 사이에 데이터�
 
 **np.allclose와 ==이 결과값이 다른 이유**
 
-==은 두 값이 정확히 같은 지를 비교하지만 np.allclose는 이 둘의 차이값이 허용 오차안에 존재한다면 True로 반환한다.
+==연산자는 두 값이 정확히 같은 지를 비교하지만 np.allclose는 이 둘의 차이값이 허용 오차안에 존재한다면 True로 반환한다.
 
 <br><br><br>
 
 
 ## 문제 2
 
-- ### 코드
+### 2.1 코드
 
 ```
 a=np.random.rand(3, 4)
@@ -87,33 +87,33 @@ print("각 열 검사:", np.isclose((a/a.sum(axis=1,keepdims=True)).sum(axis=1,k
 <br>
 <br>
 
-- ### 각 열 정규화한 결과값(keepdims=True)
+### 2.2 각 열 정규화한 결과값(keepdims=True)
 
 ![Alt text](../../../images/01-introduce/column_sum_True.png)
 
 
 
-- ### 각 열 정규화한 결과값(keepdims=False)
+### 2.3 각 열 정규화한 결과값(keepdims=False)
 
 ![Alt text](../../../images/01-introduce/column_sum_False.png)
 
 
 
-- ### 각 열의 합 
+### 2.4 각 열의 합 
 
 ![Alt text](../../../images/01-introduce/result_column_sum.png)
 
 
 
-- ### 각 행 정규화한 결과값(keepdims=True)
+### 2.5 각 행 정규화한 결과값(keepdims=True)
 
 ![Alt text](../../../images/01-introduce/row_sum.png)
 
-- ### 각 행 정규화한 결과값(keepdims=False)
+### 2.6 각 행 정규화한 결과값(keepdims=False)
 
 ![Alt text](../../../images/01-introduce/row_sum_False2.png)
 
-- ### 행일 때 keepdims=False면 오류가 발생하는 이유
+**keepdims=False면 오류가 발생하는 이유**
 
 keepdims는 차원을 유지하여 결과값을 만들어낸다. axis=0 일때 keepdims=False이면  (4,)이 된다.
 <br>
@@ -122,13 +122,13 @@ NumPy의 Broadcasting 규칙에 따라 (4,)는 (1,4)처럼 오른쪽부터 정�
 (3,4)과 (1,3)은 마지막 차원이 맞지 않기에  브로드 캐스팅이 불가능 하여서 계산이 되지 않고 오류가 발생한다.
 <br><br>
 
-- ### 각 행의 합
+### 2.7 각 행의 합
 
 ![Alt text](../../../images/01-introduce/result_row_sum.png)
 
 ## 문제 3
 
-- ### 코드
+### 3.1 코드
 
 ```
 a = np.random.randn(5)
@@ -138,15 +138,15 @@ print("a.T.shape: " ,a.T.shape , "b.T.shape: ", b.T.shape)
 print("np.dot(a, a.T): ",np.dot(a, a.T),"np.dot(b, b.T): ", np.dot(b, b.T))
 ```
 
-- ### a,b shape
+### 3.2 a,b shape
 
 ![Alt text](../../../images/01-introduce/Shape1.png)
 
-- ### a.T.shape , b.T.shape
+### 3.3 a.T.shape , b.T.shape
 
 ![Alt text](../../../images/01-introduce/T_Shape1.png)
 
-- ### a.T.shape가 a.shape와 동일한 이유
+**a.T.shape가 a.shape와 동일한 이유**
 
 선형대수학에서는 전치를 진행하게 된다면 행과 열이 바뀌어야 하지만
 numpy에서 전치를 진행하면 (5,) 그대로 나오게 되게 된다. <br>이는 넘파이 1차원 배열은 행과 열이 정의 되지않기에
@@ -154,24 +154,25 @@ numpy에서 전치를 진행하면 (5,) 그대로 나오게 되게 된다. <br>�
 <br>
 하지만 2차원 행렬의 경우 축이 두개 이기에 두 축을 변화이 가능하다 따라서 전치를 진행하면 (5,1) 차원이 (1,5)로 변환된다.
 
-- ### dot(a,a.T) 
+### 3.4.1 dot(a,a.T) 
 
 ![Alt text](../../../images/01-introduce/a_dot.png)
 
 
 
-- ### dot(b,b.T) 
+### 3.4.2 dot(b,b.T) 
 
 ![Alt text](../../../images/01-introduce/b_dot.png)
 
-- ### dot(a,a.T) 와 dot(b,b.T) 가 다른 이유
+**dot(a,a.T) 와 dot(b,b.T) 가 다른 이유**
 
 선형대수학에서 백터를 열 백터로 정의하면 a*a.T는 외적으로 정의 되며 반대로 행 백터이면 a * a.T는 내적으로 정의된다. <br><br>
 하지만 넘파이에서는 1차원 배열은 행과 열이 없다.  따라서 넘파이의 dot 함수에서 1차원 배열간에 곱셉은, <br>
 전부 내적으로 정의하여 a.a.T는 스칼라 값이 나오게 된다.<br><br>
 b는 (5,1)이기에 열 백터 행태를 가진다. 따라서 전치하면 (1,5)가 되어 np.dot(b, b.T)는 ,(5,1) * (1,5)의 행렬 곱셈을 수행한다.<br> 이는 선형대수학에서의 외적과 동일하다.<br>
 
-- ### 어떤 배열 형태가 적합한가?
+### 3.5 어떤 배열 형태가 적합한가?
+
 2차원 배열은 선형대수학에서 행과 열을 명확하게 구분해야 하는 연산(예: 전치)이나 행렬 곱셈의 결과 Shape을 <br>명시적으로 표현하고자 할 때 사용하는 것이 적절하다. <br><br>
 1차원 배열은 여러 샘플에 대한 한 개의 특성을 저장하거나 한 샘플에 대한 여러 특성을 저장하여 보여줄 때 사용한다.<br>예를 들어 Matplotlib의 plot 처럼 각 축을 따로 지정할 때 1차원 배열로  x는 -5부터 5까지 일정한 간격으로 <br>증가하는 값들을 지정하고 y 축은 sin 값으로 사용한다. <br><br>
 따라서 연산의 목적과 필요한 Shape에 따라 1차원 배열과 2차원 배열을 선택하는 것이 적절하다.
@@ -179,18 +180,13 @@ b는 (5,1)이기에 열 백터 행태를 가진다. 따라서 전치하면 (1,5)
 
 ## 문제 4
 
-- ### relu 함수가 꺽이는 위치 
-
->    ```
->    def relu(x):
->        x=np.maximum(0,x)
->        return x 
->    ```
+### 4.1  relu 함수가 꺽이는 위치 
 
 
 ![Alt text](../../../images/01-introduce/relu.png)
 
 
+**relu 함수의 꺽이는 위치의 식**
 
 relu 함수는 y값이 0이 되는 지점에서 꺽이게 된다. relu는 활성화 함수로 사용될 때 식은 다음과 같다.
 
@@ -211,26 +207,26 @@ $$
 <br>
 <br>
 
-- ### 꺽이는 지점 표시
+### 4.2 꺽이는 지점 표시
 
 ![Alt text](../../../images/01-introduce/relu_꺽이는지점.png)
 
-- ### 그래프 상에서 꺽이는 위치 
+**그래프 상에서 꺽이는 위치** 
 
 그래프에서 파란 색은 w=2,b=3이기에 꺽이는 지점은 -3/2이며, 노란색은 w=1 b=-3으로 꺽이는 지점은 3이다<br>
 마지막으로 초록색은 w=-2 b=1로 꺽이는 지점은 1/2이다.
 
 
-- ### relu 3개 더한 그래프
+### 4.3 relu 3개 더한 그래프
 
 ![Alt text](../../../images/01-introduce/relu_sum.png)
 
 
-- ### relu 합 100 그림
+### 4.4 relu 합 100 그림
 
 ![Alt text](../../../images/01-introduce/relu_10_50_100.png)
 
-- ### relu함수 값을 더하면 비선형 함수가 나오는 이유
+**relu함수 값을 더하면 비선형 함수가 나오는 이유**
 
 relu 함수 자체는 두개의 직선 함수가 결합되어 기울기가 두 구간에서 다르기에 비선형 함수라고 할 수 있다. <br>
 따라서 수치적으로 다른 relu 함수들을 여러개 더한 결과는 기울기가 변화하는 지점이 여러 구간에서 존재하는 함수이다.<br> 
@@ -240,11 +236,11 @@ relu 함수 자체는 두개의 직선 함수가 결합되어 기울기가 두 �
 
 
 
-- ### linear sum 그림
+### 4.5 linear sum 그림
 
 ![Alt text](../../../images/01-introduce/linear_10_50_100.png)
 
-- ### 선형 함수는 값을 더해도 선형 함수이다.
+**선형 함수는 값을 더해도 선형 함수이다**
 
 linear 함수 자체를 여러번 더해도 결국 선형성을 띄기에 직선 형태를 가진다. <br>
 이는 선형 함수는 기울기가 변화하는 구간이 없기에 그 기울기가 계속 유지되게 되면서 직선의 성질을 가지게 된다.<br>
@@ -254,7 +250,7 @@ linear 함수 자체를 여러번 더해도 결국 선형성을 띄기에 직선
 
 
 
-- ### 활성화 함수의 역활
+### 4.6 활성화 함수의 역활
 
 활성화 함수는 비선형적인 표현을 만드는 역활을 수행한다. <br>
 이를 좀 더 자세히 설명한다면 신경망은 여러 개의 층을 쌓아 이를 바탕으로 다양한 표현을 근사하고자 한다.<br>
