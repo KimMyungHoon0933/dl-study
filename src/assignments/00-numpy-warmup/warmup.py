@@ -215,8 +215,12 @@ print("\n\n\n\n\n")
 
 
 #과제 5
+#def H_calculater(x,w,b,n):
+#    H= relu(x[:,np.newaxis] * w[np.newaxis,:n] + b[np.newaxis,:n])
+#    return H
+
 def H_calculater(x,w,b,n):
-    H= relu(x[:,np.newaxis] * w[np.newaxis,:n] + b[np.newaxis,:n])
+    H= relu(x[:,np.newaxis] * w[:,:n] + b[:,:n])
     return H
 def c_create(H,n):
 
@@ -235,9 +239,8 @@ y_true = np.sin(x)
 
 print(x.shape,y_true.shape)
 
-w = np.random.randn(200)
-c = np.random.randn(200)
-r = np.random.uniform(-5, 5, 200)
+w = np.random.randn(1,200)
+r = np.random.uniform(-5, 5, (1,200))
 b = -w * r 
 
 H= H_calculater(x,w,b,5)
