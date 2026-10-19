@@ -220,7 +220,7 @@ print("\n\n\n\n\n")
 #    return H
 
 def H_calculater(x,w,b,n):
-    H= relu(x[:,np.newaxis] * w[:,:n] + b[:,:n])
+    H= relu(x[:,np.newaxis] @ w[:,:n] + b[:,:n])
     return H
 def c_create(H,n):
 
