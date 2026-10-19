@@ -35,8 +35,8 @@ print(np.allclose(c_dot,c_for))
 
 | 방법 | 소요시간 | 배수 |
 | --- |  --- | --- |
-| np.dot | 10.92 | 1배 |
-| for loop | 163.625 | 16배 |
+| np.dot | 0.01370 | 1배 |
+| for loop | 0.16.85 | 16배 |
 
 **for과 np.dot의 걸리시간이 차이나는 이유**  
 

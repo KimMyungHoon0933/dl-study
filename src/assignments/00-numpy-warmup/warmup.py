@@ -15,7 +15,7 @@ c_dot = np.dot(a,b)
 end = time.perf_counter()
 
 print("np.dot을 통한 결과값: ",c_dot)
-print("넘파이 dot 걸린 시간: " + str(1000*(end-start))+" s")
+print("넘파이 dot 걸린 시간: " + str((end-start))+" s")
 
 c_for=0
 start = time.perf_counter()
@@ -24,7 +24,7 @@ for i in range(1000000):
 end = time.perf_counter()
 
 print("for을 통한 결과값: ",c_for)
-print("for loop 걸린 시간: " + str(1000*(end-start))+" s")
+print("for loop 걸린 시간: " + str((end-start))+" s")
 print("\n\n\n\n\n")
 print("c_dot==c_for: ",c_dot==c_for)
 print("np.allclose(c_dot,c_for): ", np.allclose(c_dot,c_for))
