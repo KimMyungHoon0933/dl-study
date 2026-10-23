@@ -43,16 +43,20 @@ $$
 
 
 
-$$
+```math
 {\Large
 \begin{aligned}
-\frac{da}{dz} &= \frac{e^{-z}}{(1+e^{-z})^2}=a(1-a),\\
-dz:=\frac{dL}{dz} &= \frac{dL}{da}\frac{da}{dz}\\
+&\frac{da}{dz} = \frac{e^{-z}}{(1+e^{-z})^2}
+= a(1-a)\\[1em]
+&\begin{aligned}
+dz:=\frac{dL}{dz}
+&= \frac{dL}{da}\frac{da}{dz}\\
 &= \frac{a-y}{a(1-a)}\,a(1-a)\\
 &= a-y
 \end{aligned}
+\end{aligned}
 }
-$$
+```
 
 
 
