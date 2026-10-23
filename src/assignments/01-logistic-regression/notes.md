@@ -31,7 +31,7 @@ $$
 
 **역전파**
 
-- $\frac{\partial J(w,b)}{\partial a}$
+- ${\Large \frac{\partial J(w,b)}{\partial a}}$
 
 $$
 {\Large \frac{\partial L}{\partial a} 
