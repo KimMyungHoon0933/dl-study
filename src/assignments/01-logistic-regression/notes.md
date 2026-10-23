@@ -20,7 +20,7 @@ $$
 - a
 
 $$
-{\Large a =  \sigma(z) ; \quad where \sigma(Z) = \frac{1}{1+e^-{z}}}
+{\Large a =  \sigma(z) ; \quad where \left \sigma(Z) = \frac{1}{1+e^-{z}}}
 $$
 
 - J(W,B)
@@ -28,3 +28,16 @@ $$
 $$
 {\Large J(W,B)= -\frac{1}{m}  \sum_{i=1}^{m} \left[y^{(i)}\log a^{(i)} +(1-y^{(i)})\log(1-a^{(i)})\right]}
 $$
+
+**역전파**
+
+- $\frac{\partial J(w,b)}{\partial a}$
+
+$$
+{\Large \frac{\partial L}{\partial a} 
+     = -(y \frac{1}{a} - (1-y)  \frac{1}{1-a})=\frac{a-y}{a(1-a)}}
+$$
+
+
+- 
+
