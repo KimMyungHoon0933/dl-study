@@ -46,17 +46,14 @@ $$
 $$
 {\Large
 \begin{aligned}
-&\frac{da}{dz} = \frac{e^{-z}}{(1+e^{-z})^2}
-= a(1-a)\\[1em]
-&\begin{aligned}
-dz:=\frac{dL}{dz}
-&= \frac{dL}{da}\frac{da}{dz}\\
+\frac{da}{dz} &= \frac{e^{-z}}{(1+e^{-z})^2}=a(1-a),\\
+dz:=\frac{dL}{dz} &= \frac{dL}{da}\frac{da}{dz}\\
 &= \frac{a-y}{a(1-a)}\,a(1-a)\\
 &= a-y
 \end{aligned}
-\end{aligned}
 }
 $$
+
 
 
 **$\Large dw ,dw$**
@@ -72,7 +69,7 @@ $$
 $$
 {\Large
 \begin{aligned}
-dw =\frac{1}{m}XdZ^T \\[1em]
+dw =\frac{1}{m}XdZ^T \\
 {\Large dw \in \mathbb{R}^{n \times 1}}
 \end{aligned}
 }
@@ -86,7 +83,7 @@ $$
 $$
 {\Large
 \begin{aligned}
-db =\frac{1}{m}dZ \\[1em]
+db =\frac{1}{m}dZ \\
 {\Large db \in \mathbb{R}}
 \end{aligned}
 }
