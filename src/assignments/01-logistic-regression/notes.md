@@ -62,8 +62,7 @@ $$
 - dZ
 
 $$
-{\Large dZ= 
-dZ=[dz^{(1)},\ldots,dz^{(m)}]=A-Y}
+{\Large dZ= [dz^{(1)},\ldots,dz^{(m)}]=A-Y}
 $$
 
 - dw 식
@@ -71,9 +70,9 @@ $$
 $$
 {\Large
 \begin{aligned}
-db:=\frac{\partial J}{\partial b}
-&=\frac{1}{m}\sum_{i=1}^{m}dz^{(i)} \\
-&{\Large db \in \mathbb{R}}
+dw:=\frac{\partial J}{\partial w}
+&=\frac{1}{m}XdZ^T \\
+&{\Large dw \in \mathbb{R}^{n \times 1}}
 \end{aligned}
 }
 $$
