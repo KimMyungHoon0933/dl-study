@@ -71,7 +71,7 @@ $$
 {\Large
 \begin{aligned}
 dw =\frac{1}{m}XdZ^T \\
-&{\Large dw \in \mathbb{R}^{n \times 1}}
+{\Large dw \in \mathbb{R}^{n \times 1}}
 \end{aligned}
 }
 $$
@@ -85,7 +85,7 @@ $$
 {\Large
 \begin{aligned}
 db =\frac{1}{m}dZ \\
-&{\Large db \in \mathbb{R}}
+{\Large db \in \mathbb{R}}
 \end{aligned}
 }
 $$
