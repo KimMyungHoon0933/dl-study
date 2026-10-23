@@ -70,8 +70,7 @@ $$
 $$
 {\Large
 \begin{aligned}
-dw:=\frac{\partial J}{\partial w}
-&=\frac{1}{m}XdZ^T \\
+dw =\frac{1}{m}XdZ^T \\
 &{\Large dw \in \mathbb{R}^{n \times 1}}
 \end{aligned}
 }
@@ -85,8 +84,7 @@ $$
 $$
 {\Large
 \begin{aligned}
-db:=\frac{\partial J}{\partial b}
-&=\frac{1}{m}\sum_{i=1}^{m}dz^{(i)} \\
+db =\frac{1}{m}dZ \\
 &{\Large db \in \mathbb{R}}
 \end{aligned}
 }
