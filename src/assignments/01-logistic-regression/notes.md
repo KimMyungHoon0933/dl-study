@@ -18,6 +18,7 @@ $$
 
 
 - a
+
 $$
 {\Large a =  \sigma(z) ; \quad \sigma = \frac{1}{1+e^-{z}}}
 $$
