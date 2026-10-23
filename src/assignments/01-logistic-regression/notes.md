@@ -71,10 +71,10 @@ $$
 - dw.shape
 
 $$
- \underbrace{X}_{n\times m} 
-\underbrace{Z^T}_{m\times 1}
-=
-\underbrace{dXZ^T}_{n\times 1}
+{\large
+\underbrace{X}_{n\times m} 
+\underbrace{Z^T}_{m\times 1} =
+\underbrace{dXZ^T}_{n\times 1}}
 $$
 
 $$
