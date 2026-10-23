@@ -4,7 +4,16 @@
 
 **순전파**
 
+- 데이터셋의 형태 
+
 $$
-{\Large X \in \mathbb{R}^{m \times n}, \quad Y \in \mathbb{R}^{1 \times m}}
+{\Large X \in \mathbb{R}^{n \times m}, \quad Y \in \mathbb{R}^{1 \times m}}
 $$
+
+- Z
+
+$$
+{\Large Z= W^TX +B \quad W \in \mathbb{R^{1\times n}, b \in \mathbb{R^{1\times m}}}
+
+
 
