@@ -13,7 +13,7 @@ $$
 - Z
 
 $$
-{\Large Z= W^TX +B \quad W \in \mathbb{R^{1\times n}, b \in \mathbb{R^{1\times m}}}
-
+{ \Large Z= W^TX +B \quad W \in \mathbb{R}^{1\times n}, b \in \mathbb{R}^{1\times m}}
+$$
 
 
