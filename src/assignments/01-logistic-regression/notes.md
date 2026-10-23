@@ -75,6 +75,7 @@ $$
 {\Large
 \begin{aligned}
 dw =\frac{1}{m}XdZ^T \\
+&\rule{0pt}{0.5em}\\
 {\Large dw \in \mathbb{R}^{n \times 1}}
 \end{aligned}
 }
@@ -89,6 +90,7 @@ $$
 {\Large
 \begin{aligned}
 db =\frac{1}{m}dZ \\
+&\rule{0pt}{0.5em}\\
 {\Large db \in \mathbb{R}}
 \end{aligned}
 }
