@@ -13,7 +13,7 @@ $$
 - Z
 
 $$
-{ \Large Z= w^TX +B; \quad w \in \mathbb{R}^{1\times n}, b \in \mathbb{R}^{1\times m}}
+{ \Large Z= w^TX +B; \quad w \in \mathbb{R}^{n\times 1}, b \in \mathbb{R}}
 $$
 
 
@@ -71,16 +71,14 @@ $$
 - dw.shape
 
 $$
-{\Large 
-\underbrace{X}_{n\times m}
+ \underbrace{X}_{n\times m} 
 \underbrace{Z^T}_{m\times 1}
 =
-\underbrace{dZX^T}_{1\times n}
-}
+\underbrace{dXZ^T}_{n\times 1}
 $$
 
 $$
-{\Large dw \in \mathbb{R}^{1xn}}
+{\Large dw \in \mathbb{R}^{1 \times n}}
 $$
 
 - db 식
@@ -92,9 +90,5 @@ $$
 - db shape
 
 $$
-{\Large 
-
-{\Large db \in \mathbb{R}^{1xm}}
-
-}
+{\Large db \in \mathbb{R}^{1 \times m}}
 $$
