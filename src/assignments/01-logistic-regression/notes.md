@@ -42,13 +42,11 @@ $$
 - ${\Large \frac{\partial L}{\partial Z}}$
 
 $$
-{\Large \frac{dL}{dz}
-=
-\frac{dL}{da}\frac{da}{dz}}
+{\Large \frac{dL}{dz} = \frac{dL}{da}\frac{da}{dz}}
 $$
 
 $$
-\frac{da}{dz}= \frac{e^{-z}}{(1+e^{-z})^2}=a(1-a)
+{\Large\frac{da}{dz}= \frac{e^{-z}}{(1+e^{-z})^2}=a(1-a)}
 $$
 
 $$
