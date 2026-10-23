@@ -20,7 +20,7 @@ $$
 - a
 
 $$
-{\Large a =  \sigma(z) ; \quad where \left \sigma(Z) = \frac{1}{1+e^-{z}}}
+{\Large a =  \sigma(z) ; \quad where \left \sigma(Z) = \frac{1}{1+e^-{z}}\right}
 $$
 
 - J(W,B)
