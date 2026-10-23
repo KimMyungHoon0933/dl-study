@@ -13,7 +13,12 @@ $$
 - Z
 
 $$
-{ \Large Z= W^TX +B \quad W \in \mathbb{R}^{1\times n}, b \in \mathbb{R}^{1\times m}}
+{ \Large Z= W^TX +B; \quad W \in \mathbb{R}^{1\times n}, b \in \mathbb{R}^{1\times m}}
 $$
 
+
+- a
+$$
+{\Large a =  \sigma(z) ; \quad \sigma = \frac{1}{1+e^-{z}}}
+$$
 
