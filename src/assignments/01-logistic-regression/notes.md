@@ -5,6 +5,6 @@
 **순전파**
 
 $$
-X \in \mathbb{R^{m \times n}} , \quad Y \in \mathbb{R^{1xm}}
+{\Large X \in \mathbb{R}^{m \times n}, \quad Y \in \mathbb{R}^{1 \times m}}
 $$
 
