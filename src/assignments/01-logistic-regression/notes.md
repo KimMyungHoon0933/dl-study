@@ -13,7 +13,7 @@ $$
 - Z
 
 $$
-{ \Large Z= w^TX +B; \quad w \in \mathbb{R}^{n\times 1}, b \in \mathbb{R}}
+{ \Large Z= w^TX +B; \quad w \in \mathbb{R}^{n\times 1}, B \in \mathbb{R^{1\times m}}}
 $$
 
 
@@ -31,7 +31,7 @@ $$
 
 **역전파**
 
-- $da$
+- $\Large da$
 
 $$
 {\Large da=\frac{d L}{d a} 
@@ -39,56 +39,43 @@ $$
 $$
 
 
-- ${dz}$
+- $\Large  dz$
 
 $$
-{\Large dz = \frac{dL}{da}\frac{da}{dz}}
+{\Large
+\frac{d a}{d z}
+&=\frac{e^{-z}}{(1+e^{-z})^2}
+=a(1-a),\\
+dz:=\frac{d L}{d z}
+&=\frac{d L}{d a}
+  \frac{d a}{d z}\\
+&=\frac{a-y}{a(1-a)}\,a(1-a)\\
+&=a-y}
 $$
 
-$$
-{\Large\frac{da}{dz}= \frac{e^{-z}}{(1+e^{-z})^2}=a(1-a)}
-$$
 
-$$
-\Large dz= \frac{a-y}{a(1-a)} \times a(1-a) = a-y
-$$
-
-
-**$dw ,dw의 식과 shape$**
+**$\Large dw ,dw$**
 
 - dZ
 
 $$
-{\Large dZ= \sum _i^m dz^{(i)}=A-Y}
+{\Large dZ= 
+dZ=[dz^{(1)},\ldots,dz^{(m)}]=A-Y}
 $$
 
 - dw 식
-
 $$
-{\Large dw += \frac{1}{m}XdZ^T}
-$$
-
-- dw.shape
-
-$$
-{\large
-\underbrace{X}_{n\times m} 
-\underbrace{Z^T}_{m\times 1} =
-\underbrace{dXZ^T}_{n\times 1}}
+dw:=\frac{\partial J}{\partial w}
+&=\frac1mXdZ^T \\
+{\Large dw \in \mathbb{R}^{n \times 1}}
 $$
 
-$$
-{\Large dw \in \mathbb{R}^{1 \times n}}
-$$
 
 - db 식
 
 $$
-db += dZ
+db:=\frac{\partial J}{\partial b}
+&=\frac1m dZ \\
+{\Large db \in \mathbb{R}}
 $$
 
-- db shape
-
-$$
-{\Large db \in \mathbb{R}^{1 \times m}}
-$$
