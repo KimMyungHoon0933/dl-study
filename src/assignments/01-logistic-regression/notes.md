@@ -20,6 +20,11 @@ $$
 - a
 
 $$
-{\Large a =  \sigma(z) ; \quad \sigma = \frac{1}{1+e^-{z}}}
+{\Large a =  \sigma(z) ; \quad where \sigma(Z) = \frac{1}{1+e^-{z}}}
 $$
 
+- J(W,B)
+
+$$
+{\Large J&=-\frac{1}{m}  \sum_{i=1}^{m} \left[y^{(i)}\log a^{(i)} +(1-y^{(i)})\log(1-a^{(i)})\right]}
+&&
