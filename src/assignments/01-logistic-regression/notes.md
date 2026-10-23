@@ -31,13 +31,29 @@ $$
 
 **역전파**
 
-- ${\Large \frac{\partial J(w,b)}{\partial a}}$
+- ${\Large \frac{\partial L}{\partial a}}$
 
 $$
 {\Large \frac{\partial L}{\partial a} 
-     = -(y \times \frac{1}{a} - (1-y) \times \frac{1}{1-a})=\frac{a-y}{a(1-a)}}
+     = -( y \times \frac{1}{a} - (1-y) \times \frac{1}{1-a})=\frac{a-y}{a(1-a)}}
 $$
 
 
-- 
+- ${\Large \frac{\partial L}{\partial Z}}%
+
+$$
+
+{\Large \frac{dL}{dz}
+=
+\frac{dL}{da}\frac{da}{dz}}
+$$
+
+$$
+\frac{da}{dz}= \frac{e^{-z}}{(1+e^{-z})^2}=a(1-a)
+$$
+
+$$
+\Large \frac{dL}{dz}
+=\frac{a-y}{a(1-a)} \times a(1-a) = a-y
+$$
 
