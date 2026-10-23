@@ -41,17 +41,20 @@ $$
 
 - $\Large  dz$
 
+
 $$
 {\Large
-\frac{d a}{d z}
-&=\frac{e^{-z}}{(1+e^{-z})^2}
-=a(1-a),\\
-dz:=\frac{d L}{d z}
-&=\frac{d L}{d a}
-  \frac{d a}{d z}\\
+\begin{aligned}
+\frac{da}{dz}
+&=\frac{e^{-z}}{(1+e^{-z})^2}=a(1-a),\\
+dz:=\frac{dL}{dz}
+&=\frac{dL}{da}\frac{da}{dz}\\
 &=\frac{a-y}{a(1-a)}\,a(1-a)\\
-&=a-y}
+&=a-y
+\end{aligned}
+}
 $$
+
 
 
 **$\Large dw ,dw$**
@@ -64,18 +67,30 @@ dZ=[dz^{(1)},\ldots,dz^{(m)}]=A-Y}
 $$
 
 - dw 식
+
 $$
-dw:=\frac{\partial J}{\partial w}
-&=\frac1mXdZ^T \\
-{\Large dw \in \mathbb{R}^{n \times 1}}
+{\Large
+\begin{aligned}
+db:=\frac{\partial J}{\partial b}
+&=\frac{1}{m}\sum_{i=1}^{m}dz^{(i)} \\
+&{\Large db \in \mathbb{R}}
+\end{aligned}
+}
 $$
+
 
 
 - db 식
 
+
 $$
+{\Large
+\begin{aligned}
 db:=\frac{\partial J}{\partial b}
-&=\frac1m dZ \\
-{\Large db \in \mathbb{R}}
+&=\frac{1}{m}\sum_{i=1}^{m}dz^{(i)} \\
+&{\Large db \in \mathbb{R}}
+\end{aligned}
+}
 $$
+
 
