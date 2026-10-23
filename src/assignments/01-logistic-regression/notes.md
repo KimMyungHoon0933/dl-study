@@ -47,7 +47,7 @@ $$
 {\Large
 \begin{aligned}
 &\frac{da}{dz} = \frac{e^{-z}}{(1+e^{-z})^2}
-= a(1-a)\\[1em]
+= a(1-a)\\[3em]
 &\begin{aligned}
 dz:=\frac{dL}{dz}
 &= \frac{dL}{da}\frac{da}{dz}\\
