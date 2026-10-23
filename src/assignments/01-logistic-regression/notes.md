@@ -20,7 +20,7 @@ $$
 - a
 
 $$
-{\Large a =  \sigma(z) ; \quad where \left \sigma(Z) = \frac{1}{1+e^-{z}}\right}
+{\Large a =  \sigma(z) ; \quad where \quad \sigma(Z) = \frac{1}{1+e^-{z}}}
 $$
 
 - J(W,B)
@@ -35,7 +35,7 @@ $$
 
 $$
 {\Large \frac{\partial L}{\partial a} 
-     = -(y \frac{1}{a} - (1-y)  \frac{1}{1-a})=\frac{a-y}{a(1-a)}}
+     = -(y \times \frac{1}{a} - (1-y) \times \frac{1}{1-a})=\frac{a-y}{a(1-a)}}
 $$
 
 
