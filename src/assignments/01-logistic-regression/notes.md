@@ -13,14 +13,14 @@ $$
 - Z
 
 $$
-{ \Large Z= W^TX +B; \quad W \in \mathbb{R}^{1\times n}, b \in \mathbb{R}^{1\times m}}
+{ \Large Z= w^TX +B; \quad w \in \mathbb{R}^{1\times n}, b \in \mathbb{R}^{1\times m}}
 $$
 
 
-- a
+- A
 
 $$
-{\Large a =  \sigma(z) ; \quad where \quad \sigma(Z) = \frac{1}{1+e^-{z}}}
+{\Large A =  \sigma(Z) ; \quad where \quad \sigma(z) = \frac{1}{1+e^-{z}}}
 $$
 
 - J(W,B)
@@ -31,18 +31,18 @@ $$
 
 **역전파**
 
-- ${\Large \frac{\partial L}{\partial a}}$
+- $da$
 
 $$
-{\Large \frac{\partial L}{\partial a} 
+{\Large da=\frac{d L}{d a} 
      = -( y \times \frac{1}{a} - (1-y) \times \frac{1}{1-a})=\frac{a-y}{a(1-a)}}
 $$
 
 
-- ${\Large \frac{\partial L}{\partial Z}}$
+- ${dz}$
 
 $$
-{\Large \frac{dL}{dz} = \frac{dL}{da}\frac{da}{dz}}
+{\Large dz = \frac{dL}{da}\frac{da}{dz}}
 $$
 
 $$
@@ -50,7 +50,51 @@ $$
 $$
 
 $$
-\Large \frac{dL}{dz}
-=\frac{a-y}{a(1-a)} \times a(1-a) = a-y
+\Large dz= \frac{a-y}{a(1-a)} \times a(1-a) = a-y
 $$
 
+
+**$dw ,dw의 식과 shape$**
+
+- dZ
+
+$$
+{\Large dZ= \sum _i^m dz^{(i)}=A-Y}
+$$
+
+- dw 식
+
+$$
+{\Large dw += \frac{1}{m}XdZ^T}
+$$
+
+- dw.shape
+
+$$
+{\Large 
+\underbrace{X}_{n\times m}
+\underbrace{Z^T}_{m\times 1}
+=
+\underbrace{dZX^T}_{1\times n}
+}
+$$
+
+$$
+{\Large dw \in \mathbb{R}^{1xn}}
+$$
+
+- db 식
+
+$$
+db += dZ
+$$
+
+- db shape
+
+$$
+{\Large 
+
+{\Large db \in \mathbb{R}^{1xm}}
+
+}
+$$
