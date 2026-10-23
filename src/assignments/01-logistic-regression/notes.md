@@ -39,10 +39,9 @@ $$
 $$
 
 
-- ${\Large \frac{\partial L}{\partial Z}}%
+- ${\Large \frac{\partial L}{\partial Z}}$
 
 $$
-
 {\Large \frac{dL}{dz}
 =
 \frac{dL}{da}\frac{da}{dz}}
