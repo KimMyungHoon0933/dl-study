@@ -58,8 +58,8 @@ print(overflow_debug)
 #initialize
 def initialize(dim):
     w=np.zeros((dim,1))
-    b=np.zeros(1)
-    return w,b #w.shape=(dim,1) b=(1,)
+    b=0.0
+    return w,b #w.shape=(dim,1) b=()
 
 #w,b= initialize(64)
 #print("w shape:",w.shape,"b shape: ",b.shape)
@@ -67,9 +67,10 @@ def initialize(dim):
 #propagate
 def cost_function(a,Y,m):
     #a.shape=(1,m) Y.shape=(1,m) 
-    a[a == 0]=1e-15 
-    a[a == 1] = 1 - 1e-7    
-    L=-(Y*np.log(a)+(1-Y)* np.log(1-a))
+    a_temp = a.copy()
+    a_temp[a_temp == 0]=1e-15 
+    a_temp[a_temp == 1] = 1 - 1e-7    
+    L=-(Y*np.log(a_temp)+(1-Y)* np.log(1-a_temp))
     J=np.sum(L)/m
     return J #j.shape=()
 
@@ -85,7 +86,7 @@ def propagate(w,b,X,Y,m):
     "dw": dw,
     "db": db
     }
-    return grads,cost #grads["dw"].shape=(64,1) grads["db"].shape=(1,),cost.shape=()
+    return grads,cost #grads["dw"].shape=(64,1) grads["db"].shape=(),cost.shape=()
 
 #w,b= initialize(64)
 #grads,cost=propagate(w,b,X_train,Y_train,288)
@@ -106,19 +107,19 @@ def propagate(w,b,X,Y,m):
 
 
 #optimize
-def optimize(w, b, X, Y, num_iterations, learning_rate,grad_check_bool=False):
+def optimize(w, b, X, Y, num_iterations, learning_rate):
     #w.shape=(64,1) b.shape(1,) X_train.shape=(64,288) Y_train.shape=(1,288) 
     cost_array=[]
     grads_list=[]
     for i in range(num_iterations):
         grads,cost=propagate(w,b,X,Y,X.shape[1])
 
-        if(grad_check_bool):
-            theta = flatten(w, b)
-            analytic_grad = flatten(grads["dw"], grads["db"])
+        #if(grad_check_bool):
+        #    theta = flatten(w, b)
+        #    analytic_grad = flatten(grads["dw"], grads["db"])
 
-            error=grad_check(theta_cost_function,theta,analytic_grad)
-            print(error)
+        #    error=grad_check(theta_cost_function,theta,analytic_grad)
+        #    print(error)
         
         w -= learning_rate * grads["dw"]
         b -= learning_rate * grads["db"]
@@ -148,17 +149,17 @@ def predict(w,b,X):
     Z=w.T@X+b
     A=sigmoid(Z)
     y_pred=(A >= 0.5).astype(int)
-    return y_pred #y_pred.shpae(m,)
+    return y_pred #y_pred.shpae(1,m)
 
 #y_pred=predict(params["w"],params["b"],X_test)
 #print(y_pred.shape)  
 #print(y_pred)     
 
-def model(X_train, Y_train, X_test, Y_test, num_iterations=2000, learning_rate=0.05,grad_check_bool=False):
+def model(X_train, Y_train, X_test, Y_test, num_iterations=2000, learning_rate=0.05):
     #w.shape=(64,1) b.shape(1,) X_train.shape=(64,288) Y_train.shape=(1,288) 
     w,b=initialize(X_train.shape[0])
 
-    params,grads_list,cost_list = optimize(w,b,X_train,Y_train,num_iterations,learning_rate,grad_check_bool)
+    params,grads_list,cost_list = optimize(w,b,X_train,Y_train,num_iterations,learning_rate)
 
     w=params["w"]
     b=params["b"]
@@ -190,45 +191,43 @@ def flatten(w,b):
     theta=np.concat([w_reshape,b_reshape])
     return theta
 
-def theta_cost_function(theta):
-    w=theta[:-1].reshape(-1,1)
-    b=theta[-1:]
-    Z=w.T@X_check+b 
-    a=sigmoid(Z)
-    a[a == 0]=1e-7
-    a[a == 1] = 1 - 1e-7    
-    L=-(Y_check*np.log(a)+(1-Y_check)* np.log(1-a))
-    J=np.sum(L)/X_check.shape[1]
+
     
      
 
 
     return J #j.shape=()
 
+def gradient_checks_test(X,Y,w,b):
+    X_check = X[:, :10]
+    Y_check = Y[:, :10]
 
+    def theta_cost_function(theta):
+        w=theta[:-1].reshape(-1,1)
+        b=theta[-1:]
+        Z=w.T@X_check+b 
+        A=sigmoid(Z)
+        return cost_function(A, Y_check, X_check.shape[1])
+    
+    grads, _ = propagate(
+        w, b, X_check, Y_check, X_check.shape[1]
+    )
 
+    analytic_grad = flatten(grads["dw"], grads["db"])
 
+    theta=flatten(w,b)
+    error=grad_check(theta_cost_function,theta,analytic_grad)
 
-X_check = X_train[:, :10]
-Y_check = Y_train[:, :10]
+    return error
 
-result = model(X_check, Y_check, X_check, Y_check,grad_check_bool=True,num_iterations=10)
+w,b=initialize(X_train.shape[0])
+print(gradient_checks_test(X_train,Y_train,w,b))
 
 result = model(X_train, Y_train, X_test, Y_test)
 
 print(f"훈련 정확도: {result['train_accuracy']:.2%}")
 print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 
-#grads, _ = propagate(
-#    w, b, X_check, Y_check, X_check.shape[1]
-#)
-
-#analytic_grad = flatten(grads["dw"], grads["db"])
-
-#theta=flatten(w,b)
-#error=grad_check(theta_cost_function,theta,analytic_grad)
-
-#print(error)
 
 
 
