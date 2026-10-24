@@ -29,22 +29,22 @@ data_label_0=digits.data[label_0]
 #클래스 1 이미지 
 label_1 =digits.target==1
 data_label_1=digits.data[label_1]
-fig ,axes = plt.subplots(1,5,figsize=(10,2))
+#fig ,axes = plt.subplots(1,5,figsize=(10,2))
 
-for i, ax in enumerate(axes):
-    ax.imshow(data_label_0[i].reshape(8,8),cmap='gray')
-    ax.set_title("label 0")
-    ax.axis("off")
-plt.tight_layout()
+#for i, ax in enumerate(axes):
+#    ax.imshow(data_label_0[i].reshape(8,8),cmap='gray')
+#    ax.set_title("label 0")
+#    ax.axis("off")
+#plt.tight_layout()
 #plt.show()
 
-fig ,axes = plt.subplots(1,5,figsize=(10,2))
+#fig ,axes = plt.subplots(1,5,figsize=(10,2))
 
-for i, ax in enumerate(axes):
-    ax.imshow(data_label_1[i,].reshape(8,8),cmap='gray')
-    ax.set_title("label 1")
-    ax.axis("off")
-plt.tight_layout()
+#for i, ax in enumerate(axes):
+#    ax.imshow(data_label_1[i,].reshape(8,8),cmap='gray')
+#    ax.set_title("label 1")
+#    ax.axis("off")
+#plt.tight_layout()
 #plt.show()
 
 # sigmoid
@@ -229,8 +229,87 @@ print(f"훈련 정확도: {result['train_accuracy']:.2%}")
 print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 
 
+horizontal  = np.linspace(0, 1900, 20)
+#plt.plot(horizontal,result["cost_list"])
+#plt.xlabel("num_iterations")
+#plt.ylabel("cost_function")
+#plt.show()
+
+print(result["cost_list"].shape)
+
+#추가 실험
+
+mask_3_5 = (digits.target == 3) | (digits.target == 5)
+X_3_5, y_3_5 = digits.data[mask_3_5], digits.target[mask_3_5]        # (360, 64), (360,)
+
+for i in range(y_3_5.shape[0]):
+    if (y_3_5[i]==3):
+        y_3_5[i]=0
+    elif(y_3_5[i]==5):
+        y_3_5[i]=1
 
 
+X_tr_3_5, X_te_3_5, y_tr_3_5, y_te_3_5 = train_test_split(
+    X_3_5, y_3_5, test_size=0.2, random_state=0, stratify=y_3_5)
+
+X_train_3_5 = X_tr_3_5.T / 16.0        # (64, 288)
+X_test_3_5  = X_te_3_5.T / 16.0        # (64, 72)
+Y_train_3_5 = y_tr_3_5.reshape(1, -1)  # (1, 288)
+Y_test_3_5  = y_te_3_5.reshape(1, -1)  # (1, 72)
+
+result_3_5 = model(
+    X_train_3_5, Y_train_3_5,
+    X_test_3_5, Y_test_3_5
+)
+
+print(f"3 5훈련 정확도: {result_3_5['train_accuracy']:.2%}")
+print(f"3 5테스트 정확도: {result_3_5['test_accuracy']:.2%}")
+
+w = result_3_5["w"]
+b = result_3_5["b"]
+
+y_train_pred_3_5=np.array(predict(w,b,X_train_3_5))
+y_test_pred_3_5=np.array(predict(w,b,X_test_3_5))
+
+print(y_train_pred_3_5.shape)
+
+train_wrong =(y_train_pred_3_5 != Y_train_3_5)
+test_wrong= (y_test_pred_3_5 != Y_test_3_5)
 
 
-    
+print("trian 틀린 갯수",train_wrong.sum())
+print("test 틀린 갯수",test_wrong.sum())
+
+train_mask = train_wrong[0]  # (1, 292) → (292,)
+test_mask = test_wrong[0]    # (1, 73) → (73,)
+
+train_wrong_value = X_train_3_5[:, train_mask]
+test_wrong_value = X_test_3_5[:, test_mask]
+
+train_wrong_label = Y_train_3_5[:, train_mask]
+test_wrong_label = Y_test_3_5[:, test_mask]
+
+images = np.concat([train_wrong_value, test_wrong_value], axis=1)
+label = np.concat([train_wrong_label, test_wrong_label], axis=1)
+
+w = result_3_5["w"]
+b = result_3_5["b"]
+fig ,axes=plt.subplots(1,images.shape[1],
+                        figsize=(3*images.shape[1],3),
+                        squeeze=False )
+for i,ax in enumerate(axes[0]):
+    Z=w.T@images[:,i]+b
+    A=sigmoid(Z)
+    ax.imshow(images[:,i].reshape(8,8),cmap="gray")
+    if(label[0,i]==0):
+        label_true=3
+    elif(label[0,i]==1):
+        label_true=5
+    ax.set_title(
+            f"label={label_true}, p(label=5)={A.item():.3f}"
+    )
+    ax.axis("off")
+
+plt.tight_layout()
+plt.show()
+
