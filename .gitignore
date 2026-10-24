@@ -4,3 +4,6 @@ __pycache__/
 .ipynb_checkpoints/
 data/
 .vscode/
+*.egg-info/
+__pycache__/
+*.pyc

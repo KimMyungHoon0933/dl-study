@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dl-study"
+version = "0.1.0"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["utils", "utils.*"]
+namespaces = false

@@ -47,7 +47,7 @@ $$
 {\Large
 \begin{aligned}
 &\frac{da}{dz} = \frac{e^{-z}}{(1+e^{-z})^2}
-= = a(1-a)\\
+= a(1-a)\\
 &\rule{0pt}{0.5em}\\
 &\begin{aligned}
 dz:=\frac{dL}{dz}
