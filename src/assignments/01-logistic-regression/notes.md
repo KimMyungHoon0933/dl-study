@@ -108,9 +108,12 @@ $$
 
 **원인**
 
+
+
 sigmoid에서 오버플로우 경고는 $e^-z$ 에서 z값이 음수 상황에서 값이 클 경우에 발생하게 된다. 
 
 **해결방법**
+
 
 이를 해결하고자 음수 일때는 $e^z$ 형태로 계산하여 큰값이 반환이 되지 않게 계산을 진행한다. <br>
 
@@ -127,6 +130,7 @@ $$
 
 
 **결과**
+
 
 코드 
 
@@ -157,9 +161,11 @@ print("시그모이드 오버플로우 검증 "overflow_debug)
 
 **원인**
 
+
 시그모이드 출력이 정확히 0 또는 1이면 비용 계산에서 log(0)이 발생한다. 이때 생성된 -inf에 0이 곱해지면 nan이 발생할 수 있다.
 
 **해결방법**
+
 
 정확히 0인 값은 1e-15, 정확히 1인 값은 1-1e-7로 변경하여 로그의 입력이 0이 되지 않도록 하였다.
 
@@ -168,6 +174,7 @@ print("시그모이드 오버플로우 검증 "overflow_debug)
 따라서 원래 예측값은 변경하지 않아 역전파 계산에 영향을 주지 않도록 않게 된다..
 
 **결과**
+
 
 코드 
 ```
@@ -184,12 +191,14 @@ print("NaN 포함:", np.isnan(cost_debug).any())
 print("Inf 포함:", np.isinf(cost_debug).any())
 ```
 
-결과 
+실행 결과 
 > cost: 0.503204434039084
 > NaN 포함: False
 > Inf 포함: False
 
+
 ### 3.3 기울기 검증 상대 오차 
+
 
 **0으로 초기화 시킨 w,b**
 
@@ -198,11 +207,12 @@ w,b=initialize(X_train.shape[0])
 print("0으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
 ```
 
-결과
+실행결과
 
 > 0으로 초기화:  1.0635658133919565e-09
 
 **무작위 값으로 초기화 시킨 w,b**
+
 
 ```
 w=w = np.random.rand(64, 1)
@@ -211,12 +221,13 @@ b=np.random.rand()
 print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
 ```
 
-결과
+실행결과
 
 > 무작위 값으로 초기화:  1.0031697790993992e-05
 
 
 ### 3.4 기울기 검증기 디버깅
+
 
 | `방법` | `상대오차` |
 | :---: | :---: |
@@ -229,11 +240,14 @@ print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b
 
 ### 3.5 비용함수 곡선
 
+
 ![Alt text](../../../images/02-neural/cost_function.png)
 
 ### 3.6 train / test 정확도 
 
+
 **코드**
+
 
 ```
 result = model(X_train, Y_train, X_test, Y_test)
@@ -242,16 +256,19 @@ print(f"훈련 정확도: {result['train_accuracy']:.2%}")
 print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 ```
 
-**출력결과**
+**실행결과**
+
 
 > 훈련 정확도: 100.00%
 > 테스트 정확도: 100.00%
 
 ## 4. 추가 실험 1 
 
+
 ![Alt text](../../../images/02-neural/learning_rate.png)
 
 ## 5. 추가 실험 2
+
 
 | `문제` | `train 정확도` | `test 정확도` |
 | :---: | :---: | :---: |
@@ -259,6 +276,7 @@ print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 | 라벨 3,5 | 99.32% | 97.26% | 
 
 ## 6. 추가 실험 3
+
 
 ![Alt text](../../../images/02-neural/label_3_5.png)
 
