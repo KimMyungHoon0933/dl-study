@@ -108,10 +108,41 @@ $$
 
 **원인**
 
+sigmoid에서 오버플로우 경고는 $e^-z$ 에서 z값이 음수 상황에서 값이 클 경우에 발생하게 된다. 
 
 **해결방법**
 
+이를 해결하고자 음수 일때는 $e^z$ 형태로 계산하여 0에 가까운 값으로 만들어 계산한다. 
+따라서 식은 다음과 같게 계산한다. 
+
+$$
+\operatorname{sigmoid}(z)=\begin{cases}\dfrac{1}{1+e^{-z}}, & z \ge 0, \\[6pt]\dfrac{e^z}{1+e^z}, & z < 0.\end{cases}
+$$
+
+
 **결과**
+
+코드 
+
+```
+def sigmoid(z):
+    #예상 입력: z=(1,m)
+    z=np.array(z)
+    A=np.zeros_like(z, dtype=float)
+    positive = (z >= 0)
+    
+    A[positive]=1 / (1 + np.exp(-z[positive]))
+
+    exp_z = np.exp(z[~positive])
+    A[~positive] = exp_z / (1 + exp_z)
+
+    return A #출력 A.shape=(1,m)
+overflow_debug=sigmoid(np.array([-1000, 0, 1000]))
+print("시그모이드 오버플로우 검증 "overflow_debug)
+```
+
+결과 
+>> 시그모이드 오버플로우 검증:  [0.  0.5 1. ]
 
 ### 3.2 비용함수 안정성 문제
 

@@ -55,11 +55,19 @@ plt.show()
 # sigmoid
 def sigmoid(z):
     #예상 입력: z=(1,m)
-    a=np.exp(-np.logaddexp(0, -z))
-    return a #출력 a.shape=(1,m)
+    z=np.array(z)
+    A=np.zeros_like(z, dtype=float)
+    positive = (z >= 0)
+    
+    A[positive]=1 / (1 + np.exp(-z[positive]))
+
+    exp_z = np.exp(z[~positive])
+    A[~positive] = exp_z / (1 + exp_z)
+
+    return A #출력 A.shape=(1,m)
 
 overflow_debug=sigmoid(np.array([-1000, 0, 1000]))
-print(overflow_debug)
+print("시그모이드 오버플로우 검증: ",overflow_debug)
 
 #initialize
 def initialize(dim):
@@ -99,6 +107,19 @@ grads,cost=propagate(w,b,X_train,Y_train,288)
 print(grads["dw"],grads["db"],cost.shape)
 
 
+
+            
+Y_debug = np.array([[0, 1]])
+A_debug = sigmoid(Y_debug)
+
+cost_debug = cost_function(
+        A_debug, Y_debug, Y_debug.shape[1]
+)
+
+print("A_debug:", A_debug)
+print("자료형:", A_debug.dtype)
+print("1 - A_debug:", 1 - A_debug)
+
 Y_debug = np.array([[0, 1]])
 
 A_debug = sigmoid(Y_debug)
@@ -110,7 +131,6 @@ cost_debug = cost_function(
 print("cost:", cost_debug)
 print("NaN 포함:", np.isnan(cost_debug).any())
 print("Inf 포함:", np.isinf(cost_debug).any())
-
 
 #optimize
 def optimize(w, b, X, Y, num_iterations, learning_rate):
