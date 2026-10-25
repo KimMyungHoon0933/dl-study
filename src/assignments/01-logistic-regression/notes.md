@@ -157,32 +157,32 @@ print("시그모이드 오버플로우 검증 "overflow_debug)
 
 **원인**
 
-시그모이드 출력이 정확히 0 또는 1이면 비용 계산에서 log(0)이 발생한다. 이때 생성된 -inf에 0이 곱해지면 nan이 발생할 수 있다.
+     시그모이드 출력이 정확히 0 또는 1이면 비용 계산에서 log(0)이 발생한다. 이때 생성된 -inf에 0이 곱해지면 nan이 발생할 수 있다.
 
 **해결방법**
 
-정확히 0인 값은 1e-15, 정확히 1인 값은 1-1e-7로 변경하여 로그의 입력이 0이 되지 않도록 하였다.
+     정확히 0인 값은 1e-15, 정확히 1인 값은 1-1e-7로 변경하여 로그의 입력이 0이 되지 않도록 하였다.
 
-이는 비용함수 계산 과정에서의 오차로 하고자 복사본으로 진행하였다. 
+     이는 비용함수 계산 과정에서의 오차로 하고자 복사본으로 진행하였다. 
 
-따라서 원래 예측값은 변경하지 않아 역전파 계산에 영향을 주지 않도록 않게 된다..
+     따라서 원래 예측값은 변경하지 않아 역전파 계산에 영향을 주지 않도록 않게 된다..
 
 **결과**
 
-코드 
-```
-Y_debug = np.array([[0, 1]])
+     코드 
+     ```
+     Y_debug = np.array([[0, 1]])
 
-A_debug = sigmoid(Y_debug)
+     A_debug = sigmoid(Y_debug)
 
-cost_debug = cost_function(
-        A_debug, Y_debug, Y_debug.shape[1]
-)
-            
-print("cost:", cost_debug)
-print("NaN 포함:", np.isnan(cost_debug).any())
-print("Inf 포함:", np.isinf(cost_debug).any())
-```
+     cost_debug = cost_function(
+          A_debug, Y_debug, Y_debug.shape[1]
+     )
+               
+     print("cost:", cost_debug)
+     print("NaN 포함:", np.isnan(cost_debug).any())
+     print("Inf 포함:", np.isinf(cost_debug).any())
+     ```
 
 결과 
 > cost: 0.503204434039084
@@ -191,27 +191,29 @@ print("Inf 포함:", np.isinf(cost_debug).any())
 
 ### 3.3 기울기 검증 상대 오차 
 
-**0으로 초기화 시킨 w,b**
+     **0으로 초기화 시킨 w,b**
 
-```
-w,b=initialize(X_train.shape[0])
-print("0으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
-```
+     ```
+     w,b=initialize(X_train.shape[0])
+     print("0으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
+     ```
 
-결과
-> 0으로 초기화:  1.0635658133919565e-09
+     결과
 
-**무작위 값으로 초기화 시킨 w,b**
+     > 0으로 초기화:  1.0635658133919565e-09
 
-```
-w=w = np.random.rand(64, 1)
-b=np.random.rand()
+     **무작위 값으로 초기화 시킨 w,b**
 
-print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
-```
+     ```
+     w=w = np.random.rand(64, 1)
+     b=np.random.rand()
 
+     print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
+     ```
 
-> 무작위 값으로 초기화:  1.0031697790993992e-05
+     결과
+
+     > 무작위 값으로 초기화:  1.0031697790993992e-05
 
 
 ### 3.4 기울기 검증기 디버깅
