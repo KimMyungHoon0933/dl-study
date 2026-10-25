@@ -247,12 +247,14 @@ def gradient_checks_test(X,Y,w,b):
     return error
 
 w,b=initialize(X_train.shape[0])
-print(gradient_checks_test(X_train,Y_train,w,b))
+print("0으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
 
-result = model(X_train, Y_train, X_test, Y_test)
+w=w = np.random.rand(64, 1)
+b=np.random.rand()
 
-print(f"훈련 정확도: {result['train_accuracy']:.2%}")
-print(f"테스트 정확도: {result['test_accuracy']:.2%}")
+print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
+
+
 
 
 horizontal  = np.linspace(0, 1900, 20)

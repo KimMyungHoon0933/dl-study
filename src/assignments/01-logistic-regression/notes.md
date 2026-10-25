@@ -191,8 +191,32 @@ print("Inf 포함:", np.isinf(cost_debug).any())
 
 ### 3.3 기울기 검증 상대 오차 
 
+**0으로 초기화 시킨 w,b**
+
+```
+w,b=initialize(X_train.shape[0])
+print("0으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
+```
+
+결과
+> 0으로 초기화:  1.0635658133919565e-09
+
+**무작위 값으로 초기화 시킨 w,b**
+
+```
+w=w = np.random.rand(64, 1)
+b=np.random.rand()
+
+print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
+```
+
+
+> 무작위 값으로 초기화:  1.0031697790993992e-05
+
 
 ### 3.4 기울기 검증기 디버깅
+
+
 
 
 ### 3.5 비용함수 곡선
