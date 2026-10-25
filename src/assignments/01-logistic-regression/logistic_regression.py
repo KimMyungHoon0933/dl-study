@@ -55,7 +55,8 @@ plt.show()
 # sigmoid
 def sigmoid(z):
     #예상 입력: z=(1,m)
-    return np.exp(-np.logaddexp(0, -z)) #출력 z.shape=(1,m)
+    a=np.exp(-np.logaddexp(0, -z))
+    return a #출력 a.shape=(1,m)
 
 overflow_debug=sigmoid(np.array([-1000, 0, 1000]))
 print(overflow_debug)

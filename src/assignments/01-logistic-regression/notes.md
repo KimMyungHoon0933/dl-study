@@ -1,35 +1,6 @@
 # logistic regresssion
 
-## 1. 데이터 준비 
-
-### 1.1 각 라벨별 데이터 그림
-
-**라벨 0**
-
-![Alt text](../../../images/02-neural/label_0.png)
-
-**라벨 1**
-
-![Alt text](../../../images/02-neural/label_1.png)
-
-### 1.2 데이터셋 차원 
-
-**코드**
-
-```
-print("X_train.shape: ",X_train.shape ,"X_train의 최솟값: ",X_train.min() , " X_train_최대값: ", X_train.max())
-print("Y_train의 값 종류: ",np.unique(Y_train))
-```
-
-**X_train**
-> X_train.shape:  (64, 288) X_train의 최솟값:  0.0  X_train_최대값:  1.0
-
-**Y_train**
-> Y_train의 값 종류:  [0 1]
-
-
-
-
+## 1. 구현 요약
 
 
 
@@ -130,3 +101,46 @@ db =\frac{1}{m}\sum _i ^m dZ \\
 $$
 
 
+## 3. 검증 결과
+
+### 3.1 sigmoid 오버플로우 경고
+
+**원인**
+
+**해결방법**
+
+**결과**
+
+### 3.2 비용함수 안정성 문제
+
+**log(a)**
+
+
+**해결방법**
+
+**결과**
+
+### 3.3 기울기 검증 상대 오차 
+
+
+### 3.4 기울기 검증기 디버깅
+
+
+### 3.5 비용함수 곡선
+
+![Alt text](../../../images/02-neural/cost_function.png)
+
+### 3.6 train / test 정확도 
+
+**코드**
+
+```
+result = model(X_train, Y_train, X_test, Y_test)
+
+print(f"훈련 정확도: {result['train_accuracy']:.2%}")
+print(f"테스트 정확도: {result['test_accuracy']:.2%}")
+```
+
+
+> 훈련 정확도: 100.00%
+> 테스트 정확도: 100.00%
