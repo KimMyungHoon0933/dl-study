@@ -279,8 +279,30 @@ plt.show()
 print(result["cost_list"].shape)
 
 
+#추가 실험 1
+result_rate_5 = model(X_train, Y_train, X_test, Y_test,learning_rate=5)
 
-#추가 실험
+result_rate_05 = model(X_train, Y_train, X_test, Y_test,learning_rate=0.5)
+
+result_rate_005 = model(X_train, Y_train, X_test, Y_test,learning_rate=0.05)
+
+result_rate_0005 = model(X_train, Y_train, X_test, Y_test,learning_rate=0.005)
+
+plt.plot(horizontal, result_rate_5["cost_list"], label="lr=5")
+plt.plot(horizontal, result_rate_05["cost_list"], label="lr=0.5")
+plt.plot(horizontal, result_rate_005["cost_list"], label="lr=0.05")
+plt.plot(horizontal, result_rate_0005["cost_list"], label="lr=0.005")
+plt.xlabel("num_iterations")
+plt.ylabel("cost")
+plt.title("Cost by learning rate")
+plt.legend()  # 각 곡선의 학습률 표시
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+
+
+#추가 실험 2,3
 mask_3_5 = (digits.target == 3) | (digits.target == 5)
 X_3_5, y_3_5 = digits.data[mask_3_5], digits.target[mask_3_5]        # (360, 64), (360,)
 
