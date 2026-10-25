@@ -169,11 +169,11 @@ print("시그모이드 오버플로우 검증 "overflow_debug)
 
 **결과**
 
-코드 
-```
-Y_debug = np.array([[0, 1]])
+     코드 
+     ```
+     Y_debug = np.array([[0, 1]])
 
-A_debug = sigmoid(Y_debug)
+     A_debug = sigmoid(Y_debug)
 
      cost_debug = cost_function(
           A_debug, Y_debug, Y_debug.shape[1]
