@@ -224,7 +224,7 @@ def flatten(w,b):
 
     return J #j.shape=()
 
-def gradient_checks_test(X,Y,w,b):
+def gradient_checks_test(X,Y,w,b,debug=None):
     X_check = X[:, :10]
     Y_check = Y[:, :10]
 
@@ -239,7 +239,17 @@ def gradient_checks_test(X,Y,w,b):
         w, b, X_check, Y_check, X_check.shape[1]
     )
 
-    analytic_grad = flatten(grads["dw"], grads["db"])
+    dw = grads["dw"].copy()
+    db = grads["db"]
+
+    if debug == "no_average":
+        dw = dw * X_check.shape[1]    # /m을 빠뜨린 것과 동일
+    elif debug == "+db":
+        db = -db          # db 부호 반전
+    elif debug == "double_dw":
+        dw = dw * 2       # 정상 dw의 두 배
+
+    analytic_grad = flatten(dw, db)
 
     theta=flatten(w,b)
     error=grad_check(theta_cost_function,theta,analytic_grad)
@@ -254,8 +264,11 @@ b=np.random.rand()
 
 print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
 
+w,b=initialize(X_train.shape[0])
 
-
+print("dw 에서 1/m 을 뺀다: ",gradient_checks_test(X_train,Y_train,w,b,"no_average"))
+print("db 의 부호를 바꾼다: ",gradient_checks_test(X_train,Y_train,w,b,"+db"))
+print("dw = X @ (A − Y).T * 2: ",gradient_checks_test(X_train,Y_train,w,b,"double_dw"))
 
 horizontal  = np.linspace(0, 1900, 20)
 plt.plot(horizontal,result["cost_list"])
@@ -265,8 +278,9 @@ plt.show()
 
 print(result["cost_list"].shape)
 
-#추가 실험
 
+
+#추가 실험
 mask_3_5 = (digits.target == 3) | (digits.target == 5)
 X_3_5, y_3_5 = digits.data[mask_3_5], digits.target[mask_3_5]        # (360, 64), (360,)
 
