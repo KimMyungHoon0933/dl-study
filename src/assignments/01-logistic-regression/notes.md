@@ -143,21 +143,51 @@ def sigmoid(z):
     A[~positive] = exp_z / (1 + exp_z)
 
     return A #출력 A.shape=(1,m)
+
 overflow_debug=sigmoid(np.array([-1000, 0, 1000]))
 print("시그모이드 오버플로우 검증 "overflow_debug)
 ```
 
 결과 
->> 시그모이드 오버플로우 검증:  [0.  0.5 1. ]
+
+> 시그모이드 오버플로우 검증:  [0.  0.5 1. ]
+
 
 ### 3.2 비용함수 안정성 문제
 
-**log(a)**
+**원인**
 
+시그모이드 출력이 정확히 0 또는 1이면 비용 계산에서 log(0)이 발생한다. 이때 생성된 -inf에 0이 곱해지면 nan이 발생할 수 있다.
 
 **해결방법**
 
+정확히 0인 값은 1e-15, 정확히 1인 값은 1-1e-7로 변경하여 로그의 입력이 0이 되지 않도록 하였다.
+
+이는 비용함수 계산 과정에서의 오차로 하고자 복사본으로 진행하였다. 
+
+따라서 원래 예측값은 변경하지 않아 역전파 계산에 영향을 주지 않도록 않게 된다..
+
 **결과**
+
+코드 
+```
+Y_debug = np.array([[0, 1]])
+
+A_debug = sigmoid(Y_debug)
+
+cost_debug = cost_function(
+        A_debug, Y_debug, Y_debug.shape[1]
+)
+            
+print("cost:", cost_debug)
+print("NaN 포함:", np.isnan(cost_debug).any())
+print("Inf 포함:", np.isinf(cost_debug).any())
+```
+
+결과 
+> cost: 0.503204434039084
+> NaN 포함: False
+> Inf 포함: False
 
 ### 3.3 기울기 검증 상대 오차 
 
