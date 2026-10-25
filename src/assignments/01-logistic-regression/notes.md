@@ -113,15 +113,15 @@ sigmoid에서 오버플로우 경고는 $e^-z$ 에서 z값이 음수 상황에�
 **해결방법**
 
 이를 해결하고자 음수 일때는 $e^z$ 형태로 계산하여 큰값이 반환이 되지 않게 계산을 진행한다. <br>
+
 식은 다음과 같다. 
 
-
 $$
-\sigma(z)=
+{\Large \sigma(z)=
 \begin{cases}
 \frac{1}{1+e^{-z}}, & z \ge 0 \\
 \frac{e^z}{1+e^z}, & z < 0
-\end{cases}
+\end{cases}}
 $$
 
 
