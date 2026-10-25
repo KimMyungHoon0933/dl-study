@@ -141,6 +141,7 @@ print(f"훈련 정확도: {result['train_accuracy']:.2%}")
 print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 ```
 
+**출력결과**
 
 > 훈련 정확도: 100.00%
 > 테스트 정확도: 100.00%
