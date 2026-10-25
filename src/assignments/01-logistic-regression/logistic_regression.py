@@ -1,5 +1,8 @@
-# 0. 데이터 셋 준비
 import numpy as np
+np.random.seed(42)
+
+# 0. 데이터 셋 준비
+
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
@@ -18,7 +21,9 @@ Y_train = y_tr.reshape(1, -1)  # (1, 288)
 Y_test  = y_te.reshape(1, -1)  # (1, 72)
 
 
-#print(X_train.shape)
+values, counts = np.unique(Y_train, return_counts=True)
+print("X_train.shape: ",X_train.shape ,"X_train의 최솟값: ",X_train.min() , " X_train_최대값: ", X_train.max())
+print("Y_train의 값 종류: ",np.unique(Y_train))
 
 
 
@@ -29,23 +34,23 @@ data_label_0=digits.data[label_0]
 #클래스 1 이미지 
 label_1 =digits.target==1
 data_label_1=digits.data[label_1]
-#fig ,axes = plt.subplots(1,5,figsize=(10,2))
+fig ,axes = plt.subplots(1,5,figsize=(10,2))
 
-#for i, ax in enumerate(axes):
-#    ax.imshow(data_label_0[i].reshape(8,8),cmap='gray')
-#    ax.set_title("label 0")
-#    ax.axis("off")
-#plt.tight_layout()
-#plt.show()
+for i, ax in enumerate(axes):
+    ax.imshow(data_label_0[i].reshape(8,8),cmap='gray')
+    ax.set_title("label 0")
+    ax.axis("off")
+plt.tight_layout()
+plt.show()
 
-#fig ,axes = plt.subplots(1,5,figsize=(10,2))
+fig ,axes = plt.subplots(1,5,figsize=(10,2))
 
-#for i, ax in enumerate(axes):
-#    ax.imshow(data_label_1[i,].reshape(8,8),cmap='gray')
-#    ax.set_title("label 1")
-#    ax.axis("off")
-#plt.tight_layout()
-#plt.show()
+for i, ax in enumerate(axes):
+    ax.imshow(data_label_1[i,].reshape(8,8),cmap='gray')
+    ax.set_title("label 1")
+    ax.axis("off")
+plt.tight_layout()
+plt.show()
 
 # sigmoid
 def sigmoid(z):
@@ -61,8 +66,8 @@ def initialize(dim):
     b=0.0
     return w,b #w.shape=(dim,1) b=()
 
-#w,b= initialize(64)
-#print("w shape:",w.shape,"b shape: ",b.shape)
+w,b= initialize(64)
+print("w shape:",w.shape)
 
 #propagate
 def cost_function(a,Y,m):
@@ -88,22 +93,22 @@ def propagate(w,b,X,Y,m):
     }
     return grads,cost #grads["dw"].shape=(64,1) grads["db"].shape=(),cost.shape=()
 
-#w,b= initialize(64)
-#grads,cost=propagate(w,b,X_train,Y_train,288)
-#print(grads["dw"],grads["db"],cost.shape)
+w,b= initialize(64)
+grads,cost=propagate(w,b,X_train,Y_train,288)
+print(grads["dw"],grads["db"],cost.shape)
 
 
-#Y_debug = np.array([[0, 1]])
+Y_debug = np.array([[0, 1]])
 
-#A_debug = sigmoid(Z_debug)
+A_debug = sigmoid(Y_debug)
 
-#cost_debug = cost_function(
-#        A_debug, Y_debug, Y_debug.shape[1]
-#)
+cost_debug = cost_function(
+        A_debug, Y_debug, Y_debug.shape[1]
+)
             
-#print("cost:", cost_debug)
-#print("NaN 포함:", np.isnan(cost_debug).any())
-#print("Inf 포함:", np.isinf(cost_debug).any())
+print("cost:", cost_debug)
+print("NaN 포함:", np.isnan(cost_debug).any())
+print("Inf 포함:", np.isinf(cost_debug).any())
 
 
 #optimize
@@ -138,9 +143,9 @@ def optimize(w, b, X, Y, num_iterations, learning_rate):
     #출력: params["w"].shape=(64,1) params["b"].shape=(1,),grads_list.shape=(20,),cost_array.shape=(20,)
     return params,grads_list,cost_array 
 
-#params , grads ,cost= optimize(w,b,X_train,Y_train,1000,0.05)
+params , grads ,cost= optimize(w,b,X_train,Y_train,1000,0.05)
 
-#print(params["w"].shape,grads.shape,cost.shape)
+print(params["w"].shape,grads.shape,cost.shape)
 
 #predict
 def predict(w,b,X):
@@ -151,9 +156,9 @@ def predict(w,b,X):
     y_pred=(A >= 0.5).astype(int)
     return y_pred #y_pred.shpae(1,m)
 
-#y_pred=predict(params["w"],params["b"],X_test)
-#print(y_pred.shape)  
-#print(y_pred)     
+y_pred=predict(params["w"],params["b"],X_test)
+print(y_pred.shape)  
+print(y_pred)     
 
 def model(X_train, Y_train, X_test, Y_test, num_iterations=2000, learning_rate=0.05):
     #w.shape=(64,1) b.shape(1,) X_train.shape=(64,288) Y_train.shape=(1,288) 
@@ -180,10 +185,10 @@ def model(X_train, Y_train, X_test, Y_test, num_iterations=2000, learning_rate=0
     } #w.shape=(64,1) b=(1,) grads_list.shape=(20,),cost_array.shape=(20,)
       #train_accuracy.shape=(1,) test_accuracy.shape=(1,)
 
-#result = model(X_train, Y_train, X_test, Y_test)
+result = model(X_train, Y_train, X_test, Y_test)
 
-#print(f"훈련 정확도: {result['train_accuracy']:.2%}")
-#print(f"테스트 정확도: {result['test_accuracy']:.2%}")
+print(f"훈련 정확도: {result['train_accuracy']:.2%}")
+print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 
 def flatten(w,b):
     w_reshape=np.asarray(w).flatten()
@@ -230,10 +235,10 @@ print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 
 
 horizontal  = np.linspace(0, 1900, 20)
-#plt.plot(horizontal,result["cost_list"])
-#plt.xlabel("num_iterations")
-#plt.ylabel("cost_function")
-#plt.show()
+plt.plot(horizontal,result["cost_list"])
+plt.xlabel("num_iterations")
+plt.ylabel("cost_function")
+plt.show()
 
 print(result["cost_list"].shape)
 

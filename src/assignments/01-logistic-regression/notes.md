@@ -1,6 +1,32 @@
 # logistic regresssion
 
-## 수식 유도 
+## 1. 데이터 준비 
+
+### 1.1 각 라벨별 데이터 그림
+
+**라벨 0**
+
+![Alt text](../../../images/02-nerural/label_0.png)
+
+**라벨 1**
+
+![Alt text](../../../images/02-nerural/label_1.png)
+
+### 1.2 데이터셋 차원 
+
+**X_train**
+> X_train.shape:  (64, 288) X_train의 최솟값:  0.0  X_train_최대값:  1.0
+
+**Y_train**
+> Y_train의 값 종류:  [0 1]
+
+
+
+
+
+
+
+## 2. 수식 유도 
 
 **순전파**
 
