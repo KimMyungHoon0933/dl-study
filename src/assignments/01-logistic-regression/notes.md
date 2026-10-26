@@ -103,7 +103,6 @@ $$
 
 
 ## 3. 검증 결과
-<br>
 
 
 ### 3.1 sigmoid 오버플로우 경고
@@ -160,7 +159,7 @@ print("시그모이드 오버플로우 검증 "overflow_debug)
 > 시그모이드 오버플로우 검증:  [0.  0.5 1. ]
 
 <br>
-<br>
+
 
 ### 3.2 비용함수 안정성 문제
 
@@ -211,7 +210,7 @@ print("Inf 포함:", np.isinf(cost_debug).any())
 > Inf 포함: False
 
 <br>
-<br>
+
 
 
 ### 3.3 기울기 검증 상대 오차 
@@ -247,7 +246,7 @@ print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b
 > 무작위 값으로 초기화:  1.0031697790993992e-05
 
 <br>
-<br>
+
 
 ### 3.4 기울기 검증기 디버깅
 
@@ -261,14 +260,13 @@ print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b
 
 
 <br>
-<br>
+
 
 ### 3.5 비용함수 곡선
 
 
 ![Alt text](../../../images/02-neural/cost_function.png)
 
-<br>
 <br>
 
 ### 3.6 train / test 정확도 
