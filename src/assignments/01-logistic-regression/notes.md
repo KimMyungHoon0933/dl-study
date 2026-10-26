@@ -218,7 +218,7 @@ print("Inf 포함:", np.isinf(cost_debug).any())
 > NaN 포함: False
 > Inf 포함: False
 
-<br>
+
 <hr>
 
 
@@ -257,7 +257,7 @@ print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b
 
 > 무작위 값으로 초기화:  1.0031697790993992e-05
 
-<br>
+
 <hr>
 
 ### 3.4 기울기 검증기 디버깅
@@ -271,7 +271,7 @@ print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b
 | dw = XdZ.T * 2 | 0.32853597746537044 |
 
 
-<br>
+
 <hr>
 
 ### 3.5 비용함수 곡선
