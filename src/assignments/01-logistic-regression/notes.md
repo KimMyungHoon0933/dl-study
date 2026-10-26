@@ -156,6 +156,8 @@ print("시그모이드 오버플로우 검증 "overflow_debug)
 
 실행결과 
 
+<br>
+
 > 시그모이드 오버플로우 검증:  [0.  0.5 1. ]
 
 <br>
@@ -204,6 +206,9 @@ print("NaN 포함:", np.isnan(cost_debug).any())
 print("Inf 포함:", np.isinf(cost_debug).any())
 ```
 
+<br>
+
+
 실행 결과 
 > cost: 0.503204434039084
 > NaN 포함: False
@@ -224,6 +229,8 @@ w,b=initialize(X_train.shape[0])
 print("0으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
 ```
 
+<br>
+
 실행결과
 
 > 0으로 초기화:  1.0635658133919565e-09
@@ -240,6 +247,8 @@ b=np.random.rand()
 
 print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
 ```
+
+<br>
 
 실행결과
 
@@ -283,6 +292,8 @@ result = model(X_train, Y_train, X_test, Y_test)
 print(f"훈련 정확도: {result['train_accuracy']:.2%}")
 print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 ```
+
+<br>
 
 **실행결과**
 
