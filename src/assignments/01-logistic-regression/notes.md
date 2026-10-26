@@ -134,6 +134,8 @@ $$
 
 **결과**
 
+<br>
+
 코드 
 
 ```
@@ -154,6 +156,7 @@ overflow_debug=sigmoid(np.array([-1000, 0, 1000]))
 print("시그모이드 오버플로우 검증 "overflow_debug)
 ```
 
+<br>
 실행결과 
 
 <br>
@@ -189,7 +192,7 @@ print("시그모이드 오버플로우 검증 "overflow_debug)
 
 **결과**
 
-
+<br>
 
 코드 
 ```
@@ -277,7 +280,7 @@ print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b
 
 ![Alt text](../../../images/02-neural/cost_function.png)
 
-<br>
+
 
 ### 3.6 train / test 정확도 
 
@@ -301,6 +304,8 @@ print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 
 > 훈련 정확도: 100.00%
 > 테스트 정확도: 100.00%
+
+<br>
 
 ## 4. 추가 실험 1 
 
