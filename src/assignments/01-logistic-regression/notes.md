@@ -134,8 +134,10 @@ $$
 
 **결과**
 
-<br>
+
+
 코드 
+<br>
 
 ```
 def sigmoid(z):
@@ -189,9 +191,11 @@ print("시그모이드 오버플로우 검증 "overflow_debug)
 <br>
 
 **결과**
-<br>
+
 
 코드 
+<br>
+
 ```
 Y_debug = np.array([[0, 1]])
 
