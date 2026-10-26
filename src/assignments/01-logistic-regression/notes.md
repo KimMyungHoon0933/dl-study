@@ -339,15 +339,16 @@ print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 
 3번째 사진을 제외한 나머지 사진의 경우 획이 뭉쳐지거나 명확하지 않아 사람이 봐도 3인지 5인지 구분하기 어려웠다.<br>
 세 번째 사진은 전체적으로 3의 형태를 보이지만 획이 흐릿하다. 이러한 불명확한 형태가 모델의 오분류에 영향을 주었을 것으로 추측한다.
+<br> 
 
 ## 막혔던 것
 
 **증상**
 
 ```
- Z=w.T* X + b
+    Z=w.T* X + b
       ~~~^~~
-ValueError: operands could not be broadcast together with shapes (1,64) (64,2
+ValueError: operands could not be broadcast together with shapes (1,64) (64,288)
 
 ```
 <br>
