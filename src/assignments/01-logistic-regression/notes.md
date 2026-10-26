@@ -235,6 +235,7 @@ print("0으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
 
 > 0으로 초기화:  1.0635658133919565e-09
 
+<br>
 
 
 **무작위 값으로 초기화 시킨 w,b**
