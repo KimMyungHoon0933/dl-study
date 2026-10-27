@@ -109,20 +109,9 @@ print(grads["dw"],grads["db"],cost.shape)
 
 
             
-Y_debug = np.array([[0, 1]])
-A_debug = sigmoid(Y_debug)
-
-cost_debug = cost_function(
-        A_debug, Y_debug, Y_debug.shape[1]
-)
-
-print("A_debug:", A_debug)
-print("자료형:", A_debug.dtype)
-print("1 - A_debug:", 1 - A_debug)
 
 Y_debug = np.array([[0, 1]])
-
-A_debug = sigmoid(Y_debug)
+A_debug = np.array([[0.0, 1.0]])
 
 cost_debug = cost_function(
         A_debug, Y_debug, Y_debug.shape[1]

@@ -230,13 +230,12 @@ print("시그모이드 오버플로우 검증 "overflow_debug)
 
 ```
 Y_debug = np.array([[0, 1]])
-
-A_debug = sigmoid(Y_debug)
+A_debug = np.array([[0.0, 1.0]])
 
 cost_debug = cost_function(
-     A_debug, Y_debug, Y_debug.shape[1]
+        A_debug, Y_debug, Y_debug.shape[1]
 )
-               
+            
 print("cost:", cost_debug)
 print("NaN 포함:", np.isnan(cost_debug).any())
 print("Inf 포함:", np.isinf(cost_debug).any())
@@ -246,7 +245,7 @@ print("Inf 포함:", np.isinf(cost_debug).any())
 
 
 실행 결과 
-> cost: 0.503204434039084
+> cost: 5.000000297328273e-08
 > NaN 포함: False
 > Inf 포함: False
 
