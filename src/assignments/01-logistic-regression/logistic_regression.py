@@ -259,8 +259,8 @@ def gradient_checks_test(X,Y,w,b,debug=None):
 w,b=initialize(X_train.shape[0])
 print("0으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
 
-w=w = np.random.rand(64, 1)
-b=np.random.rand()
+w = np.random.randn(64, 1) * 0.01
+b = float(np.random.randn() * 0.01)
 
 print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
 

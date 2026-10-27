@@ -5,7 +5,39 @@
 NumPy를 사용하여 로지스틱 회귀의 순전파와 역전파를 직접 구현하고 검증하였다.<br>
 이를 통해 예측값으로부터 비용과 기울기를 계산하고, 가중치와 편향이 갱신되는 학습 과정 전반을 이해하였다.
 
-## 2. 수식 유도 
+## 2. 데이터셋 준비 
+
+**클래스 0 데이터셋**
+
+![Alt text](../../../images/02-neural/label_0.png)
+
+**클래스 1 데이터셋**
+
+![Alt text](../../../images/02-neural/label_1.png)
+
+
+**데이터셋 shape**
+
+코드
+<br>
+
+```
+values, counts = np.unique(Y_train, return_counts=True)
+print("X_train.shape: ",X_train.shape ,"X_train의 최솟값: ",X_train.min() , " X_train_최대값: ", X_train.max())
+print("Y_train의 값 종류: ",np.unique(Y_train))
+
+```
+<br>
+
+실행결과
+<br>
+
+> X_train.shape:  (64, 288) X_train의 최솟값:  0.0  X_train_최대값:  1.0
+> Y_train의 값 종류:  [0 1]
+
+<br>
+
+## 3. 수식 유도 
 
 **순전파**
 
@@ -102,10 +134,10 @@ db =\frac{1}{m}\sum _i ^m dZ \\
 $$
 
 
-## 3. 검증 결과
+## 4. 검증 결과
 
 
-### 3.1 sigmoid 오버플로우 경고
+### 4.1 sigmoid 오버플로우 경고
 
 **원인**
 
@@ -166,7 +198,7 @@ print("시그모이드 오버플로우 검증 "overflow_debug)
 
 <hr>
 
-### 3.2 비용함수 안정성 문제
+### 4.2 비용함수 안정성 문제
 
 
 **원인**
@@ -222,7 +254,7 @@ print("Inf 포함:", np.isinf(cost_debug).any())
 <hr>
 
 
-### 3.3 기울기 검증 상대 오차 
+### 4.3 기울기 검증 상대 오차 
 
 
 
@@ -246,8 +278,8 @@ print("0으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
 
 
 ```
-w=w = np.random.rand(64, 1)
-b=np.random.rand()
+w = np.random.randn(64, 1) * 0.01
+b = float(np.random.randn() * 0.01)
 
 print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b))
 ```
@@ -255,12 +287,12 @@ print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b
 
 실행결과
 
-> 무작위 값으로 초기화:  1.0031697790993992e-05
+> 무작위 값으로 초기화:  1.215045274031235e-09
 
 
 <hr>
 
-### 3.4 기울기 검증기 디버깅
+### 4.4 기울기 검증기 디버깅
 
 
 | **방법** | **상대오차** |
@@ -274,7 +306,7 @@ print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b
 
 <hr>
 
-### 3.5 비용함수 곡선
+### 4.5 비용함수 곡선
 
 
 ![Alt text](../../../images/02-neural/cost_function.png)
@@ -306,7 +338,7 @@ print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 
 <br>
 
-## 4. 추가 실험 1 
+## 5. 추가 실험 1 
 
 
 ![Alt text](../../../images/02-neural/learning_rate.png)
@@ -317,7 +349,7 @@ print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 학습률이 0.5일 때는 초기 구간에서 급격히 감소한 뒤 완만하게 감소한다.<br> 
 학습률이 5일 때는 가장 빠르게 감소한 뒤 이후 그래프상 비용 값의 변화가 거의 없는 현상을 가진다.
 
-## 5. 추가 실험 2
+## 6. 추가 실험 2
 
 
 | `문제` | `train 정확도` | `test 정확도` |
@@ -330,7 +362,7 @@ print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 0,1일 때는 train ,test 데이터셋 모두에서 100%의 정확도를 기록하였지만 라벨이 3,5으로 변경되면서 정확도가 내려갔다.
 
 
-## 6. 추가 실험 3
+## 7. 추가 실험 3
 
 
 ![Alt text](../../../images/02-neural/label_3_5.png)
