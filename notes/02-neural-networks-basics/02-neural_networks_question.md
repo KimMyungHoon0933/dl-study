@@ -20,7 +20,7 @@ dw는 각 가중치에 대응하는 비용의 편미분을 모은 벡터이다. 
 
 학습률 5에서  빠르게 감소하여 빠르게 수렵 하게 되어 비용함수 값의 감소폭이 현상을 가지게 된다. 좀 더 자세한 값의 변화를 확인하기 위해서 20 iteration 마다 측정한 결과를 확인 해본 결과 한 40 iteration에서 기울기가 수렵하는 것을 확인할 수 있었다. 
 
-![Alt text](../../../images/02-neural/learning_rate2.png)
+![Alt text](../../images/02-neural/learning_rate2.png)
 
 <br>
 
