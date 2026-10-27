@@ -100,6 +100,7 @@ def propagate(w,b,X,Y,m):
     "dw": dw,
     "db": db
     }
+    assert grads["dw"].shape == w.shape
     return grads,cost #grads["dw"].shape=(64,1) grads["db"].shape=(),cost.shape=()
 
 w,b= initialize(64)
@@ -135,6 +136,8 @@ def optimize(w, b, X, Y, num_iterations, learning_rate):
 
         #    error=grad_check(theta_cost_function,theta,analytic_grad)
         #    print(error)
+
+        
         
         w -= learning_rate * grads["dw"]
         b -= learning_rate * grads["db"]
@@ -164,6 +167,8 @@ def predict(w,b,X):
     Z=w.T@X+b
     A=sigmoid(Z)
     y_pred=(A >= 0.5).astype(int)
+
+
     return y_pred #y_pred.shpae(1,m)
 
 y_pred=predict(params["w"],params["b"],X_test)
@@ -182,8 +187,12 @@ def model(X_train, Y_train, X_test, Y_test, num_iterations=2000, learning_rate=0
     train_pred=predict(w,b,X_train)
     test_pred=predict(w,b,X_test)
 
+    assert train_pred.shape == Y_train.shape
+    assert test_pred.shape == Y_test.shape
+
     train_accuracy=np.mean(train_pred == Y_train)
     test_accuracy=np.mean(test_pred == Y_test)
+
 
     return {
         "w": w,
@@ -323,6 +332,9 @@ b = result_3_5["b"]
 
 y_train_pred_3_5=np.array(predict(w,b,X_train_3_5))
 y_test_pred_3_5=np.array(predict(w,b,X_test_3_5))
+
+assert y_train_pred_3_5.shape == Y_train_3_5.shape
+assert y_test_pred_3_5.shape == Y_test_3_5.shape
 
 print(y_train_pred_3_5.shape)
 

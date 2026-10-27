@@ -186,7 +186,7 @@ def sigmoid(z):
     return A #출력 A.shape=(1,m)
 
 overflow_debug=sigmoid(np.array([-1000, 0, 1000]))
-print("시그모이드 오버플로우 검증 "overflow_debug)
+print("시그모이드 오버플로우 검증 ", overflow_debug)
 ```
 
 실행결과 
@@ -245,7 +245,7 @@ print("Inf 포함:", np.isinf(cost_debug).any())
 
 
 실행 결과 
-> cost: 5.000000297328273e-08
+> cost: 5.000000297328273e-08 
 > NaN 포함: False
 > Inf 포함: False
 
@@ -297,9 +297,9 @@ print("무작위 값으로 초기화: ",gradient_checks_test(X_train,Y_train,w,b
 | **방법** | **상대오차** |
 | :---: | :---: |
 | 정상 | 1.0635658133919565e-09 |
-| $dw = - XdZ.T$ | 0.8158047700826827|
-| $db= + 1/m*dZ$ | 0.2361218188947964 |
-| $dw = - XdZ.T * 2$ | 0.32853597746537044 |
+| dw에서 1/m 제거 | 0.8158047700826827|
+| db의 부호 반전 | 0.2361218188947964 |
+| 정상 dw를 두 배 | 0.32853597746537044 |
 
 
 
