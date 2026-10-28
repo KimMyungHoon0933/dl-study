@@ -124,15 +124,12 @@ $$
 
 
 $$
-{\Large
-\begin{aligned}
-db =\frac{1}{m}\sum _i ^m dZ \\
-&\rule{0pt}{0.5em}\\
-{\Large db \in \mathbb{R}}
-\end{aligned}
-}
+    {\Large
+    \begin{aligned}
+    db &= \frac{1}{m}\sum_{i=1}^{m}dZ^{(i)} \in \mathbb{R}
+    \end{aligned}
+    }
 $$
-
 
 ## 4. 검증 결과
 
