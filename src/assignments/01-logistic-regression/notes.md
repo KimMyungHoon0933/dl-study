@@ -50,7 +50,7 @@ $$
 - Z
 
 $$
-{ \Large Z= w^TX +B; \quad w \in \mathbb{R}^{n\times 1}, B \in \mathbb{R^{1\times m}}}
+{ \Large Z= w^TX +b; \quad w \in \mathbb{R}^{n\times 1}, b \in \mathbb{R}}
 $$
 
 
