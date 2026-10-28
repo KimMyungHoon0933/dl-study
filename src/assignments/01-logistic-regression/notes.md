@@ -57,7 +57,7 @@ $$
 - A
 
 $$
-{\Large A =  \sigma(Z) ; \quad where \quad \sigma(z) = \frac{1}{1+e^-{z}}}
+{\Large A =  \sigma(Z) ; \quad where \quad \sigma(z) = \frac{1}{1+e^{-z}}}
 $$
 
 - J(W,B)
