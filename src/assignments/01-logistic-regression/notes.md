@@ -340,7 +340,7 @@ print(f"테스트 정확도: {result['test_accuracy']:.2%}")
 ## 5. 추가 실험 1 
 
 
-![Alt text](../../../images/02-neural/learning_rate_0005_005_05_5.png)
+![Alt text](../../../images/02-neural/learning_rate_0_005_0_05_0_5_5.png)
 
 **각 학습률별 양샹**
 
