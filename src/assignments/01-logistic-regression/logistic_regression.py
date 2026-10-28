@@ -38,7 +38,7 @@ fig ,axes = plt.subplots(1,5,figsize=(10,2))
 
 for i, ax in enumerate(axes):
     ax.imshow(data_label_0[i].reshape(8,8),cmap='gray')
-    ax.set_title("label 0")
+    ax.set_title("class 0")
     ax.axis("off")
 plt.tight_layout()
 plt.show()
@@ -47,7 +47,7 @@ fig ,axes = plt.subplots(1,5,figsize=(10,2))
 
 for i, ax in enumerate(axes):
     ax.imshow(data_label_1[i,].reshape(8,8),cmap='gray')
-    ax.set_title("label 1")
+    ax.set_title("class 1")
     ax.axis("off")
 plt.tight_layout()
 plt.show()
@@ -399,7 +399,7 @@ for i,ax in enumerate(axes[0]):
     elif(label[0,i]==1):
         label_true=5
     ax.set_title(
-            f"label={label_true}, p(label=5)={A.item():.3f}"
+            f"class={label_true}, p(label=5)={A.item():.3f}"
     )
     ax.axis("off")
 
