@@ -278,6 +278,11 @@ print(result["cost_list"].shape)
 
 
 #추가 실험 1
+
+
+
+horizontal  = np.linspace(0, 1900, 20)
+
 result_rate_5 = model(X_train, Y_train, X_test, Y_test,learning_rate=5)
 
 result_rate_05 = model(X_train, Y_train, X_test, Y_test,learning_rate=0.5)
@@ -292,12 +297,35 @@ plt.plot(horizontal, result_rate_005["cost_list"], label="lr=0.05")
 plt.plot(horizontal, result_rate_0005["cost_list"], label="lr=0.005")
 plt.xlabel("num_iterations")
 plt.ylabel("cost")
+plt.yscale("log")
 plt.title("Cost by learning rate")
 plt.legend()  # 각 곡선의 학습률 표시
 plt.grid(True)
 plt.tight_layout()
 plt.show()
 
+
+
+result_rate_5 = model(X_train, Y_train, X_test, Y_test,learning_rate=5)
+
+result_rate_10 = model(X_train, Y_train, X_test, Y_test,learning_rate=10)
+
+result_rate_15 = model(X_train, Y_train, X_test, Y_test,learning_rate=15)
+
+result_rate_20 = model(X_train, Y_train, X_test, Y_test,learning_rate=20)
+
+plt.plot(horizontal, result_rate_5["cost_list"], label="lr=5")
+plt.plot(horizontal, result_rate_10["cost_list"], label="lr=10")
+plt.plot(horizontal, result_rate_15["cost_list"], label="lr=15")
+plt.plot(horizontal, result_rate_20["cost_list"], label="lr=20")
+plt.xlabel("num_iterations")
+plt.ylabel("cost")
+plt.yscale("log")
+plt.title("Cost by learning rate")
+plt.legend()  # 각 곡선의 학습률 표시
+plt.grid(True)
+plt.tight_layout()
+plt.show()
 
 
 #추가 실험 2,3
@@ -378,3 +406,23 @@ for i,ax in enumerate(axes[0]):
 plt.tight_layout()
 plt.show()
 
+result_rate_0_005 = model(X_train_3_5, Y_train_3_5, X_test_3_5, Y_test_3_5,learning_rate=0.005)
+
+result_rate_0_05 = model(X_train_3_5, Y_train_3_5, X_test_3_5, Y_test_3_5,learning_rate=0.05)
+
+result_rate_0_5 = model(X_train_3_5, Y_train_3_5, X_test_3_5, Y_test_3_5,learning_rate=0.5)
+
+result_rate_5 = model(X_train_3_5, Y_train_3_5, X_test_3_5, Y_test_3_5,learning_rate=5)
+
+plt.plot(horizontal, result_rate_0_005["cost_list"], label="lr=0.005")
+plt.plot(horizontal, result_rate_0_05["cost_list"], label="lr=0.05")
+plt.plot(horizontal, result_rate_0_5["cost_list"], label="lr=0.5")
+plt.plot(horizontal, result_rate_5["cost_list"], label="lr=5")
+plt.xlabel("num_iterations")
+plt.ylabel("cost")
+plt.yscale("log")
+plt.title("Cost by learning rate")
+plt.legend()  # 각 곡선의 학습률 표시
+plt.grid(True)
+plt.tight_layout()
+plt.show()
