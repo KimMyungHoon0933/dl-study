@@ -40,6 +40,7 @@ W^{[l]}=
 & \vdots & \\
 — & (w_{n^{[l]}}^{[l]})^T & —
 \end{bmatrix}
+```
 
 
 ```math
