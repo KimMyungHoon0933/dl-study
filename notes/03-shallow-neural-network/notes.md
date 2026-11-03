@@ -32,7 +32,6 @@ x^{(1)} & x^{(2)} & \cdots & x^{(m)}\\
 편향 b는 현재 층의 노드 수 만큼 존재한다.
 
 ```math
-
 W^{[l]}=
 \begin{bmatrix}
 — & (w_1^{[l]})^T & — \\
@@ -40,11 +39,14 @@ W^{[l]}=
 & \vdots & \\
 — & (w_{n^{[l]}}^{[l]})^T & —
 \end{bmatrix}
-```
-
-
-```math
-b=[b_1^{[1]} b_2^{[1]} \dots b_m^{[1]}]
+\qquad
+b^{[l]}=
+\begin{bmatrix}
+b_1^{[l]} \\
+b_2^{[l]} \\
+\vdots \\
+b_{n^{[l]}}^{[l]}
+\end{bmatrix}
 ```
 
 
