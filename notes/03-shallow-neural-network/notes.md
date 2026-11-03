@@ -24,28 +24,28 @@ $$
 {\Large W^{[l]} \in \mathbb{R}^{n^{[l]} \times n^{[l-1]}}}
 $$
 
-Z와 A의 경우 데이터를 딸라 수평으로 쌓아져 다음과 같이 표현된다.
+Z와 A의 경우 가로 방향은 노드를 의미하며 세로 방향은 데이터를 의미하게 된다.
 
 ```math
-{\Large
+
 Z^{[1]} =
 \begin{bmatrix}
 | & | & & | \\
 z^{[1](1)} & z^{[1](2)} & \cdots & z^{[1](m)} \\
 | & | & & |
 \end{bmatrix}
-}
+
 ```
 
 ```math
-{\Large
+
 A^{[1]} =
 \begin{bmatrix}
 | & | & & | \\
 a^{[1](1)} & a^{[1](2)} & \cdots & a^{[1](m)} \\
 | & | & & |
 \end{bmatrix}
-}
+
 ```
 
 
