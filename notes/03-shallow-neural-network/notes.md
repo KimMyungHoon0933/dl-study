@@ -14,14 +14,18 @@
 데이터 X,Y는 수평으로 쌓아 다음과 같은 차원을 가진다. 이때 x의 차원은 n이라고 가정한다.
 
 $$
- X \in \mathbb{R^{n\times m}} Y \in \mathbb{R^{1\times m}}
+X \in \mathbb{R}^{n \times m}, \qquad Y \in \mathbb{R}^{1 \times m}
 $$
 
 여기서 파라미터 $W$ 의 차원은  현재 층의 노드 수 X 이전 층의 노드 수이다.
+
+$$
+W^{[l]} \in \mathbb{R}^{n^{[l]} \times n^{[l-1]}}
+$$
+
 Z와 A의 경우 데이터를 딸라 수평으로 쌓아져 다음과 같이 표현된다.
 
 $$
-
 \begin{aligned}
 Z^{[1]} &=
 \begin{bmatrix}
