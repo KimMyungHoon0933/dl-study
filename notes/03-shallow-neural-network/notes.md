@@ -57,7 +57,7 @@ z^{[1](1)} & z^{[1](2)} & \cdots & z^{[1](m)}\\
 | & | & & |
 \end{bmatrix}
 \\
-
+, \quad
 A^{[1]}=
 \begin{bmatrix}
 | & | & & |\\
