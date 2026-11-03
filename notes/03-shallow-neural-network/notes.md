@@ -26,21 +26,11 @@ $$
 Z와 A의 경우 데이터를 딸라 수평으로 쌓아져 다음과 같이 표현된다.
 
 $$
-\begin{aligned}
-Z^{[1]} &=
-\begin{bmatrix}
-| & | & & | \\
-z^{[1](1)} & z^{[1](2)} & \cdots & z^{[1](m)} \\
-| & | & & |
-\end{bmatrix}
-\\[1em]
-A^{[1]} &=
-\begin{bmatrix}
-| & | & & | \\
-a^{[1](1)} & a^{[1](2)} & \cdots & a^{[1](m)} \\
-| & | & & |
-\end{bmatrix}
-\end{aligned}
+Z^{[1]} = \begin{bmatrix} z^{[1](1)} & z^{[1](2)} & \cdots & z^{[1](m)} \end{bmatrix}
+$$
+
+$$
+A^{[1]} = \begin{bmatrix} a^{[1](1)} & a^{[1](2)} & \cdots & a^{[1](m)} \end{bmatrix}
 $$
 
 
