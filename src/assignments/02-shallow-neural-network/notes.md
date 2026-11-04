@@ -38,9 +38,9 @@
 - $dZ^{[2]}$
 
 ```math
-
+\begin{aligned}
 dZ^{[2]}=A^{[2]} -Y
-
+\end{aligned}
 ```
 
 - $dW^{[2]} ,\quad db^{[2]}$
@@ -90,10 +90,10 @@ g^{[1]\prime}(z^{[1]})
 - $dW^{[1]} ,\quad db^{[1]}$
 
 ```math
-
+\begin{aligned}
 dW^{[1]}=dz^{[1]}x^T
 \\
 db^{[1]}=dz^{[1]}
-
+\end{aligned}
 ```
 
