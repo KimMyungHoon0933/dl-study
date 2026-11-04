@@ -34,3 +34,66 @@
 ```
 
 **역전파**
+
+- $dZ^{[2]}$
+
+```math
+
+dZ^{[2]}=A^{[2]} -Y
+
+```
+
+- $dW^{[2]} ,\quad db^{[2]}$
+
+```math
+dW^{[2]}=\frac{1}{m}dZ^{[2]}A^{[1]T}\\
+db^{[2]}= \frac{1}{m} \sum _i ^m dZ^{[2]}
+```
+
+- $dZ^{[1]}$
+
+```math
+
+dZ^{[1]}=\frac{\partial\mathcal L}{\partial z^{[1]}}
+=
+
+\frac{\partial\mathcal L}{\partial z^{[2]}}
+\frac{\partial z^{[2]}}{\partial a^{[1]}}
+\frac{\partial a^{[1]}}{\partial z^{[1]}}
+
+```
+
+```math
+
+
+
+\frac{\partial\mathcal L}{\partial z^{[2]}}
+=dz^{[2]} ,\quad 
+
+\frac{\partial z^{[2]}}{\partial a^{[1]}}
+= g^{[1]\prime}(z^{[1]}) ,\quad 
+\frac{\partial a^{[1]}}{\partial z^{[1]}}
+=W^{[2]}
+
+```
+
+```math
+
+dz^{[1]}
+=
+\left((W^{[2]})^Tdz^{[2]}\right)
+*
+g^{[1]\prime}(z^{[1]})
+
+```
+
+- $dW^{[1]} ,\quad db^{[1]}$
+
+```math
+
+dW^{[1]}=dz^{[1]}x^T
+\\
+db^{[1]}=dz^{[1]}
+
+```
+
