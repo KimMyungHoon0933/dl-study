@@ -97,7 +97,7 @@ dz^{[1]}
 
 ```math
 \begin{aligned}
-dW^{[1]}=dz^{[1]}x^T
+dW^{[1]}=dz^{[1]}X^T
 \\
 db^{[1]}=dz^{[1]}
 \end{aligned}
