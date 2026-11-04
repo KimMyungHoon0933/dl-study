@@ -9,8 +9,12 @@
 - $\log \hat y   $
 
 ```math
-\log\hat y =z-\log(1+e^z)
+\begin{aligned}
+\log\hat y
 
+&=\log e^z-\log(1+e^z)\
+&=z-\log(1+e^z)
+\end{aligned}
 ```
 
 - $\log 1- \hat y$ 
@@ -73,7 +77,7 @@ dZ^{[1]}=\frac{\partial\mathcal L}{\partial z^{[1]}}
 =dz^{[2]} ,\quad 
 
 \frac{\partial z^{[2]}}{\partial a^{[1]}}
-= g^{[1]\prime}(z^{[1]}) ,\quad 
+= 1-a^2 ,\quad 
 \frac{\partial a^{[1]}}{\partial z^{[1]}}
 =W^{[2]}
 
