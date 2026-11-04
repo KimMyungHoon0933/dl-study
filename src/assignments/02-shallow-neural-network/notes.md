@@ -77,9 +77,9 @@ dZ^{[1]}=\frac{\partial\mathcal L}{\partial Z^{[1]}}
 =dZ^{[2]} ,\quad 
 
 \frac{\partial Z^{[2]}}{\partial A^{[1]}}
-= 1-(A^{[1]})^2 ,\quad 
+= W^{[2]} ,\quad 
 \frac{\partial A^{[1]}}{\partial Z^{[1]}}
-=W^{[2]}
+=1-(A^{[1]})^2
 
 ```
 
@@ -97,9 +97,9 @@ dZ^{[1]}
 
 ```math
 \begin{aligned}
-dW^{[1]}=dZ^{[1]}X^T
+dW^{[1]}=\frac{1}{m}dZ^{[1]}X^T
 \\
-db^{[1]}=dZ^{[1]}
+db^{[1]}=\frac{1}{m}dZ^{[1]}
 \end{aligned}
 ```
 
