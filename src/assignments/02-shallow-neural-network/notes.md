@@ -38,16 +38,18 @@
 - $dZ^{[2]}$
 
 ```math
-\begin{aligned}
+
 dZ^{[2]}=A^{[2]} -Y
-\end{aligned}
+
 ```
 
 - $dW^{[2]} ,\quad db^{[2]}$
 
 ```math
+\begin{aligned}
 dW^{[2]}=\frac{1}{m}dZ^{[2]}A^{[1]T}\\
 db^{[2]}= \frac{1}{m} \sum _i ^m dZ^{[2]}
+\end{aligned}
 ```
 
 - $dZ^{[1]}$
