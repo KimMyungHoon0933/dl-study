@@ -60,12 +60,12 @@ db^{[2]}= \frac{1}{m} \sum _i ^m dZ^{[2]}
 
 ```math
 
-dZ^{[1]}=\frac{\partial\mathcal L}{\partial z^{[1]}}
+dZ^{[1]}=\frac{\partial\mathcal L}{\partial Z^{[1]}}
 =
 
-\frac{\partial\mathcal L}{\partial z^{[2]}}
-\frac{\partial z^{[2]}}{\partial a^{[1]}}
-\frac{\partial a^{[1]}}{\partial z^{[1]}}
+\frac{\partial\mathcal L}{\partial Z^{[2]}}
+\frac{\partial Z^{[2]}}{\partial A^{[1]}}
+\frac{\partial A^{[1]}}{\partial Z^{[1]}}
 
 ```
 
@@ -73,12 +73,12 @@ dZ^{[1]}=\frac{\partial\mathcal L}{\partial z^{[1]}}
 
 
 
-\frac{\partial\mathcal L}{\partial z^{[2]}}
-=dz^{[2]} ,\quad 
+\frac{\partial\mathcal L}{\partial Z^{[2]}}
+=dZ^{[2]} ,\quad 
 
-\frac{\partial z^{[2]}}{\partial a^{[1]}}
+\frac{\partial Z^{[2]}}{\partial A^{[1]}}
 = 1-(A^{[1]})^2 ,\quad 
-\frac{\partial a^{[1]}}{\partial z^{[1]}}
+\frac{\partial A^{[1]}}{\partial Z^{[1]}}
 =W^{[2]}
 
 ```
