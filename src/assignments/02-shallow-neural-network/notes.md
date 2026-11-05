@@ -146,7 +146,33 @@ print("n_h=50 기울기 오차: ", error_nh_50)
 
 ![Alt text](../../../images/03-shallow_nn/정확도_곡선.png)
 
+<hr>
 
 ### 3.3 결정 경계
 
+![Alt text](../../../images/03-shallow_nn/얇은_신경망_결정경계.png)
+
+
+## 4. 로지스틱 회귀의 실패 
+
+**시험 정확도**
+
+코드 
+
+```
+predict_test=predict_fn(X_test)
+test_accuracy=np.mean(predict_test == Y_test)
+print("시험 정확도: ",test_accuracy)
+```
+
+결과 
+> 시험 정확도:  0.862
+
+
+**로지스틱 회귀 결정 경계**
+
 ![Alt text](../../../images/03-shallow_nn/결정%20그림.png)
+
+
+## 5. 실험 1
+

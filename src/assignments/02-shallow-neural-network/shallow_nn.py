@@ -325,8 +325,16 @@ def main():
 
         return logistic_predict(params["w"], params["b"], X_grid)
 
-#    plot_decision_boundary(predict_fn, X_train, Y_train)
-    #plt.show()
+    predict_train=predict_fn(X_train)
+    train_accuracy=np.mean(predict_train == Y_train)
+    print("훈련 정확도: ",train_accuracy)
+    
+    predict_test=predict_fn(X_test)
+    test_accuracy=np.mean(predict_test == Y_test)
+    print("시험 정확도: ",test_accuracy)
+
+    plot_decision_boundary(predict_fn, X_train, Y_train)
+    plt.show()
 
     #initialize_parameters test
     parameters=initialize_parameters(X_train.shape[0],3,1)
