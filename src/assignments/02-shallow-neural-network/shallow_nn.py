@@ -209,11 +209,11 @@ def cost_function_plot(history,parameters):
 
     plt.title(f"n_h={n_h}")
     plt.xlabel("num_iterations")
-    plt.ylabel("cost_function")
+    plt.ylabel("cost")
     plt.yscale("log")
     plt.legend()
 
-    plt.show()
+
 
 def accuracy_plot(history,parameters):
     n_h=parameters["W1"].shape[0]
@@ -226,7 +226,7 @@ def accuracy_plot(history,parameters):
     plt.ylabel("accuracy")
     plt.legend()
 
-    plt.show()
+
 
 
 
@@ -333,8 +333,8 @@ def main():
     test_accuracy=np.mean(predict_test == Y_test)
     print("시험 정확도: ",test_accuracy)
 
-    plot_decision_boundary(predict_fn, X_train, Y_train)
-    plt.show()
+##    plot_decision_boundary(predict_fn, X_train, Y_train)
+#    plt.show()
 
     #initialize_parameters test
     parameters=initialize_parameters(X_train.shape[0],3,1)
@@ -366,21 +366,25 @@ def main():
     parameters,history=nn_model(X_train,Y_train,4,20000,0.2,X_test,Y_test)
 
 
-    cost_function_plot(history,parameters)
+#    cost_function_plot(history,parameters)
+#    plt.show()
 
-    accuracy_plot(history,parameters)
+#    accuracy_plot(history,parameters)
+#    plt.show()
+
 
     def predict_fn(X_grid):
         return predict(parameters, X_grid)
 
-    plot_decision_boundary(predict_fn, X_train, Y_train, title="Neural Network")
-    plt.show()
+#    plot_decision_boundary(predict_fn, X_train, Y_train, title="Neural Network")
+#    plt.show()
 
     #grad_check test
     parameters=initialize_parameters(X_train.shape[0],4,Y_train.shape[0])
     error_nh_4=gradient_checks_test(X_train,Y_train,parameters)
 
-    accuracy_plot(history,parameters)
+#    accuracy_plot(history,parameters)
+#    plt.show()
 
     print("n_h=4 기울기 오차: ", error_nh_4)
 
@@ -389,16 +393,105 @@ def main():
 
     print("n_h=50 기울기 오차: ", error_nh_50)
 
+
     #experiment 1
-    parameters_h_1,history_h_1=nn_model(X_train,Y_train,1,20000,0.2,X_test,Y_test)
-    parameters_h_4,history_h_4=nn_model(X_train,Y_train,4,20000,0.2,X_test,Y_test)
-    parameters_h_50,history_h_50=nn_model(X_train,Y_train,50,20000,0.2,X_test,Y_test)
+    parameters_A_1,history_A_1=nn_model(X_train,Y_train,1,20000,0.2,X_test,Y_test)
+    parameters_A_2,history_A_2=nn_model(X_train,Y_train,4,20000,0.2,X_test,Y_test)
+    parameters_A_3,history_A_3=nn_model(X_train,Y_train,50,20000,0.2,X_test,Y_test)
     
     X_small, Y_small = make_data(40,   0.3, 7)
     X_test3, Y_test3 = make_data(1000, 0.3, 99)
-    parameters_h_50_small,history_h_50_small=nn_model(X_small,Y_small,50,20000,0.2,X_test3,Y_test3)
+    parameters_A_4,history_A_4=nn_model(X_small,Y_small,50,20000,0.2,X_test3,Y_test3)
 
-    
+    titles = ["A-1", "A-2", "A-3", "A-4"]
+    params = [parameters_A_1, parameters_A_2, parameters_A_3, parameters_A_4]
+    histories = [history_A_1, history_A_2, history_A_3, history_A_4]
+    Xs = [X_train, X_train, X_train, X_small]
+    Ys = [Y_train, Y_train, Y_train, Y_small]
+
+    experiment_a=True
+
+    if (experiment_a):
+        fig, axes = plt.subplots(1, 4, figsize=(12, 3))
+
+        for i in range(4):
+            plt.sca(axes[i])
+
+            def predict_fn(X_grid):
+                return predict(params[i], X_grid)
+
+            plot_decision_boundary(predict_fn, Xs[i], Ys[i], titles[i])
+
+        plt.tight_layout()
+        plt.show()
+
+
+        fig, axes = plt.subplots(1, 4, figsize=(12, 3))
+
+        for i in range(4):
+            plt.sca(axes[i])
+            cost_function_plot(histories[i], params[i])
+            plt.title(titles[i])
+
+        plt.tight_layout()
+        plt.show()
+
+    train_accuracy = [
+        history_A_1["train_accuracy"][-1],
+        history_A_2["train_accuracy"][-1],
+        history_A_3["train_accuracy"][-1],
+        history_A_4["train_accuracy"][-1]
+    ]
+
+    test_accuracy = [
+        history_A_1["test_accuracy"][-1],
+        history_A_2["test_accuracy"][-1],
+        history_A_3["test_accuracy"][-1],
+        history_A_4["test_accuracy"][-1]
+    ]
+
+    train_cost = [
+        history_A_1["cost_list"][-1],
+        history_A_2["cost_list"][-1],
+        history_A_3["cost_list"][-1],
+        history_A_4["cost_list"][-1]
+    ]
+
+    test_cost = [
+        history_A_1["test_cost_list"][-1],
+        history_A_2["test_cost_list"][-1],
+        history_A_3["test_cost_list"][-1],
+        history_A_4["test_cost_list"][-1]
+    ]
+
+    min_test_cost = [
+        np.min(history_A_1["test_cost_list"]),
+        np.min(history_A_2["test_cost_list"]),
+        np.min(history_A_3["test_cost_list"]),
+        np.min(history_A_4["test_cost_list"])
+    ]
+
+    min_iteration = [
+        np.argmin(history_A_1["test_cost_list"]) + 1,
+        np.argmin(history_A_2["test_cost_list"]) + 1,
+        np.argmin(history_A_3["test_cost_list"]) + 1,
+        np.argmin(history_A_4["test_cost_list"]) + 1
+    ]
+
+    increase = [
+        test_cost[0] - min_test_cost[0],
+        test_cost[1] - min_test_cost[1],
+        test_cost[2] - min_test_cost[2],
+        test_cost[3] - min_test_cost[3]
+    ]
+
+    print("학습 정확도:", "A-1:", train_accuracy[0], "A-2:", train_accuracy[1], "A-3:", train_accuracy[2], "A-4:", train_accuracy[3])
+    print("시험 정확도:", "A-1:", test_accuracy[0], "A-2:", test_accuracy[1], "A-3:", test_accuracy[2], "A-4:", test_accuracy[3])
+    print("최종 학습 비용:", "A-1:", train_cost[0], "A-2:", train_cost[1], "A-3:", train_cost[2], "A-4:", train_cost[3])
+    print("최종 시험 비용:", "A-1:", test_cost[0], "A-2:", test_cost[1], "A-3:", test_cost[2], "A-4:", test_cost[3])
+    print("최소 시험 비용:", "A-1:", min_test_cost[0], "A-2:", min_test_cost[1], "A-3:", min_test_cost[2], "A-4:", min_test_cost[3])
+    print("최소 비용 반복:", "A-1:", min_iteration[0], "A-2:", min_iteration[1], "A-3:", min_iteration[2], "A-4:", min_iteration[3])
+    print("상승폭:", "A-1:", increase[0], "A-2:", increase[1], "A-3:", increase[2], "A-4:", increase[3])
 
 if __name__ == "__main__":
     main()
