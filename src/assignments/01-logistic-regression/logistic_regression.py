@@ -136,12 +136,6 @@ def flatten(w,b):
     return theta
 
 
-    
-     
-
-
-    return J #j.shape=()
-
 
 def gradient_checks_test(X,Y,w,b,debug=None):
     from utils.grad_check import grad_check

@@ -2,6 +2,9 @@
 
 ## 1. 구현 요약 
 
+곡선 함수를 구현하는 데이터셋을 기반으로 얇은 신경망과 로지스틱 회귀의 성능차이를 검증하며 
+이전 과제에서의 손실함수 값을 다시 검증하였다. 
+
 ## 2. 수식 유도 
 
 **손실 함수**
@@ -103,3 +106,47 @@ db^{[1]}=\frac{1}{m}dZ^{[1]}
 \end{aligned}
 ```
 
+
+## 3. 구현 검증 결과
+
+### 3.1 기울기 검증 상대 오차
+
+**nh=4**
+
+코드 
+
+```
+parameters=initialize_parameters(X_train.shape[0],4,Y_train.shape[0])
+error_nh_4=gradient_checks_test(X_train,Y_train,parameters)
+
+print("n_h=4 기울기 오차: ", error_nh_4)
+```
+
+
+결과
+> n_h=4 기울기 오차:  4.555480444964085e-11
+
+**nh=50**
+
+코드 
+
+```
+parameters=initialize_parameters(X_train.shape[0],50,Y_train.shape[0])
+error_nh_50=gradient_checks_test(X_train,Y_train,parameters)
+
+print("n_h=50 기울기 오차: ", error_nh_50)
+```
+
+결과
+> n_h=50 기울기 오차:  2.985529073064345e-11
+
+<hr>
+
+### 3.2 n_h=4 시험 정확도
+
+![Alt text](../../../images/03-shallow_nn/정확도_곡선.png)
+
+
+### 3.3 결정 경계
+
+![Alt text](../../../images/03-shallow_nn/결정%20그림.png)

@@ -46,9 +46,9 @@ def predict_fn(X_grid):
 
 # 파라미터 초기화
 def initialize_parameters(n_x, n_h, n_y):
-    W1=np.random.randn(n_h, n_x)*0.01
+    W1=np.random.randn(n_h, n_x)*0.5
     b1=np.zeros((n_h,1))
-    W2=np.random.randn(n_y, n_h)*0.01
+    W2=np.random.randn(n_y, n_h)*0.5
     b2=np.zeros((n_y,1))
 
     parameters={
@@ -165,9 +165,9 @@ def nn_model(X, Y, n_h, num_iterations, learning_rate, X_test, Y_test):
         "cost_list": [],
         "test_cost_list": [],
         "grads_list": [],
-        "accuracy_iterations": [],
         "train_accuracy": [],
         "test_accuracy": [],
+        "accuracy_iterations":[]
     }
 
     for i in range(num_iterations):
@@ -187,15 +187,106 @@ def nn_model(X, Y, n_h, num_iterations, learning_rate, X_test, Y_test):
         history["grads_list"].append(grads)
         
         #정확도 계산
-        predict_train = predict(parameters, X)
-        predict_test = predict(parameters, X_test)
+        if((i+1)%100==0):
+            predict_train = predict(parameters, X)
+            predict_test = predict(parameters, X_test)
 
-        history["accuracy_iterations"].append(i + 1)
-        history["train_accuracy"].append(np.mean(predict_train == Y))
-        history["test_accuracy"].append(np.mean(predict_test == Y_test))
+            history["accuracy_iterations"].append(i + 1)
+            history["train_accuracy"].append(np.mean(predict_train == Y))
+            history["test_accuracy"].append(np.mean(predict_test == Y_test))
 
 
     return parameters,history
+
+
+#비용 함수
+
+def cost_function_plot(history,parameters):
+    n_h=parameters["W1"].shape[0]
+    horizontal = np.arange(1, len(history["cost_list"]) + 1)
+    plt.plot(horizontal, history["cost_list"], label="train")
+    plt.plot(horizontal, history["test_cost_list"], label="test")
+
+    plt.title(f"n_h={n_h}")
+    plt.xlabel("num_iterations")
+    plt.ylabel("cost_function")
+    plt.yscale("log")
+    plt.legend()
+
+    plt.show()
+
+def accuracy_plot(history,parameters):
+    n_h=parameters["W1"].shape[0]
+
+    plt.plot(history["accuracy_iterations"], history["train_accuracy"], label="train")
+    plt.plot(history["accuracy_iterations"], history["test_accuracy"], label="test")
+
+    plt.title(f"n_h={n_h}")
+    plt.xlabel("num_iterations")
+    plt.ylabel("accuracy")
+    plt.legend()
+
+    plt.show()
+
+
+
+# 기울기 검증
+def flatten_parame(parameters):
+    W1_reshape=np.asarray(parameters["W1"]).flatten()
+    W2_reshape=np.asarray(parameters["W2"]).flatten()
+    b1_reshape=np.asarray(parameters["b1"]).flatten()
+    b2_reshape=np.asarray(parameters["b2"]).flatten()
+    theta=np.concat([W1_reshape,b1_reshape,W2_reshape,b2_reshape])
+
+    return theta
+
+def flatten_grads(grads):
+    W1_reshape=np.asarray(grads["dW1"]).flatten()
+    W2_reshape=np.asarray(grads["dW2"]).flatten()
+    b1_reshape=np.asarray(grads["db1"]).flatten()
+    b2_reshape=np.asarray(grads["db2"]).flatten()
+    theta=np.concat([W1_reshape,b1_reshape,W2_reshape,b2_reshape])
+
+    return theta
+
+def gradient_checks_test(X,Y,parameters,debug=None):
+    from utils.grad_check import grad_check
+    X_check = X[:, :10]
+    Y_check = Y[:, :10]
+    
+    _, cache = forward_propagation(X_check,parameters)
+    cost =compute_cost(cache["Z2"],Y_check)
+    grads=backward_propagation(parameters, cache, X_check, Y_check)
+
+
+    if debug == "no_average":
+        dw = dw * X_check.shape[1]    # /m을 빠뜨린 것과 동일
+    elif debug == "+db":
+        db = -db          # db 부호 반전
+    elif debug == "double_dw":
+        dw = dw * 2       # 정상 dw의 두 배
+
+    analytic_grad = flatten_grads(grads)
+
+    def theta_cost_function(theta):
+        restored_parameters = {}
+        start = 0
+
+        for name in ("W1", "b1", "W2", "b2"):
+            size = parameters[name].size
+            shape = parameters[name].shape
+
+            restored_parameters[name] = theta[start:start + size].reshape(shape)
+            start += size
+
+        _, cache = forward_propagation(X_check, restored_parameters)
+        return compute_cost(cache["Z2"], Y_check)
+            
+
+    theta=flatten_parame(parameters)
+    error=grad_check(theta_cost_function,theta,analytic_grad,epsilon=1e-5)
+
+    return error
 
 
 
@@ -211,15 +302,15 @@ def main():
     print(X_train.shape,X_test.shape)
 
     #데이터 시각화 x_train
-    plt.scatter(X_train[0], X_train[1], c=Y_train.ravel(), cmap="coolwarm", s=15)
-    plt.title("train")
-    plt.tight_layout()
+#    plt.scatter(X_train[0], X_train[1], c=Y_train.ravel(), cmap="coolwarm", s=15)
+#    plt.title("train")
+#    plt.tight_layout()
 #    plt.show()
 
     #데이터 시각화 x_test
-    plt.scatter(X_test[0], X_test[1], c=Y_test.ravel(), cmap="coolwarm", s=15)
+#    plt.scatter(X_test[0], X_test[1], c=Y_test.ravel(), cmap="coolwarm", s=15)
 #    plt.title("test")
-    plt.tight_layout()
+#    plt.tight_layout()
 #    plt.show()
 
     # 로지스틱 회귀 test
@@ -234,7 +325,7 @@ def main():
 
         return logistic_predict(params["w"], params["b"], X_grid)
 
-    plot_decision_boundary(predict_fn, X_train, Y_train)
+#    plot_decision_boundary(predict_fn, X_train, Y_train)
     #plt.show()
 
     #initialize_parameters test
@@ -264,7 +355,42 @@ def main():
     print(acc.shape)
 
     #nn_model test
-    parameters,history=nn_model(X_train,Y_train,3,100,0.01,X_test,Y_test)
+    parameters,history=nn_model(X_train,Y_train,4,20000,0.2,X_test,Y_test)
+
+
+    cost_function_plot(history,parameters)
+
+    accuracy_plot(history,parameters)
+
+    def predict_fn(X_grid):
+        return predict(parameters, X_grid)
+
+    plot_decision_boundary(predict_fn, X_train, Y_train, title="Neural Network")
+    plt.show()
+
+    #grad_check test
+    parameters=initialize_parameters(X_train.shape[0],4,Y_train.shape[0])
+    error_nh_4=gradient_checks_test(X_train,Y_train,parameters)
+
+    accuracy_plot(history,parameters)
+
+    print("n_h=4 기울기 오차: ", error_nh_4)
+
+    parameters=initialize_parameters(X_train.shape[0],50,Y_train.shape[0])
+    error_nh_50=gradient_checks_test(X_train,Y_train,parameters)
+
+    print("n_h=50 기울기 오차: ", error_nh_50)
+
+    #experiment 1
+    parameters_h_1,history_h_1=nn_model(X_train,Y_train,1,20000,0.2,X_test,Y_test)
+    parameters_h_4,history_h_4=nn_model(X_train,Y_train,4,20000,0.2,X_test,Y_test)
+    parameters_h_50,history_h_50=nn_model(X_train,Y_train,50,20000,0.2,X_test,Y_test)
+    
+    X_small, Y_small = make_data(40,   0.3, 7)
+    X_test3, Y_test3 = make_data(1000, 0.3, 99)
+    parameters_h_50_small,history_h_50_small=nn_model(X_small,Y_small,50,20000,0.2,X_test3,Y_test3)
+
+    
 
 if __name__ == "__main__":
     main()
