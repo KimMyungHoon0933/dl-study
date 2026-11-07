@@ -10,6 +10,7 @@ sys.path.insert(
     r"../01-logistic-regression"
 )
 from logistic_regression import initialize, optimize, predict as logistic_predict   
+from logistic_regression import propagate as logistic_propagate
 
 # 데이터 불러오기
 def make_data(n, noise, seed):
@@ -158,9 +159,15 @@ def predict(parameters, X):
 
 
 #최종 모델 함수
-def nn_model(X, Y, n_h, num_iterations, learning_rate, X_test, Y_test):
+def nn_model(X, Y, n_h, num_iterations, learning_rate, X_test, Y_test,initializer=None,hidden_activate=None):
+
+    if initializer is None:
+        initializer = initialize_parameters
     
-    parameters=initialize_parameters(X.shape[0],n_h,Y.shape[0])
+    if hidden_activate is None:
+        hidden_activate = tanh
+
+    parameters=initializer(X.shape[0],n_h,Y.shape[0])
     history = {
         "cost_list": [],
         "test_cost_list": [],
@@ -288,7 +295,95 @@ def gradient_checks_test(X,Y,parameters,debug=None):
 
     return error
 
+def forward_propagation_C(X, parameters):
+    W1 = parameters["W1"]
+    W2 = parameters["W2"]
+    b1 = parameters["b1"]
+    b2 = parameters["b2"]
 
+    Z1 = W1 @ X + b1
+    A1 = Z1
+    Z2 = W2 @ A1 + b2
+    A2 = sigmoid(Z2)
+
+    cache = {
+        "Z1": Z1,
+        "A1": A1,
+        "Z2": Z2,
+        "A2": A2
+    }
+    return A2, cache
+
+
+def backward_propagation_C(parameters, cache, X, Y):
+    m = X.shape[1]
+
+    dZ2 = cache["A2"] - Y
+    dW2 = (dZ2 @ cache["A1"].T) / m
+    db2 = np.sum(dZ2, axis=1, keepdims=True) / m
+
+    dZ1 = parameters["W2"].T @ dZ2
+    dW1 = (dZ1 @ X.T) / m
+    db1 = np.sum(dZ1, axis=1, keepdims=True) / m
+
+    grads = {
+        "dZ2": dZ2,
+        "dW2": dW2,
+        "db2": db2,
+        "dZ1": dZ1,
+        "dW1": dW1,
+        "db1": db1
+    }
+    return grads
+
+
+def predict_C(parameters, X):
+    A2, _ = forward_propagation_C(X, parameters)
+    return (A2 >= 0.5).astype(int)
+
+
+def nn_model_C(X, Y, n_h, num_iterations, learning_rate,
+               X_test, Y_test, initializer=None):
+    if initializer is None:
+        initializer = initialize_parameters
+
+    parameters = initializer(X.shape[0], n_h, Y.shape[0])
+
+    history = {
+        "cost_list": [],
+        "test_cost_list": [],
+        "grads_list": [],
+        "train_accuracy": [],
+        "test_accuracy": [],
+        "accuracy_iterations": []
+    }
+
+    for i in range(num_iterations):
+        #학습
+        _, cache = forward_propagation_C(X, parameters)
+        grads = backward_propagation_C(parameters, cache, X, Y)
+        parameters = update_parameters(parameters, grads, learning_rate)
+
+        #기록
+        _, cache = forward_propagation_C(X, parameters)
+        _, cache_test = forward_propagation_C(X_test, parameters)
+
+        history["cost_list"].append(compute_cost(cache["Z2"], Y))
+        history["test_cost_list"].append(
+            compute_cost(cache_test["Z2"], Y_test)
+        )
+        history["grads_list"].append(grads)
+
+        #정확도 계산
+        if (i + 1) % 100 == 0:
+            predict_train = predict_C(parameters, X)
+            predict_test = predict_C(parameters, X_test)
+
+            history["accuracy_iterations"].append(i + 1)
+            history["train_accuracy"].append(np.mean(predict_train == Y))
+            history["test_accuracy"].append(np.mean(predict_test == Y_test))
+
+    return parameters, history
 
 
 
@@ -394,24 +489,24 @@ def main():
     print("n_h=50 기울기 오차: ", error_nh_50)
 
 
-    #experiment 1
-    parameters_A_1,history_A_1=nn_model(X_train,Y_train,1,20000,0.2,X_test,Y_test)
-    parameters_A_2,history_A_2=nn_model(X_train,Y_train,4,20000,0.2,X_test,Y_test)
-    parameters_A_3,history_A_3=nn_model(X_train,Y_train,50,20000,0.2,X_test,Y_test)
-    
-    X_small, Y_small = make_data(40,   0.3, 7)
-    X_test3, Y_test3 = make_data(1000, 0.3, 99)
-    parameters_A_4,history_A_4=nn_model(X_small,Y_small,50,20000,0.2,X_test3,Y_test3)
+    #experiment A
 
-    titles = ["A-1", "A-2", "A-3", "A-4"]
-    params = [parameters_A_1, parameters_A_2, parameters_A_3, parameters_A_4]
-    histories = [history_A_1, history_A_2, history_A_3, history_A_4]
-    Xs = [X_train, X_train, X_train, X_small]
-    Ys = [Y_train, Y_train, Y_train, Y_small]
+    def experiment_A():
+        parameters_A_1,history_A_1=nn_model(X_train,Y_train,1,20000,0.2,X_test,Y_test)
+        parameters_A_2,history_A_2=nn_model(X_train,Y_train,4,20000,0.2,X_test,Y_test)
+        parameters_A_3,history_A_3=nn_model(X_train,Y_train,50,20000,0.2,X_test,Y_test)
+        
+        X_small, Y_small = make_data(40,   0.3, 7)
+        X_test3, Y_test3 = make_data(1000, 0.3, 99)
+        parameters_A_4,history_A_4=nn_model(X_small,Y_small,50,20000,0.2,X_test3,Y_test3)
 
-    experiment_a=True
+        titles = ["A-1", "A-2", "A-3", "A-4"]
+        params = [parameters_A_1, parameters_A_2, parameters_A_3, parameters_A_4]
+        histories = [history_A_1, history_A_2, history_A_3, history_A_4]
 
-    if (experiment_a):
+        Xs = [X_train, X_train, X_train, X_small]
+        Ys = [Y_train, Y_train, Y_train, Y_small]
+
         fig, axes = plt.subplots(1, 4, figsize=(12, 3))
 
         for i in range(4):
@@ -436,62 +531,261 @@ def main():
         plt.tight_layout()
         plt.show()
 
-    train_accuracy = [
-        history_A_1["train_accuracy"][-1],
-        history_A_2["train_accuracy"][-1],
-        history_A_3["train_accuracy"][-1],
-        history_A_4["train_accuracy"][-1]
-    ]
+        train_accuracy = [
+            history_A_1["train_accuracy"][-1],
+            history_A_2["train_accuracy"][-1],
+            history_A_3["train_accuracy"][-1],
+            history_A_4["train_accuracy"][-1]
+        ]
 
-    test_accuracy = [
-        history_A_1["test_accuracy"][-1],
-        history_A_2["test_accuracy"][-1],
-        history_A_3["test_accuracy"][-1],
-        history_A_4["test_accuracy"][-1]
-    ]
+        test_accuracy = [
+            history_A_1["test_accuracy"][-1],
+            history_A_2["test_accuracy"][-1],
+            history_A_3["test_accuracy"][-1],
+            history_A_4["test_accuracy"][-1]
+        ]
 
-    train_cost = [
-        history_A_1["cost_list"][-1],
-        history_A_2["cost_list"][-1],
-        history_A_3["cost_list"][-1],
-        history_A_4["cost_list"][-1]
-    ]
+        train_cost = [
+            history_A_1["cost_list"][-1],
+            history_A_2["cost_list"][-1],
+            history_A_3["cost_list"][-1],
+            history_A_4["cost_list"][-1]
+        ]
 
-    test_cost = [
-        history_A_1["test_cost_list"][-1],
-        history_A_2["test_cost_list"][-1],
-        history_A_3["test_cost_list"][-1],
-        history_A_4["test_cost_list"][-1]
-    ]
+        test_cost = [
+            history_A_1["test_cost_list"][-1],
+            history_A_2["test_cost_list"][-1],
+            history_A_3["test_cost_list"][-1],
+            history_A_4["test_cost_list"][-1]
+        ]
 
-    min_test_cost = [
-        np.min(history_A_1["test_cost_list"]),
-        np.min(history_A_2["test_cost_list"]),
-        np.min(history_A_3["test_cost_list"]),
-        np.min(history_A_4["test_cost_list"])
-    ]
+        min_test_cost = [
+            np.min(history_A_1["test_cost_list"]),
+            np.min(history_A_2["test_cost_list"]),
+            np.min(history_A_3["test_cost_list"]),
+            np.min(history_A_4["test_cost_list"])
+        ]
 
-    min_iteration = [
-        np.argmin(history_A_1["test_cost_list"]) + 1,
-        np.argmin(history_A_2["test_cost_list"]) + 1,
-        np.argmin(history_A_3["test_cost_list"]) + 1,
-        np.argmin(history_A_4["test_cost_list"]) + 1
-    ]
+        min_iteration = [
+            np.argmin(history_A_1["test_cost_list"]) + 1,
+            np.argmin(history_A_2["test_cost_list"]) + 1,
+            np.argmin(history_A_3["test_cost_list"]) + 1,
+            np.argmin(history_A_4["test_cost_list"]) + 1
+        ]
 
-    increase = [
-        test_cost[0] - min_test_cost[0],
-        test_cost[1] - min_test_cost[1],
-        test_cost[2] - min_test_cost[2],
-        test_cost[3] - min_test_cost[3]
-    ]
+        increase = [
+            test_cost[0] - min_test_cost[0],
+            test_cost[1] - min_test_cost[1],
+            test_cost[2] - min_test_cost[2],
+            test_cost[3] - min_test_cost[3]
+        ]
 
-    print("학습 정확도:", "A-1:", train_accuracy[0], "A-2:", train_accuracy[1], "A-3:", train_accuracy[2], "A-4:", train_accuracy[3])
-    print("시험 정확도:", "A-1:", test_accuracy[0], "A-2:", test_accuracy[1], "A-3:", test_accuracy[2], "A-4:", test_accuracy[3])
-    print("최종 학습 비용:", "A-1:", train_cost[0], "A-2:", train_cost[1], "A-3:", train_cost[2], "A-4:", train_cost[3])
-    print("최종 시험 비용:", "A-1:", test_cost[0], "A-2:", test_cost[1], "A-3:", test_cost[2], "A-4:", test_cost[3])
-    print("최소 시험 비용:", "A-1:", min_test_cost[0], "A-2:", min_test_cost[1], "A-3:", min_test_cost[2], "A-4:", min_test_cost[3])
-    print("최소 비용 반복:", "A-1:", min_iteration[0], "A-2:", min_iteration[1], "A-3:", min_iteration[2], "A-4:", min_iteration[3])
-    print("상승폭:", "A-1:", increase[0], "A-2:", increase[1], "A-3:", increase[2], "A-4:", increase[3])
+        print("학습 정확도:", "A-1:", train_accuracy[0], "A-2:", train_accuracy[1], "A-3:", train_accuracy[2], "A-4:", train_accuracy[3])
+        print("시험 정확도:", "A-1:", test_accuracy[0], "A-2:", test_accuracy[1], "A-3:", test_accuracy[2], "A-4:", test_accuracy[3])
+        print("최종 학습 비용:", "A-1:", train_cost[0], "A-2:", train_cost[1], "A-3:", train_cost[2], "A-4:", train_cost[3])
+        print("최종 시험 비용:", "A-1:", test_cost[0], "A-2:", test_cost[1], "A-3:", test_cost[2], "A-4:", test_cost[3])
+        print("최소 시험 비용:", "A-1:", min_test_cost[0], "A-2:", min_test_cost[1], "A-3:", min_test_cost[2], "A-4:", min_test_cost[3])
+        print("최소 비용 반복:", "A-1:", min_iteration[0], "A-2:", min_iteration[1], "A-3:", min_iteration[2], "A-4:", min_iteration[3])
+        print("상승폭:", "A-1:", increase[0], "A-2:", increase[1], "A-3:", increase[2], "A-4:", increase[3])
+
+    #experiment_A()
+
+    # experiment B
+    def experiment_B():
+        def initialize_parameters(n_x, n_h, n_y):
+            W1= np.zeros((n_h,n_x))
+            b1=np.zeros((n_h,1))
+            W2= np.zeros((n_y,n_h))
+            b2=np.zeros((n_y,1))
+
+            parameters={
+                "W1":W1,
+                "W2":W2,
+                "b1":b1,
+                "b2":b2
+            }
+
+            return parameters 
+        parameters_B_1,history_B_1=nn_model(X_train,Y_train,50,20000,0.2,X_test,Y_test,initialize_parameters)
+
+        def initialize_parameters(n_x, n_h, n_y):
+            W1= np.zeros((n_h,n_x))
+            b1=np.zeros((n_h,1))
+            W2=np.random.randn(n_y, n_h)*0.5
+            b2=np.zeros((n_y,1))
+
+            parameters={
+                "W1":W1,
+                "W2":W2,
+                "b1":b1,
+                "b2":b2
+            }
+
+            return parameters
+        parameters_B_2,history_B_2=nn_model(X_train,Y_train,50,20000,0.2,X_test,Y_test,initialize_parameters)
+
+        def initialize_parameters(n_x, n_h, n_y):
+            W1= np.random.randn(n_h, n_x)*0.5
+            b1=np.zeros((n_h,1))
+            W2= np.random.randn(n_y, n_h)*0.5
+            b2=np.zeros((n_y,1))
+
+            parameters={
+                "W1":W1,
+                "W2":W2,
+                "b1":b1,
+                "b2":b2
+            }
+
+            return parameters
+        parameters_B_3,history_B_3=nn_model(X_train,Y_train,50,20000,0.2,X_test,Y_test,initialize_parameters)
+
+
+        def initialize_parameters(n_x, n_h, n_y):
+            W1= np.zeros((n_h,n_x)) +0.5
+            b1=np.zeros((n_h,1))
+            W2= np.zeros((n_y,n_h)) +0.5
+            b2=np.zeros((n_y,1))
+
+            parameters={
+                "W1":W1,
+                "W2":W2,
+                "b1":b1,
+                "b2":b2
+            }
+
+            return parameters 
+        parameters_B_4,history_B_4=nn_model(X_train,Y_train,50,20000,0.2,X_test,Y_test,initialize_parameters)
+
+        test_accuracy = [
+            history_B_1["test_accuracy"][-1],
+            history_B_2["test_accuracy"][-1],
+            history_B_3["test_accuracy"][-1],
+            history_B_4["test_accuracy"][-1]
+        ]
+        test_cost = [
+        history_B_1["test_cost_list"][-1],
+        history_B_2["test_cost_list"][-1],
+        history_B_3["test_cost_list"][-1],
+        history_B_4["test_cost_list"][-1]
+        ]
+
+        print("실험 B_1 W1 : ",np.unique(np.round(parameters_B_1["W1"], 8), axis=0).shape[0], "개의 서로 다른 은닉 유닛")
+        print("실험 B_2 W1 : ",np.unique(np.round(parameters_B_2["W1"], 8), axis=0).shape[0], "개의 서로 다른 은닉 유닛")
+        print("실험 B_3 W1 : ",np.unique(np.round(parameters_B_3["W1"], 8), axis=0).shape[0], "개의 서로 다른 은닉 유닛")
+        print("실험 B_4 W1 : ",np.unique(np.round(parameters_B_4["W1"], 8), axis=0).shape[0], "개의 서로 다른 은닉 유닛")
+
+        print("실험 B_1 W2 : ",np.unique(np.round(parameters_B_1["W2"], 8)).size, "개의 서로 다른 은닉 유닛")
+        print("실험 B_2 W2 : ",np.unique(np.round(parameters_B_2["W2"], 8)).size, "개의 서로 다른 은닉 유닛")
+        print("실험 B_3 W2 : ",np.unique(np.round(parameters_B_3["W2"], 8)).size    , "개의 서로 다른 은닉 유닛")
+        print("실험 B_4 W2 : ",np.unique(np.round(parameters_B_4["W2"], 8)).size, "개의 서로 다른 은닉 유닛")
+
+        print("시험 정확도:", "B-1:", test_accuracy[0], "B-2:", test_accuracy[1], "B-3:", test_accuracy[2], "B-4:", test_accuracy[3])
+        histories = [history_B_1, history_B_2, history_B_3, history_B_4]
+        params = [parameters_B_1, parameters_B_2, parameters_B_3, parameters_B_4]
+
+        fig, axes = plt.subplots(1, 4, figsize=(12, 3))
+
+        for i in range(4):
+            plt.sca(axes[i])
+            cost_function_plot(histories[i], params[i])
+            plt.title(f"B-{i + 1}")
+
+            if i == 0:
+                plt.ylim(0.6, 0.8)
+                plt.yticks([0.6, 0.65, 0.7, 0.75, 0.8],
+                            ["0.60", "0.65", "0.70", "0.75", "0.80"])
+
+        plt.tight_layout()
+        plt.show()
+
+    #experiment_B()
+    
+    #experiment C
+    def experiment_C():
+        parameters_C_4, history_C_4 = nn_model_C(
+            X_train, Y_train, 4, 20000, 0.2, X_test, Y_test
+        )
+
+        parameters_C_50, history_C_50 = nn_model_C(
+            X_train, Y_train, 50, 20000, 0.2, X_test, Y_test
+        )
+
+        print("C-1 시험 정확도:", history_C_4["test_accuracy"][-1])
+        print("C-2 시험 정확도:", history_C_50["test_accuracy"][-1])
+        fig, axes = plt.subplots(1, 2, figsize=(8, 3))
+
+        plt.sca(axes[0])
+
+        def predict_fn(X_grid):
+            return predict_C(parameters_C_4, X_grid)
+
+        plot_decision_boundary(predict_fn, X_train, Y_train, title="C-1")
+
+
+        plt.sca(axes[1])
+
+        def predict_fn(X_grid):
+            return predict_C(parameters_C_50, X_grid)
+
+        plot_decision_boundary(predict_fn, X_train, Y_train, title="C-2")
+
+        plt.tight_layout()
+        plt.show()
+
+    #experiment_C()
+
+    #experiment D
+    
+    def experiment_D():
+        learning_rates = [0.5, 5, 20, 50]
+        history_D = {}
+
+        for learning_rate in learning_rates:
+            w, b = initialize(X_train.shape[0])
+
+            history = {
+                "cost_list": [],
+                "test_cost_list": []
+            }
+
+            for i in range(2000):
+                grads, _ = logistic_propagate(
+                    w, b, X_train, Y_train, X_train.shape[1]
+                )
+
+                w -= learning_rate * grads["dw"]
+                b -= learning_rate * grads["db"]
+
+                Z_train = w.T @ X_train + b
+                Z_test = w.T @ X_test + b
+
+                history["cost_list"].append(compute_cost(Z_train, Y_train))
+                history["test_cost_list"].append(compute_cost(Z_test, Y_test))
+
+            history_D[learning_rate] = history
+
+        plt.figure(figsize=(8, 4))
+
+        for learning_rate in learning_rates:
+            plt.plot(
+                np.arange(1, 101),
+                history_D[learning_rate]["cost_list"][:100],
+                label=f"lr={learning_rate}"
+            )
+
+        plt.xlabel("num_iterations")
+        plt.ylabel("train cost")
+        plt.title("Experiment D")
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
+
+        return history_D
+
+
+    history_D = experiment_D()
+
 
 if __name__ == "__main__":
     main()
