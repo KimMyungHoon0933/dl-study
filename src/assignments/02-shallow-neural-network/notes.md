@@ -312,21 +312,13 @@ B-4에서는 모든 은닉 유닛이 동일한 파라미터로 시작하므로 �
 
 ```math
 
-A_1=Z_1=W_1x+b_1
-\\
-
-
 \begin{aligned}
-z_2
-&=W_2A_1+b_2\\
-&=W_2(W_1x+b_1)+b_2\\
-&=(W_2W_1)x+(W_2b_1+b_2)
+A_1 &= Z_1 = W_1x+b_1 \\[12pt]
+z_2 &= W_2A_1+b_2 \\
+    &= W_2(W_1x+b_1)+b_2 \\
+    &= (W_2W_1)x+(W_2b_1+b_2) \\[12pt]
+z_2 &= \widetilde W x+\widetilde b
 \end{aligned}
-\\
-
-
-z_2=\widetilde Wx+\widetilde b
-
 ```
 
 ## 8. 실험 D
