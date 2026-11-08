@@ -453,6 +453,86 @@ def main():
     plt.tight_layout()
     plt.show()
 
+    learning_rates = [0.5, 5, 20, 50]
+    history_D = {}
+
+    for learning_rate in learning_rates:
+        w, b = initialize(X_train.shape[0])
+
+        history = {
+            "cost_list": [],
+            "test_cost_list": []
+        }
+
+        for i in range(2000):
+            grads, _ = propagate(
+                w, b, X_train, Y_train, X_train.shape[1]
+            )
+
+            w -= learning_rate * grads["dw"]
+            b -= learning_rate * grads["db"]
+
+            # 갱신 후 학습·시험 예측 확률
+            A_train = sigmoid(w.T @ X_train + b)
+            A_test = sigmoid(w.T @ X_test + b)
+
+            # 기존 비용함수로 매 반복 기록
+            history["cost_list"].append(
+                cost_function(A_train, Y_train, X_train.shape[1])
+            )
+            history["test_cost_list"].append(
+                cost_function(A_test, Y_test, X_test.shape[1])
+            )
+
+        history_D[learning_rate] = history
+
+    # 모든 학습률의 학습이 끝난 뒤 그림 생성
+    plt.figure(figsize=(8, 4))
+
+    for learning_rate in learning_rates:
+        plt.plot(
+            np.arange(1, 101),
+            history_D[learning_rate]["cost_list"][:100],
+            label=f"lr={learning_rate}"
+        )
+
+    plt.xlabel("num_iterations")
+    plt.ylabel("train cost")
+    plt.title("Digits 0 vs 1: First 100 Iterations")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+    plot_iterations = 2000  # 전체 학습을 보려면 2000으로 변경
+    iterations = np.arange(1, plot_iterations + 1)
+
+    plt.figure(figsize=(10, 5))
+
+    for learning_rate in learning_rates:
+        train_line, = plt.plot(
+            iterations,
+            history_D[learning_rate]["cost_list"][:plot_iterations],
+            label=f"lr={learning_rate} train"
+        )
+
+        plt.plot(
+            iterations,
+            history_D[learning_rate]["test_cost_list"][:plot_iterations],
+            linestyle="--",
+            color=train_line.get_color(),
+            label=f"lr={learning_rate} test"
+        )
+
+    plt.xlabel("num_iterations")
+    plt.ylabel("cost")
+    plt.title("Digits 0 vs 1: Train and Test Cost")
+    plt.yscale("log")
+    plt.legend(ncol=2)
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+
 
 if __name__ == "__main__":
     main()
