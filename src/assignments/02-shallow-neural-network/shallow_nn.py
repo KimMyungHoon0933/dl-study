@@ -259,7 +259,7 @@ def flatten_grads(grads):
 
     return theta
 
-def gradient_checks_test(X,Y,parameters,debug=None):
+def gradient_checks_test(X,Y,parameters):
     from utils.grad_check import grad_check
     X_check = X[:, :10]
     Y_check = Y[:, :10]
@@ -267,14 +267,6 @@ def gradient_checks_test(X,Y,parameters,debug=None):
     _, cache = forward_propagation(X_check,parameters)
     cost =compute_cost(cache["Z2"],Y_check)
     grads=backward_propagation(parameters, cache, X_check, Y_check)
-
-
-    if debug == "no_average":
-        dw = dw * X_check.shape[1]    # /m을 빠뜨린 것과 동일
-    elif debug == "+db":
-        db = -db          # db 부호 반전
-    elif debug == "double_dw":
-        dw = dw * 2       # 정상 dw의 두 배
 
     analytic_grad = flatten_grads(grads)
 
