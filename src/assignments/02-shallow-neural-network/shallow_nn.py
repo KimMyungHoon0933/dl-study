@@ -181,15 +181,18 @@ def nn_model(X, Y, n_h, num_iterations, learning_rate, X_test, Y_test,initialize
         #학습
         A2,cache=forward_propagation(X ,parameters)
         cost_function=compute_cost(cache["Z2"],Y)
+
         grads=backward_propagation(parameters,cache,X,Y)
         parameters=update_parameters(parameters,grads,learning_rate)
         
         #기록
+        A2,cache=forward_propagation(X ,parameters)
+        cost_function=compute_cost(cache["Z2"],Y)
         A2_test, cache_test = forward_propagation(X_test, parameters)
-
+        test_cost_function=compute_cost(cache_test["Z2"], Y_test)
         history["cost_list"].append(compute_cost(cache["Z2"], Y))
         history["test_cost_list"].append(
-            compute_cost(cache_test["Z2"], Y_test)
+            test_cost_function
         )
         history["grads_list"].append(grads)
         
@@ -295,6 +298,7 @@ def gradient_checks_test(X,Y,parameters,debug=None):
 
     return error
 
+#experiment c 
 def forward_propagation_C(X, parameters):
     W1 = parameters["W1"]
     W2 = parameters["W2"]
@@ -385,8 +389,21 @@ def nn_model_C(X, Y, n_h, num_iterations, learning_rate,
 
     return parameters, history
 
+#experiment D
+def logistic_hessian(X, w, b):
+    m = X.shape[1]
 
+    a = sigmoid(w.T @ X + b)
+    X_tilde = np.vstack([X, np.ones((1, m))])
+    D = np.diag((a * (1 - a)).ravel())
 
+    H = (X_tilde @ D @ X_tilde.T) / m
+
+    eigenvalues = np.linalg.eigvalsh(H)
+    L = float(eigenvalues[-1])
+    limit = 2 / L if L > 0 else np.inf
+
+    return H, L, limit
 
 def main():
     # 데이터 크기 
@@ -461,25 +478,25 @@ def main():
     parameters,history=nn_model(X_train,Y_train,4,20000,0.2,X_test,Y_test)
 
 
-#    cost_function_plot(history,parameters)
-#    plt.show()
+    cost_function_plot(history,parameters)
+    plt.show()
 
-#    accuracy_plot(history,parameters)
-#    plt.show()
+    accuracy_plot(history,parameters)
+    plt.show()
 
 
     def predict_fn(X_grid):
         return predict(parameters, X_grid)
 
-#    plot_decision_boundary(predict_fn, X_train, Y_train, title="Neural Network")
-#    plt.show()
+    plot_decision_boundary(predict_fn, X_train, Y_train, title="Neural Network")
+    plt.show()
 
     #grad_check test
     parameters=initialize_parameters(X_train.shape[0],4,Y_train.shape[0])
     error_nh_4=gradient_checks_test(X_train,Y_train,parameters)
 
-#    accuracy_plot(history,parameters)
-#    plt.show()
+    accuracy_plot(history,parameters)
+    plt.show()
 
     print("n_h=4 기울기 오차: ", error_nh_4)
 
@@ -733,7 +750,7 @@ def main():
         plt.tight_layout()
         plt.show()
 
-    #experiment_C()
+    experiment_C()
 
     #experiment D
     
@@ -764,6 +781,9 @@ def main():
                 history["test_cost_list"].append(compute_cost(Z_test, Y_test))
 
             history_D[learning_rate] = history
+            history["w"] = w.copy()
+            history["b"] = float(b)
+            history_D[learning_rate] = history
 
         plt.figure(figsize=(8, 4))
 
@@ -781,7 +801,22 @@ def main():
         plt.tight_layout()
         plt.show()
 
+        for learning_rate in learning_rates:
+            history = history_D[learning_rate]
+
+            H, L, limit = logistic_hessian(
+                X_train, history["w"], history["b"]
+            )
+
+            history["hessian"] = H
+            history["L"] = L
+            history["2/L"] = limit
+
+            print(f"학습률: {learning_rate}, L: {L:.6f}, 2/L: {limit:.6f}")
+
         return history_D
+
+
 
 
     history_D = experiment_D()
