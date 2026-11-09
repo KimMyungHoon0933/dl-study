@@ -360,12 +360,46 @@ z_2 &= \widetilde W x+\widetilde b
 
 ## 막혔던 것
 
--증상
+**증상**
 
-기울기 검증 과정에서 여러 오류가 발생함과 동시에 로직 구현 과정에서 에러가 발생하였다.
-먼저 
-> n_h=4 기울기 오차: 41.3542545015905902e-07
+기울기 검증 과정에서 예상보다 큰 상대 오차가 발생하였다.
 
+> n_h=4 기울기 오차: 1.354e-07 
+
+또한 학습 및 시험 그래프 상에서 모든 그래프의 첫번째 부터 test 손실 곡선이 낮아지는 것이 수상해서 이를 조사하였다. 
+
+![Alt text](../../../images/03-shallow_nn/실험_A_손실곡선_fail.png)
+
+**원인** 
+
+기울기 검증 상에서의 오차의 경우  너무 작은 앱실론 값을 사용했을 때 오차가 커진 것으로 판단하였다.
+
+손실 기록에서는 학습 비용에 가중치 업데이트 이전의 값을 사용하고, 시험 비용에는 업데이트 이후의
+ 값을 사용하여 두 비용의 기록 시점이 일치하지 않았다.
+
+**해결** 
+
+기울기 상에서 앱실론 값을 다음과 조절하여서 e-09 보다 작게 하는 앱실론 값을 찾을 수 있었다.
+
+> epsilon=1e-04, error=1.471e-09 <br>
+> epsilon=1e-05, error=6.579e-10 <br>
+> epsilon=1e-06, error=1.161e-08 <br>
+> epsilon=1e-07, error=1.354e-07 <br>
+
+nn_model에서 기록을 위해서 가중치 업데이트 이후의 한번 학습 손실을 측정하도록 변경하였다. <br>
+변경 이후 비교를 진행한 결과 두 값이 비슷한것을 확인할 수 있었다.
+
+```
+append_cost_function=compute_cost(cache["Z2"], Y)
+test_cost_function=compute_cost(cache_test["Z2"], Y_test)
+history["cost_list"].append(append_cost_function)
+history["test_cost_list"].append(
+        test_cost_function
+)
+
+```
+
+![Alt text](../../../images/03-shallow_nn/실험_A_손실곡선.png)
 
 ## 아직 모르는 것 
 

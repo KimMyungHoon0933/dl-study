@@ -189,8 +189,9 @@ def nn_model(X, Y, n_h, num_iterations, learning_rate, X_test, Y_test,initialize
         A2,cache=forward_propagation(X ,parameters)
         cost_function=compute_cost(cache["Z2"],Y)
         A2_test, cache_test = forward_propagation(X_test, parameters)
+        append_cost_function=compute_cost(cache["Z2"], Y)
         test_cost_function=compute_cost(cache_test["Z2"], Y_test)
-        history["cost_list"].append(compute_cost(cache["Z2"], Y))
+        history["cost_list"].append(append_cost_function)
         history["test_cost_list"].append(
             test_cost_function
         )
