@@ -32,10 +32,10 @@
 ```math
 
 \begin{aligned}
-L(\hat y , y) &=-\left[y\log\hat y+(1-y)\log(1-\hat y)\right]
-&=-\left[y\{z-\log(1+e^z)\}
-       -(1-y)\log(1+e^z)\right]\\
-&=\log(1+e^z)-yz
+L(\hat{y}, y)
+&= -\left[y\log\hat{y}+(1-y)\log(1-\hat{y})\right] \\
+&= -\left[y\{z-\log(1+e^z)\}-(1-y)\log(1+e^z)\right] \\
+&= \log(1+e^z)-yz
 \end{aligned}
 
 ```
