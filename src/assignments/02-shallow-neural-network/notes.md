@@ -9,7 +9,7 @@
 
 **손실 함수**
 
-- $\log \hat y   $
+- $\log {\hat y}   $
 
 ```math
 \begin{aligned}
@@ -32,7 +32,7 @@
 ```math
 
 \begin{aligned}
--\left[y\log\hat y+(1-y)\log(1-\hat y)\right]
+L(\hat y , y) =-\left[y\log\hat y+(1-y)\log(1-\hat y)\right]
 &=-\left[y\{z-\log(1+e^z)\}
        -(1-y)\log(1+e^z)\right]\\
 &=\log(1+e^z)-yz
