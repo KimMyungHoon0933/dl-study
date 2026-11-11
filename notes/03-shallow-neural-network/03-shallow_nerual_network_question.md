@@ -8,8 +8,10 @@
 ## 은닉 유닛을 12배로 늘려도 과적합 되지 않는 이유 
 
 은닉 유닛을 약 12배 늘렸지만, 결정 경계의 전체적인 형태는 크게 달라지지 않았기 때문이다.<br>
-
+<p align="center">
 ![Alt text](../../images/03-shallow_nn/실험_A_결정경계.png)
+</p>
+
   <p align="center">(그림 1)</p>                    
 
 그림 1의 A-2와 A-3를 비교하면, A-3에서는 일부 구간의 위치와 굴곡이 조정되었다. <br>
@@ -35,8 +37,9 @@ B-4는 모든 가중치가 동일한 값을 가지게 되면서 각 레이어 �
 
 
 ## 과제 1의 3 vs 5를 시험 비용까지 기록해 다시 돌리면, 실험 A의 어느 모양에 해당하는가 ?
-
-![Alt text](../../images/03-shallow_nn/로지스틱%20회귀_3,5라벨_test비교.png)
+<p align="center">
+  <img src="../../images/03-shallow_nn/로지스틱%20회귀_3,5라벨_test비교.png" alt="Alt text">
+</p>
  
   <p align="center">(그림 2)</p>    
 
