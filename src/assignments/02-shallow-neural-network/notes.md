@@ -9,7 +9,7 @@
 
 **손실 함수**
 
-- $\log {\hat y}   $
+- $ \log {\hat y}   $
 
 ```math
 \begin{aligned}
@@ -20,7 +20,7 @@
 \end{aligned}
 ```
 
-- $ \log {1- \hat y} $
+- $ \log 1- \hat y $
 
 ```math
 \log(1-\hat y) = \log(1+e^z)
