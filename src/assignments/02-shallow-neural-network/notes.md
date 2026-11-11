@@ -23,7 +23,7 @@
 - $\log 1- \hat y$
 
 ```math
-\log(1-\hat y) = \log(1+e^z)
+\log(1-\hat{y}) = -\log(1+e^z)
 
 ```
 
@@ -87,13 +87,11 @@ dZ^{[1]}=\frac{\partial\mathcal L}{\partial Z^{[1]}}
 ```
 
 ```math
-
 dZ^{[1]}
 =
-\left((W^{[2]})^TdZ^{[2]}\right)
+\left((W^{[2]})^T dZ^{[2]}\right)
 *
-(1-A^{[1]}^2)
-
+\left(1-(A^{[1]})^2\right)
 ```
 
 - $dW^{[1]} ,\quad db^{[1]}$
