@@ -14,6 +14,7 @@ from logistic_regression import propagate as logistic_propagate
 
 # 데이터 불러오기
 def make_data(n, noise, seed):
+
     X, y = make_moons(n_samples=n, noise=noise, random_state=seed)
     return X.T, y.reshape(1, -1)          # (2, n), (1, n)
 
@@ -22,6 +23,7 @@ def make_data(n, noise, seed):
 
 #로지스틱 회귀 결과 시각화
 def plot_decision_boundary(predict_fn, X, Y, title=""):
+    #X.shape=(2,n) y.shape=(1,n)
     x_min, x_max = X[0].min()-0.5, X[0].max()+0.5
     y_min, y_max = X[1].min()-0.5, X[1].max()+0.5
     
@@ -34,6 +36,7 @@ def plot_decision_boundary(predict_fn, X, Y, title=""):
     plt.title(title)
 
 def predict_fn(X_grid):
+    #X.shape=(2,n) 
     w, b = initialize(X_train.shape[0])
 
     params, _, _ = optimize(
@@ -42,11 +45,12 @@ def predict_fn(X_grid):
         learning_rate=0.05
     )
 
-    return predict(params["w"], params["b"], X_grid)
+    return predict(params["w"], params["b"], X_grid)# (1,n)
 
 
 # 파라미터 초기화
 def initialize_parameters(n_x, n_h, n_y):
+    #nx=2 n_h = 4  n_y = 1 은닉층의 기본값을 4를 기준으로 계산한다.
     W1=np.random.randn(n_h, n_x)*0.5
     b1=np.zeros((n_h,1))
     W2=np.random.randn(n_y, n_h)*0.5
@@ -59,13 +63,13 @@ def initialize_parameters(n_x, n_h, n_y):
         "b2":b2
     }
 
-    return parameters 
+    return parameters #w1= (4, 2) w2 = (1, 4) b1 = (4,1) b2 = (1,1)
 
 
 #활성화 함수
 
 def sigmoid(z):
-    #예상 입력: z=(1,m)
+    #z=(4,n)
     z=np.array(z)
     A=np.zeros_like(z, dtype=float)
     positive = (z >= 0)
@@ -75,15 +79,17 @@ def sigmoid(z):
     exp_z = np.exp(z[~positive])
     A[~positive] = exp_z / (1 + exp_z)
 
-    return A #출력 A.shape=(1,m)
+    return A # A = (1,n)
 def tanh(z):
+    #z=(4,n)
     z = np.asarray(z, dtype=float)
     exp_z = np.exp(-2 * np.abs(z))
-    return np.sign(z) * (1 - exp_z) / (1 + exp_z)
-
+    A=np.sign(z) * (1 - exp_z) / (1 + exp_z) 
+    return A #A = (4, n)
 
 #순전파
 def forward_propagation(X, parameters):
+    #X=(2,n) 
     W1=parameters["W1"]
     W2=parameters["W2"]
     b1=parameters["b1"]
@@ -98,17 +104,20 @@ def forward_propagation(X, parameters):
         "A1":A1,
         "A2":A2
     }
-    return A2,cache
+    return A2,cache #A2 = (1,n) cache["Z1"] = (4,n) cache["A1"] = (4,n) cache["Z2"] = (1,n) cache["A2"] = (1,n) 
 
 
 #비용함수
 def compute_cost(Z2, Y):
     L = np.logaddexp(0, Z2) - Y * Z2
     J=np.sum(L)/Z2.shape[1]
-    return J
+    return J #(1,n)
 
 #역전파
 def backward_propagation(parameters, cache, X, Y):
+    #parameters["w1"]= (4, 2) parameters["w2"] = (1, 4) parameters["b1"] = (4,1) parameters["b2"] = (1,1) 
+    # cache["Z1"] = (4,n) cache["A1"] = (4,n) cache["Z2"] = (1,n) cache["A2"] = (1,n) 
+    # X = (2, n) Y=(1,n)
     m = X.shape[1]
 
     dZ2=cache["A2"]-Y
@@ -127,10 +136,16 @@ def backward_propagation(parameters, cache, X, Y):
         "dW1":dW1,
         "db1":db1,
     }
-    return grads
+    return grads #grads["dZ2"] = (1,n) grads["dW2"] = (1,4) grads["db2"] = (1,1) 
+                 # grads["dZ1"] = (4,n) grads["dW1"] = (4,2) grads["dW1"] = (4,1)  
+
 
 #가중치 업데이트
 def update_parameters(parameters, grads, learning_rate):
+    #parameters["w1"]= (4, 2) parameters["w2"] = (1, 4) parameters["b1"] = (4,1) parameters["b2"] = (1,1) 
+    #grads["dZ2"] = (1,n) grads["dW2"] = (1,4) grads["db2"] = (1,1) 
+    # grads["dZ1"] = (4,n) grads["dW1"] = (4,2) grads["dW1"] = (4,1)  
+    #learning_rate= ()
     W1=np.asarray(parameters["W1"]).copy()
     W2=np.asarray(parameters["W2"]).copy()
     b1=np.asarray(parameters["b1"]).copy()
@@ -148,7 +163,8 @@ def update_parameters(parameters, grads, learning_rate):
         "b1":b1,
         "b2":b2
     }
-    return parameters
+    return parameters #parameters["w1"]= (4, 2) parameters["w2"] = (1, 4) parameters["b1"] = (4,1) parameters["b2"] = (1,1) 
+
 
 
 #예측
@@ -160,7 +176,7 @@ def predict(parameters, X):
 
 #최종 모델 함수
 def nn_model(X, Y, n_h, num_iterations, learning_rate, X_test, Y_test,initializer=None,hidden_activate=None):
-
+    # X = (2,n) Y = (1,n) 
     if initializer is None:
         initializer = initialize_parameters
     
@@ -213,6 +229,7 @@ def nn_model(X, Y, n_h, num_iterations, learning_rate, X_test, Y_test,initialize
 #비용 함수
 
 def cost_function_plot(history,parameters):
+    
     n_h=parameters["W1"].shape[0]
     horizontal = np.arange(1, len(history["cost_list"]) + 1)
     plt.plot(horizontal, history["cost_list"], label="train")
@@ -398,6 +415,23 @@ def logistic_hessian(X, w, b):
 
     return H, L, limit
 
+def test_cost_plot_D(history_D):
+    plt.figure(figsize=(8, 4))
+
+    for learning_rate in [0.5, 5, 20, 50]:
+        plt.plot(
+            np.arange(1, 101),
+            history_D[learning_rate]["test_cost_list"][:100],
+            label=f"lr={learning_rate}"
+        )
+
+    plt.xlabel("num_iterations")
+    plt.ylabel("test cost")
+    plt.title("Experiment D: Test Cost")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
 def main():
     # 데이터 크기 
     X_train, Y_train = make_data(400,  0.2, 0) #x[0] x좌표 x[1]이 y좌표
@@ -506,6 +540,7 @@ def main():
         parameters_A_2,history_A_2=nn_model(X_train,Y_train,4,20000,0.2,X_test,Y_test)
         parameters_A_3,history_A_3=nn_model(X_train,Y_train,50,20000,0.2,X_test,Y_test)
         
+
         X_small, Y_small = make_data(40,   0.3, 7)
         X_test3, Y_test3 = make_data(1000, 0.3, 99)
         parameters_A_4,history_A_4=nn_model(X_small,Y_small,50,20000,0.2,X_test3,Y_test3)
@@ -597,6 +632,8 @@ def main():
         print("최소 시험 비용:", "A-1:", min_test_cost[0], "A-2:", min_test_cost[1], "A-3:", min_test_cost[2], "A-4:", min_test_cost[3])
         print("최소 비용 반복:", "A-1:", min_iteration[0], "A-2:", min_iteration[1], "A-3:", min_iteration[2], "A-4:", min_iteration[3])
         print("상승폭:", "A-1:", increase[0], "A-2:", increase[1], "A-3:", increase[2], "A-4:", increase[3])
+
+        
 
     #experiment_A()
 
@@ -743,7 +780,7 @@ def main():
         plt.tight_layout()
         plt.show()
 
-    experiment_C()
+    #experiment_C()
 
     #experiment D
     
@@ -813,6 +850,22 @@ def main():
 
 
     history_D = experiment_D()
+    test_cost_plot_D(history_D)
+
+    fig, axes = plt.subplots(1, 2, figsize=(12, 3))
+    parameters_A_2_40000,history_A_2_40000=nn_model(X_train,Y_train,100,20000,0.2,X_test,Y_test)
+    parameters_A_3_40000,history_A_3_40000=nn_model(X_train,Y_train,150,20000,0.2,X_test,Y_test)
+
+    plt.sca(axes[0])
+    cost_function_plot(history_A_2_40000, parameters_A_2_40000)
+    plt.title("")
+
+    plt.sca(axes[1])
+    cost_function_plot(history_A_3_40000, parameters_A_3_40000)
+    plt.title("")
+
+    plt.tight_layout()
+    plt.show()
 
 
 if __name__ == "__main__":

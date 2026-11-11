@@ -51,38 +51,49 @@ def propagate(w,b,X,Y,m):
 
 
 #optimize
-def optimize(w, b, X, Y, num_iterations, learning_rate):
-    #w.shape=(64,1) b.shape(1,) X_train.shape=(64,288) Y_train.shape=(1,288) 
-    cost_array=[]
-    grads_list=[]
+def optimize(w, b, X, Y, num_iterations, learning_rate,
+             X_test=None, Y_test=None,
+             return_test_cost=False, record_every=100):
+
+    if return_test_cost and (X_test is None or Y_test is None):
+        raise ValueError("시험 비용을 기록하려면 X_test와 Y_test가 필요합니다.")
+
+    cost_array = []
+    test_cost_array = []
+    grads_list = []
+
     for i in range(num_iterations):
-        grads,cost=propagate(w,b,X,Y,X.shape[1])
+        grads, _ = propagate(w, b, X, Y, X.shape[1])
 
-        #if(grad_check_bool):
-        #    theta = flatten(w, b)
-        #    analytic_grad = flatten(grads["dw"], grads["db"])
-
-        #    error=grad_check(theta_cost_function,theta,analytic_grad)
-        #    print(error)
-
-        
-        
         w -= learning_rate * grads["dw"]
         b -= learning_rate * grads["db"]
-        
-        if((i%100)==0):
+
+        if (i + 1) % record_every == 0:
+            Z = w.T @ X + b
+            cost = np.mean(np.logaddexp(0, Z) - Y * Z)
+
             cost_array.append(cost)
             grads_list.append(grads)
-    
-    params= {
-    "w": w,
-    "b": b
-    }
-    grads_list = np.array(grads_list)
-    cost_array=np.array(cost_array)
 
-    #출력: params["w"].shape=(64,1) params["b"].shape=(1,),grads_list.shape=(20,),cost_array.shape=(20,)
-    return params,grads_list,cost_array 
+            if return_test_cost:
+                Z_test = w.T @ X_test + b
+                test_cost = np.mean(
+                    np.logaddexp(0, Z_test) - Y_test * Z_test
+                )
+                test_cost_array.append(test_cost)
+
+    params = {
+        "w": w,
+        "b": b
+    }
+
+    grads_list = np.array(grads_list)
+    cost_array = np.array(cost_array)
+
+    if return_test_cost:
+        return params, grads_list, cost_array, np.array(test_cost_array)
+
+    return params, grads_list, cost_array
 
 
 #predict
@@ -529,6 +540,49 @@ def main():
     plt.yscale("log")
     plt.legend(ncol=2)
     plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+    w, b = initialize(X_train_3_5.shape[0])
+
+    params_3_5, _, train_cost_3_5, test_cost_3_5 = optimize(
+        w, b,
+        X_train_3_5, Y_train_3_5,
+        num_iterations=2000,
+        learning_rate=0.05,
+        X_test=X_test_3_5,
+        Y_test=Y_test_3_5,
+        return_test_cost=True,
+        record_every=1
+    )
+
+    train_pred_3_5 = predict(
+        params_3_5["w"], params_3_5["b"], X_train_3_5
+    )
+    test_pred_3_5 = predict(
+        params_3_5["w"], params_3_5["b"], X_test_3_5
+    )
+
+    min_index = np.argmin(test_cost_3_5)
+
+    print(f"학습 정확도: {np.mean(train_pred_3_5 == Y_train_3_5):.2%}")
+    print(f"시험 정확도: {np.mean(test_pred_3_5 == Y_test_3_5):.2%}")
+    print("최종 학습 비용:", train_cost_3_5[-1])
+    print("최종 시험 비용:", test_cost_3_5[-1])
+    print("최소 시험 비용:", test_cost_3_5[min_index])
+    print("최소 비용 반복:", min_index + 1)
+    print("상승폭:", test_cost_3_5[-1] - test_cost_3_5[min_index])
+
+    horizontal = np.arange(1, len(train_cost_3_5) + 1)
+
+    plt.figure(figsize=(8, 4))
+    plt.plot(horizontal, train_cost_3_5, label="train")
+    plt.plot(horizontal, test_cost_3_5, label="test")
+    plt.xlabel("num_iterations")
+    plt.ylabel("cost")
+    plt.title("Digits 3 vs 5")
+    plt.yscale("log")
+    plt.legend()
     plt.tight_layout()
     plt.show()
 
