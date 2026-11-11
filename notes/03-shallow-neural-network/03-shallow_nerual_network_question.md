@@ -9,7 +9,7 @@
 
 은닉 유닛을 약 12배 늘렸지만, 결정 경계의 전체적인 형태는 크게 달라지지 않았기 때문이다.<br>
 <p align="center">
-![Alt text](../../images/03-shallow_nn/실험_A_결정경계.png)
+  <img src="../../images/03-shallow_nn/실험_A_결정경계.png" alt="Alt text">
 </p>
 
   <p align="center">(그림 1)</p>                    
