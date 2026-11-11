@@ -9,7 +9,7 @@
 
 **손실 함수**
 
-- $ \log {\hat y}   $
+- $\log {\hat y}$
 
 ```math
 \begin{aligned}
