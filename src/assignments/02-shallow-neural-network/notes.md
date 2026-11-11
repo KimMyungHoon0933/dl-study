@@ -9,18 +9,18 @@
 
 **손실 함수**
 
-- $\log ({\hat y})   $
+- $\log {\hat y}   $
 
 ```math
 \begin{aligned}
-\log\hat y
+\log {\hat y}
 
 &=\log e^z-\log(1+e^z)\
 &=z-\log(1+e^z)
 \end{aligned}
 ```
 
-- $ \log ({1- \hat y}) $
+- $ \log {1- \hat y} $
 
 ```math
 \log(1-\hat y) = \log(1+e^z)
