@@ -354,7 +354,7 @@ def experiment_A(X,Y,X_test,Y_test):
     count_param=[]
     historys=[]
 
-    for i in range(1,L):
+    for i in range(1,L+1):
         count_param.append(count_params(A_layer_dim[f"A-{i}"]))
         parameters,history=L_layer_model(X, Y, A_layer_dim[f"A-{i}"], 30000, 0.2, X_test, Y_test)
         historys.append(history)
