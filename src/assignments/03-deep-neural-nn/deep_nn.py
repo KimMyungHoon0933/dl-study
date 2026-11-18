@@ -323,15 +323,18 @@ def historys_to_test(historys):
     first_iteration_array=[]
     
 
-    for i in range(1,L+1):
-        min_iteration.append(historys[i]["test_cost_list"] + 1)
+    for i in range(L):
+        min_iteration.append(np.argmin(historys[i]["test_cost_list"]) +1)
         train_accuracy.append(historys[i]["train_accuracy"][-1])
         test_accuracy.append(historys[i]["test_accuracy"][-1])
 
-    for i in range(1,L+1):  
+    for i in range(L):  
         accuracy = np.asarray(test_accuracy[i])
         indices = np.flatnonzero(accuracy >= 0.9)
-        first_iteration = history["accuracy_iterations"][indices[0]]
+        if indices.size > 0:
+            first_iteration = historys[i]["accuracy_iterations"][indices[0]]
+        else:
+            first_iteration = "-"
         first_iteration_array.append(first_iteration)
     
 
@@ -479,8 +482,11 @@ def main():
     total_result=experiment_A(X_train,Y_train,X_test,Y_test)
 
 
-    for i in range(1,7):
-        print(f"A-{i}" ,"레이어 수: ",total_result["A_layer_dim"][i],"파리미터 수: ",total_result["count_param"][i],
+    for i in range(6):
+        name = f"A-{i + 1}"
+        layer_dims = total_result["A_layer_dim"][name]
+
+        print(f"name" ,"레이어 수: ",total_result["A_layer_dim"][name],"파리미터 수: ",total_result["count_param"][i] ,
                "훈련 정화도: ",total_result["train_accuracy"][i],"시험 정확도: ",total_result["train_accuracy"][i], 
                "시험 최소 비용: ",total_result["min_iteration"][i] )
 
