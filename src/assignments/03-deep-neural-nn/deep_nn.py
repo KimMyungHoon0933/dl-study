@@ -486,7 +486,7 @@ def main():
         name = f"A-{i + 1}"
         layer_dims = total_result["A_layer_dim"][name]
 
-        print(f"name" ,"레이어 수: ",total_result["A_layer_dim"][name],"파리미터 수: ",total_result["count_param"][i] ,
+        print(name ,"레이어 수: ",total_result["A_layer_dim"][name],"파리미터 수: ",total_result["count_param"][i] ,
                "훈련 정화도: ",total_result["train_accuracy"][i],"시험 정확도: ",total_result["train_accuracy"][i], 
                "시험 최소 비용: ",total_result["min_iteration"][i] )
 
