@@ -11,6 +11,12 @@ sys.path.insert(
 )
 
 from shallow_nn import plot_decision_boundary
+sys.path.insert(
+    0,
+    r"../01-logistic-regression"
+)
+from logistic_regression import initialize, optimize, predict as logistic_predict   
+from logistic_regression import propagate as logistic_propagate
 
 #활성화 함수
 def sigmoid(z):
@@ -51,7 +57,7 @@ def initialize_parameters_deep(layer_dims):
     for l in range(1,len(layer_dims)):
 
         parameters[f"W{l}"] = np.random.randn(layer_dims[l], layer_dims[l-1]) * np.sqrt(2.0 / layer_dims[l-1])
-        parameters[f"b{l}"] = np.random.randn(layer_dims[l], 1) * np.sqrt(2.0 / layer_dims[l-1])
+        parameters[f"b{l}"] = np.zeros((layer_dims[l], 1))
 
     return parameters
 
@@ -111,9 +117,9 @@ def linear_backward(dZ, cache):
 # 역전파 dz 계산
 def linear_activation_backward(dA, cache, activation):
     if (activation == relu):
-        dZ = dA * (cache["A"] > 0)
+        dZ = dA * (cache["Z"] > 0)
     if  (activation == sigmoid):
-        dZ=dA* cache["A"]*(1-cache["A"])
+        dZ=dA* cache["Z"]*(1-cache["Z"])
 
     dA_prev,dW,db=linear_backward(dZ, cache)
     return dA_prev,dW,db
@@ -158,9 +164,16 @@ def predict(parameters, X):
     return predict
 
 #전체 모델 
-def L_layer_model(X, Y, layer_dims, num_iterations, learning_rate, X_test, Y_test):
+def L_layer_model(X, Y, layer_dims, num_iterations, learning_rate, X_test, Y_test,parameters=None):
     L=len(layer_dims)
-    parameters=initialize_parameters_deep(layer_dims)
+    if parameters is None:
+        parameters = initialize_parameters_deep(layer_dims)
+    else:
+          parameters = {
+              key: value.copy()
+              for key, value in parameters.items()
+          }
+
     history = {
         "cost_list": [],
         "test_cost_list": [],
@@ -197,8 +210,168 @@ def L_layer_model(X, Y, layer_dims, num_iterations, learning_rate, X_test, Y_tes
 
     return parameters, history
 
+#평탄화 
+def flatten_parame(parameters):
+    L = len(parameters) // 2
+    parts = []
+
+    for i in range(1, L + 1):
+        W_reshape = np.asarray(parameters[f"W{i}"]).flatten()
+        b_reshape = np.asarray(parameters[f"b{i}"]).flatten()
+
+        parts.append(W_reshape)
+        parts.append(b_reshape)
+
+    theta = np.concatenate(parts)
+    return theta
+
+def flatten_grads(grads):
+    L = sum(key.startswith("dW") for key in grads)
+    parts = []
+
+    for i in range(1, L+1 ):
+        dW_reshape = np.asarray(grads[f"dW{i}"]).flatten()
+        db_reshape = np.asarray(grads[f"db{i}"]).flatten()
+
+        parts.append(dW_reshape)
+        parts.append(db_reshape)
+
+    theta = np.concatenate(parts)
+    return theta
+
+#기울기 검증 
+from utils.grad_check import grad_check
+def gradient_checks_test(X,Y):
+    #초기 파라미터 설정
+    layer_dims = [2, 4, 3, 1]
+    L=len(layer_dims)
+    parameters={}
+    for l in range(1,L):
+
+        parameters[f"W{l}"] = np.random.randn(layer_dims[l], layer_dims[l-1]) * np.sqrt(2.0 / layer_dims[l-1])
+        parameters[f"b{l}"] = np.random.randn(layer_dims[l], 1) * np.sqrt(2.0 / layer_dims[l-1])
+    
+    #데이터 준비
 
 
+    indices = np.random.permutation(X.shape[1])[:10]
+    X_shuffled = X[:, indices]
+    Y_shuffled = Y[:, indices]
+
+    #기울기 계산 
+    AL,ZL,caches=L_model_forward(X_shuffled,parameters)
+    grads=L_model_backward(ZL,Y_shuffled,caches)
+
+    analytic_grad = flatten_grads(grads)
+
+    #theta용 비용함수
+    def theta_cost_function(theta):
+        restored_parameters = {}
+        start = 0
+
+        for l in range(1, L):
+            for key in (f"W{l}", f"b{l}"):
+                size = parameters[key].size
+                shape = parameters[key].shape
+
+                restored_parameters[key] = theta[start:start + size].reshape(shape)
+                start += size
+
+        _, ZL, _ = L_model_forward(X_shuffled, restored_parameters)
+        return compute_cost(ZL, Y_shuffled)
+    
+    #실제 기울기 검증 
+    theta=flatten_parame(parameters)
+    error=grad_check(theta_cost_function,theta,analytic_grad,epsilon=1e-5)
+
+    return error
+
+#비용함수 곡선 
+def cost_function_plot(history):
+    horizontal = np.arange(1, len(history["cost_list"]) + 1)
+    plt.plot(horizontal, history["cost_list"], label="train")
+    plt.plot(horizontal, history["test_cost_list"], label="test")
+
+    plt.title(f"cost_function")
+    plt.xlabel("num_iterations")
+    plt.ylabel("cost")
+    plt.yscale("log")
+    plt.legend()
+
+
+#정확도 곡선
+def accuracy_plot(history):
+    horizontal = np.arange(1, len(history["cost_list"]) + 1)
+    plt.plot(history["accuracy_iterations"], history["train_accuracy"], label="train")
+    plt.plot(history["accuracy_iterations"], history["test_accuracy"], label="test")
+
+    plt.title(f"n_h={n_h}")
+    plt.xlabel("num_iterations")
+    plt.ylabel("accuracy")
+    plt.legend()
+
+#실험 A
+
+def count_params(dims):
+    return sum(dims[l]*dims[l-1] + dims[l] for l in range(1, len(dims)))
+
+def historys_to_test(historys):
+    L=len(historys)
+    min_iteration=[]
+    train_accuracy=[]
+    test_accuracy=[]
+    first_iteration_array=[]
+    
+
+    for i in range(1,L+1):
+        min_iteration.append(historys[i]["test_cost_list"] + 1)
+        train_accuracy.append(historys[i]["train_accuracy"][-1])
+        test_accuracy.append(historys[i]["test_accuracy"][-1])
+
+    for i in range(1,L+1):  
+        accuracy = np.asarray(test_accuracy[i])
+        indices = np.flatnonzero(accuracy >= 0.9)
+        first_iteration = history["accuracy_iterations"][indices[0]]
+        first_iteration_array.append(first_iteration)
+    
+
+    return min_iteration,train_accuracy,test_accuracy,first_iteration_array
+
+
+def experiment_A(X,Y,X_test,Y_test):
+    A_layer_dim={}
+    A_layer_dim["A-1"]= [2, 1]
+    A_layer_dim["A-2"]= [2, 16, 1]
+    A_layer_dim["A-3"]= [2, 64, 1]
+    A_layer_dim["A-4"]= [2, 256, 1]
+    A_layer_dim["A-5"]= [2, 16, 16, 1]   
+    A_layer_dim["A-6"]= [2, 32, 16, 8, 1]
+
+    L=len(A_layer_dim)
+    count_param=[]
+    historys=[]
+
+    for i in range(1,L):
+        count_param.append(count_params(A_layer_dim[f"A-{i}"]))
+        parameters,history=L_layer_model(X, Y, A_layer_dim[f"A-{i}"], 30000, 0.2, X_test, Y_test)
+        historys.append(history)
+
+    min_iteration,train_accuracy,test_accuracy,first_iteration_array = historys_to_test(historys)
+
+    total_result={
+        "A_layer_dim":A_layer_dim,
+        "count_param":count_param,
+        "min_iteration":min_iteration,
+        "train_accuracy":train_accuracy,
+        "test_accuracy":test_accuracy,
+        "first_iteration_array":first_iteration_array
+    }
+
+    return total_result
+    
+        
+
+    
 
 
 
@@ -255,7 +428,64 @@ def main():
 
 #전체 모델 테스트 
     parameters,history=L_layer_model(X_train, Y_train, layer_dims, 30000, 0.2, X_test, Y_test)
-    print(parameters["W1"].shape,parameters["W2"].shape,parameters["W3"].shape)
+    print("훈련 정확도: ", history["train_accuracy"][-1])
+    print("시험 정확도: ",history["test_accuracy"][-1])
+
+#기울기 검증 테스트 
+    error=gradient_checks_test(X_train,Y_train)
+    print("기울기 오차: ", error)
+
+#환원 검증 
+    layer_dims = [2, 1]
+
+    parameters = {}
+    for l in range(1,len(layer_dims)):
+
+        parameters[f"W{l}"] = np.random.randn(layer_dims[l], layer_dims[l-1]) * np.sqrt(2.0 / layer_dims[l-1])
+        parameters[f"b{l}"] = np.random.randn(layer_dims[l], 1) * np.sqrt(2.0 / layer_dims[l-1])
+
+    parameters,history=L_layer_model(X_train, Y_train, layer_dims, 30000, 0.2, X_test, Y_test,parameters)
+    print("환원 훈련 정확도: ", history["train_accuracy"][-1])
+    print("환원 정확도: ",history["test_accuracy"][-1])
+
+    def predict_fn(X_grid):
+        w, b = initialize(X_train.shape[0])
+
+        params, _, _ = optimize(
+            w, b, X_train, Y_train,
+            num_iterations=30000,
+            learning_rate=0.2
+        )
+
+        return logistic_predict(params["w"], params["b"], X_grid)
+
+    predict_train=predict_fn(X_train)
+    train_accuracy=np.mean(predict_train == Y_train)
+    print("로지스틱 회귀 훈련 정확도: ",train_accuracy)
+    
+    predict_test=predict_fn(X_test)
+    test_accuracy=np.mean(predict_test == Y_test)
+    print("로지스틱 회귀 시험 정확도: ",test_accuracy)
+
+    # 시험 정확도 체크
+    layer_dims = [2, 16, 16, 1]
+    parameters,history=L_layer_model(X_train, Y_train, layer_dims, 30000, 0.2, X_test, Y_test)
+    print("훈련 정확도: ", history["train_accuracy"][-1],"시험 정확도: ",history["test_accuracy"][-1])
+
+    cost_function_plot(history)
+    plt.show()
+
+    #실험 A
+    total_result=experiment_A(X_train,Y_train,X_test,Y_test)
+
+
+    for i in range(1,7):
+        print(f"A-{i}" ,"레이어 수: ",total_result["A_layer_dim"][i],"파리미터 수: ",total_result["count_param"][i],
+               "훈련 정화도: ",total_result["train_accuracy"][i],"시험 정확도: ",total_result["train_accuracy"][i], 
+               "시험 최소 비용: ",total_result["min_iteration"][i] )
+
+
+
 
 if __name__ == "__main__":
     main()
