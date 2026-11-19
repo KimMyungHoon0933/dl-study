@@ -257,7 +257,7 @@ def gradient_checks_test(X,Y):
     #데이터 준비
 
 
-    indices = np.random.permutation(X.shape[1])[:10]
+    indices = np.random.permutation(X.shape[1])[:20]
     X_shuffled = X[:, indices]
     Y_shuffled = Y[:, indices]
 
@@ -302,7 +302,7 @@ def cost_function_plot(history):
     plt.legend()
 
 #학습 곡선만 그림
-def cost_function_plot(history):
+def train_cost_function_plot(history):
     horizontal = np.arange(1, len(history["cost_list"]) + 1)
     plt.plot(horizontal, history["cost_list"], label="train")
 
@@ -410,8 +410,8 @@ def experiment_A_extra2(X,Y,X_test,Y_test):
     historys_A_5=[]
     parameters_seeds={}
     for i in range(1,4):
-        parameters_seeds[f"A-3_seed={i}"]=initialize_parameters_deep(A_layer_dim["A-3"])
-        parameters_seeds[f"A-5_seed={i}"]=initialize_parameters_deep(A_layer_dim["A-5"])
+        parameters_seeds[f"A-3_seed={i}"]=initialize_parameters_deep(A_layer_dim["A-3"],i)
+        parameters_seeds[f"A-5_seed={i}"]=initialize_parameters_deep(A_layer_dim["A-5"],i)
 
     for i in range(1,4):
         parameters,history_A_3=L_layer_model(X, Y, A_layer_dim[f"A-{3}"], 30000, 0.2, X_test, Y_test,parameters_seeds[f"A-3_seed={i}"])
@@ -440,22 +440,15 @@ def experiment_B(X,Y,X_test,Y_test):
 
     for i in range(1,L+1):
         parameters,history=L_layer_model(X, Y, B_layer_dim[f"B-{i}"], 30000, 0.2, X_test, Y_test)
-        horizontal = np.arange(1, len(history["cost_list"]) + 1)
-        plt.plot(horizontal, history["cost_list"], label=f"B-{i}")
         historys.append(history)
 
     _,_,test_accuracy_He,_ = historys_to_test(historys)
 
-    plt.title(f"He_cost_function")
-    plt.xlabel("num_iterations")
-    plt.ylabel("cost")
-    plt.yscale("log")
-    plt.legend()
-    plt.show()
-    
+
     parameters_list=[]
 
     historys_randn=[]
+
 
 
     for i in range(1,L+1):
@@ -469,31 +462,22 @@ def experiment_B(X,Y,X_test,Y_test):
     
     for i in range(1,L+1):
         parameters,history_randn=L_layer_model(X, Y, B_layer_dim[f"B-{i}"], 30000, 0.2, X_test, Y_test,parameters_list[i-1])
-        horizontal = np.arange(1, len(history_randn["cost_list"]) + 1)
-        plt.plot(horizontal, history_randn["cost_list"], label=f"B-{i}")
         historys_randn.append(history_randn)
 
     _,_,test_accuracy_randn,_ = historys_to_test(historys_randn)
 
-    plt.title(f"randn_cost_function")
-    plt.xlabel("num_iterations")
-    plt.ylabel("cost")
-    plt.yscale("log")
-    plt.legend()
-    plt.show()
+    for i in range(L):
+        horizontal = np.arange(1, len(history["cost_list"]) + 1)
+        plt.plot(horizontal, historys[i]["cost_list"], label=f"He")
+        plt.plot(horizontal, historys_randn[i]["cost_list"], label=f"randn")
+        plt.title(f"B-{i+1}")
+        plt.xlabel("num_iterations")
+        plt.ylabel("cost")
+        plt.yscale("log")
+        plt.legend()
+        plt.show()
 
     return test_accuracy_He,test_accuracy_randn
-
-
-
-
-
-
-
-
-
-    
-
 
 
 def main():
@@ -562,8 +546,9 @@ def main():
     parameters = {}
     for l in range(1,len(layer_dims)):
 
-        parameters[f"W{l}"] = np.random.randn(layer_dims[l], layer_dims[l-1]) * np.sqrt(2.0 / layer_dims[l-1])
-        parameters[f"b{l}"] = np.random.randn(layer_dims[l], 1) * np.sqrt(2.0 / layer_dims[l-1])
+        parameters[f"W{l}"] = np.zeros((layer_dims[l],layer_dims[l-1]))
+        parameters[f"b{l}"] = np.zeros((layer_dims[l], 1))
+
 
     parameters,history=L_layer_model(X_train, Y_train, layer_dims, 30000, 0.2, X_test, Y_test,parameters)
     print("환원 훈련 정확도: ", history["train_accuracy"][-1])
@@ -590,8 +575,8 @@ def main():
 
     # 시험 정확도 체크
     layer_dims = [2, 16, 16, 1]
- #   parameters,history=L_layer_model(X_train, Y_train, layer_dims, 30000, 0.2, X_test, Y_test)
-#    print("훈련 정확도: ", history["train_accuracy"][-1],"시험 정확도: ",history["test_accuracy"][-1])
+    parameters,history=L_layer_model(X_train, Y_train, layer_dims, 30000, 0.2, X_test, Y_test)
+    print("훈련 정확도: ", history["train_accuracy"][-1],"시험 정확도: ",history["test_accuracy"][-1])
 
     cost_function_plot(history)
     plt.show()
@@ -614,6 +599,8 @@ def main():
     def run_experiment_A_extra1(): 
         A_layer_dim={}
         A_layer_dim["A-4"]= [2, 256, 1]
+
+        parameters_seeds=initialize_parameters_deep(A_layer_dim["A-4"],1)
         parameters,history=L_layer_model(X_train, Y_train, A_layer_dim[f"A-{4}"], 100000, 0.2, X_test, Y_test)
         min_iteration,train_accuracy,test_accuracy,first_iteration_array=historys_to_test([history])
         print("A-4 추가 실험 " ,"레이어 수: ",A_layer_dim["A-4"],"파리미터 수: ",count_params(A_layer_dim["A-4"]) ,
@@ -625,10 +612,10 @@ def main():
         experiment_A_extra2(X_train,Y_train,X_test,Y_test)
 
     
-#    run_experiment_A_result()
-#    plt.show()
-    #run_experiment_A_extra1()
-    #run_experiment_A_extra2()
+    run_experiment_A_result()
+    plt.show()
+    run_experiment_A_extra1()
+    run_experiment_A_extra2()
 
 
     def run_experiment_B():
