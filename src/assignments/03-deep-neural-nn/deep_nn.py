@@ -51,8 +51,11 @@ def make_spiral(n_per_class=200, noise=0.12, seed=0, turns=1.6):
 
 
 #가중치 초기화
-def initialize_parameters_deep(layer_dims):
+def initialize_parameters_deep(layer_dims,seed=None):
     parameters = {}
+
+    if (seed != None):
+        np.random.seed(seed)
 
     for l in range(1,len(layer_dims)):
 
@@ -353,11 +356,26 @@ def experiment_A(X,Y,X_test,Y_test):
     L=len(A_layer_dim)
     count_param=[]
     historys=[]
-
+    
+    plt.figure(figsize=(18, 5))
     for i in range(1,L+1):
         count_param.append(count_params(A_layer_dim[f"A-{i}"]))
         parameters,history=L_layer_model(X, Y, A_layer_dim[f"A-{i}"], 30000, 0.2, X_test, Y_test)
         historys.append(history)
+        
+
+        if i in (1, 5, 6):
+
+            plt.subplot(1, 3, (1, 5, 6).index(i) + 1)
+
+            plot_decision_boundary(
+                lambda X_grid: predict(parameters, X_grid),
+                X, Y,
+                title=f"A-{i}: {A_layer_dim[f'A-{i}']}"
+            )
+
+            plt.xlabel("x1")
+            plt.ylabel("x2")
 
     min_iteration,train_accuracy,test_accuracy,first_iteration_array = historys_to_test(historys)
 
@@ -373,7 +391,37 @@ def experiment_A(X,Y,X_test,Y_test):
     return total_result
     
         
+def experiment_A_extra2(X,Y,X_test,Y_test):
+    A_layer_dim={}
 
+    A_layer_dim["A-3"]= [2, 64, 1]
+    A_layer_dim["A-5"]= [2, 16, 16, 1]   
+
+
+    L=len(A_layer_dim)
+    count_param=[]
+    historys_A_3=[]
+    historys_A_5=[]
+    parameters_seeds={}
+    for i in range(1,4):
+        parameters_seeds[f"A-3_seed={i}"]=initialize_parameters_deep(A_layer_dim["A-3"])
+        parameters_seeds[f"A-5_seed={i}"]=initialize_parameters_deep(A_layer_dim["A-5"])
+
+    for i in range(1,4):
+        parameters,history_A_3=L_layer_model(X, Y, A_layer_dim[f"A-{3}"], 30000, 0.2, X_test, Y_test,parameters_seeds[f"A-3_seed={i}"])
+        parameters,history_A_5=L_layer_model(X, Y, A_layer_dim[f"A-{5}"], 30000, 0.2, X_test, Y_test,parameters_seeds[f"A-5_seed={i}"])
+        historys_A_3.append(history_A_3)
+        historys_A_5.append(history_A_5)
+
+    min_iteration_A_3,train_accuracy_A_3,test_accuracy_A_3,first_iteration_array_A_3 = historys_to_test(historys_A_3)
+    min_iteration_A_5,train_accuracy_A_5,test_accuracy_A_5,first_iteration_array_A_5 = historys_to_test(historys_A_5)
+
+    for i in range(0,3):
+        print(f"A-3 seed={i} 시험 정확도",test_accuracy_A_3[i])
+        print(f"A-5 seed={i} 시험 정확도",test_accuracy_A_5[i])
+
+    return None
+    
     
 
 
@@ -472,26 +520,45 @@ def main():
 
     # 시험 정확도 체크
     layer_dims = [2, 16, 16, 1]
-    parameters,history=L_layer_model(X_train, Y_train, layer_dims, 30000, 0.2, X_test, Y_test)
-    print("훈련 정확도: ", history["train_accuracy"][-1],"시험 정확도: ",history["test_accuracy"][-1])
+ #   parameters,history=L_layer_model(X_train, Y_train, layer_dims, 30000, 0.2, X_test, Y_test)
+#    print("훈련 정확도: ", history["train_accuracy"][-1],"시험 정확도: ",history["test_accuracy"][-1])
 
     cost_function_plot(history)
     plt.show()
 
     #실험 A
-    total_result=experiment_A(X_train,Y_train,X_test,Y_test)
+    def run_experiment_A_result():
+        total_result=experiment_A(X_train,Y_train,X_test,Y_test)
 
 
-    for i in range(6):
-        name = f"A-{i + 1}"
-        layer_dims = total_result["A_layer_dim"][name]
+        for i in range(6):
+            name = f"A-{i + 1}"
+            layer_dims = total_result["A_layer_dim"][name]
 
 
-        print(name ,"레이어 수: ",total_result["A_layer_dim"][name],"파리미터 수: ",total_result["count_param"][i] ,
-               "훈련 정화도: ",total_result["train_accuracy"][i],"시험 정확도: ",total_result["test_accuracy"][i], 
-               "시험 최소 비용: ",total_result["min_iteration"][i],"시험 정확도 90% 도달",total_result["first_iteration_array"][i])
+            print(name ,"레이어 수: ",total_result["A_layer_dim"][name],"파리미터 수: ",total_result["count_param"][i] ,
+                "훈련 정화도: ",total_result["train_accuracy"][i],"시험 정확도: ",total_result["test_accuracy"][i], 
+                "시험 최소 비용: ",total_result["min_iteration"][i],"시험 정확도 90% 도달",total_result["first_iteration_array"][i])
 
 
+    def run_experiment_A_extra1(): 
+        A_layer_dim={}
+        A_layer_dim["A-4"]= [2, 256, 1]
+        parameters,history=L_layer_model(X_train, Y_train, A_layer_dim[f"A-{4}"], 100000, 0.2, X_test, Y_test)
+        min_iteration,train_accuracy,test_accuracy,first_iteration_array=historys_to_test([history])
+        print("A-4 추가 실험 " ,"레이어 수: ",A_layer_dim["A-4"],"파리미터 수: ",count_params(A_layer_dim["A-4"]) ,
+                    "훈련 정화도: ",train_accuracy[0],"시험 정확도: ",test_accuracy[0], 
+                    "시험 최소 비용: ",min_iteration[0],"시험 정확도 90% 도달",first_iteration_array[0])
+        
+
+    def run_experiment_A_extra2(): 
+        experiment_A_extra2(X_train,Y_train,X_test,Y_test)
+
+    
+    run_experiment_A_result()
+    plt.show()
+    #run_experiment_A_extra1()
+    #run_experiment_A_extra2()
 
 
 if __name__ == "__main__":
