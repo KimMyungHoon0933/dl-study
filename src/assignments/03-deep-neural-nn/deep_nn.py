@@ -56,6 +56,10 @@ def initialize_parameters_deep(layer_dims,seed=None):
 
     if (seed != None):
         np.random.seed(seed)
+    else:
+        np.random.seed(42)
+
+
 
     for l in range(1,len(layer_dims)):
 
@@ -466,17 +470,24 @@ def experiment_B(X,Y,X_test,Y_test):
 
     _,_,test_accuracy_randn,_ = historys_to_test(historys_randn)
 
+    plt.figure(figsize=(18, 5))
+
     for i in range(L):
-        horizontal = np.arange(1, len(history["cost_list"]) + 1)
-        plt.plot(horizontal, historys[i]["cost_list"], label=f"He")
-        plt.plot(horizontal, historys_randn[i]["cost_list"], label=f"randn")
-        plt.title(f"B-{i+1}")
+        plt.subplot(1, L, i + 1)
+
+        horizontal = np.arange(1, len(historys[i]["cost_list"]) + 1)
+
+        plt.plot(horizontal, historys[i]["cost_list"], label="He")
+        plt.plot(horizontal, historys_randn[i]["cost_list"], label="randn")
+
+        plt.title(f"B-{i + 1}")
         plt.xlabel("num_iterations")
         plt.ylabel("cost")
         plt.yscale("log")
         plt.legend()
-        plt.show()
 
+    plt.tight_layout()
+    plt.show()
     return test_accuracy_He,test_accuracy_randn
 
 
@@ -600,7 +611,6 @@ def main():
         A_layer_dim={}
         A_layer_dim["A-4"]= [2, 256, 1]
 
-        parameters_seeds=initialize_parameters_deep(A_layer_dim["A-4"],1)
         parameters,history=L_layer_model(X_train, Y_train, A_layer_dim[f"A-{4}"], 100000, 0.2, X_test, Y_test)
         min_iteration,train_accuracy,test_accuracy,first_iteration_array=historys_to_test([history])
         print("A-4 추가 실험 " ,"레이어 수: ",A_layer_dim["A-4"],"파리미터 수: ",count_params(A_layer_dim["A-4"]) ,
@@ -612,10 +622,10 @@ def main():
         experiment_A_extra2(X_train,Y_train,X_test,Y_test)
 
     
-    run_experiment_A_result()
-    plt.show()
-    run_experiment_A_extra1()
-    run_experiment_A_extra2()
+    #run_experiment_A_result()
+    #plt.show()
+    #run_experiment_A_extra1()
+    #run_experiment_A_extra2()
 
 
     def run_experiment_B():
