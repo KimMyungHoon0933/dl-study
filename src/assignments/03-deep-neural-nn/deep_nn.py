@@ -301,6 +301,12 @@ def cost_function_plot(history):
     plt.yscale("log")
     plt.legend()
 
+#학습 곡선만 그림
+def cost_function_plot(history):
+    horizontal = np.arange(1, len(history["cost_list"]) + 1)
+    plt.plot(horizontal, history["cost_list"], label="train")
+
+
 
 #정확도 곡선
 def accuracy_plot(history):
@@ -421,7 +427,71 @@ def experiment_A_extra2(X,Y,X_test,Y_test):
         print(f"A-5 seed={i} 시험 정확도",test_accuracy_A_5[i])
 
     return None
+
+def experiment_B(X,Y,X_test,Y_test):
+    B_layer_dim={}
+    B_layer_dim["B-1"]= [2, 16, 1]
+    B_layer_dim["B-2"]= [2, 16, 16, 1]
+    B_layer_dim["B-3"]= [2, 32, 16, 8, 1]	
+
+    L=len(B_layer_dim)
+    historys=[]
     
+
+    for i in range(1,L+1):
+        parameters,history=L_layer_model(X, Y, B_layer_dim[f"B-{i}"], 30000, 0.2, X_test, Y_test)
+        horizontal = np.arange(1, len(history["cost_list"]) + 1)
+        plt.plot(horizontal, history["cost_list"], label=f"B-{i}")
+        historys.append(history)
+
+    _,_,test_accuracy_He,_ = historys_to_test(historys)
+
+    plt.title(f"He_cost_function")
+    plt.xlabel("num_iterations")
+    plt.ylabel("cost")
+    plt.yscale("log")
+    plt.legend()
+    plt.show()
+    
+    parameters_list=[]
+
+    historys_randn=[]
+
+
+    for i in range(1,L+1):
+        parameters = {}
+        layer_dims=B_layer_dim[f"B-{i}"]
+        for l in range(1,len(layer_dims)):
+
+            parameters[f"W{l}"] = np.random.randn(layer_dims[l], layer_dims[l-1])*0.01
+            parameters[f"b{l}"] = np.zeros((layer_dims[l], 1))
+        parameters_list.append(parameters)
+    
+    for i in range(1,L+1):
+        parameters,history_randn=L_layer_model(X, Y, B_layer_dim[f"B-{i}"], 30000, 0.2, X_test, Y_test,parameters_list[i-1])
+        horizontal = np.arange(1, len(history_randn["cost_list"]) + 1)
+        plt.plot(horizontal, history_randn["cost_list"], label=f"B-{i}")
+        historys_randn.append(history_randn)
+
+    _,_,test_accuracy_randn,_ = historys_to_test(historys_randn)
+
+    plt.title(f"randn_cost_function")
+    plt.xlabel("num_iterations")
+    plt.ylabel("cost")
+    plt.yscale("log")
+    plt.legend()
+    plt.show()
+
+    return test_accuracy_He,test_accuracy_randn
+
+
+
+
+
+
+
+
+
     
 
 
@@ -555,11 +625,21 @@ def main():
         experiment_A_extra2(X_train,Y_train,X_test,Y_test)
 
     
-    run_experiment_A_result()
-    plt.show()
+#    run_experiment_A_result()
+#    plt.show()
     #run_experiment_A_extra1()
     #run_experiment_A_extra2()
 
 
+    def run_experiment_B():
+        test_accuracy_He,test_accuracy_randn=experiment_B(X_train,Y_train,X_test,Y_test)
+
+        for i in range(3):
+            name = f"B-{i + 1}"
+            print(name,"He 시험 정확도: ", test_accuracy_He[i],"randn 시험 정확도: ", test_accuracy_randn[i])
+
+    run_experiment_B()
+
+    
 if __name__ == "__main__":
     main()
