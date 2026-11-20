@@ -31,8 +31,9 @@
     parameters = {}
     for l in range(1,len(layer_dims)):
 
-        parameters[f"W{l}"] = np.random.randn(layer_dims[l], layer_dims[l-1]) * np.sqrt(2.0 / layer_dims[l-1])
-        parameters[f"b{l}"] = np.random.randn(layer_dims[l], 1) * np.sqrt(2.0 / layer_dims[l-1])
+        parameters[f"W{l}"] = np.zeros((layer_dims[l],layer_dims[l-1]))
+        parameters[f"b{l}"] = np.zeros((layer_dims[l], 1))
+
 
     parameters,history=L_layer_model(X_train, Y_train, layer_dims, 30000, 0.2, X_test, Y_test,parameters)
     print("환원 훈련 정확도: ", history["train_accuracy"][-1])
