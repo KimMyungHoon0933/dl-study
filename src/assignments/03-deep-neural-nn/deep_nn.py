@@ -57,7 +57,7 @@ def initialize_parameters_deep(layer_dims,seed=None):
     if (seed != None):
         np.random.seed(seed)
     else:
-        np.random.seed(42)
+        np.random.seed(0)
 
 
 
@@ -622,10 +622,10 @@ def main():
         experiment_A_extra2(X_train,Y_train,X_test,Y_test)
 
     
-    #run_experiment_A_result()
-    #plt.show()
-    #run_experiment_A_extra1()
-    #run_experiment_A_extra2()
+    run_experiment_A_result()
+    plt.show()
+    run_experiment_A_extra1()
+    run_experiment_A_extra2()
 
 
     def run_experiment_B():
@@ -635,7 +635,7 @@ def main():
             name = f"B-{i + 1}"
             print(name,"He 시험 정확도: ", test_accuracy_He[i],"randn 시험 정확도: ", test_accuracy_randn[i])
 
-    run_experiment_B()
+    #run_experiment_B()
 
     
 if __name__ == "__main__":
