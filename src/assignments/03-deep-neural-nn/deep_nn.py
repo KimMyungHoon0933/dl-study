@@ -455,12 +455,12 @@ def experiment_B(X,Y,X_test,Y_test):
 
     historys_randn=[]
 
-    np.random.seed(0)
+
 
     for i in range(1,L+1):
         parameters = {}
         layer_dims=B_layer_dim[f"B-{i}"]
-
+        np.random.seed(0)
         for l in range(1,len(layer_dims)):
 
             parameters[f"W{l}"] = np.random.randn(layer_dims[l], layer_dims[l-1])*0.01
