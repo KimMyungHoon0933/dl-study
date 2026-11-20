@@ -253,10 +253,12 @@ def gradient_checks_test(X,Y):
     layer_dims = [2, 4, 3, 1]
     L=len(layer_dims)
     parameters={}
+    rng = np.random.default_rng(0)
+    np.random.seed(0)
     for l in range(1,L):
-
+        
         parameters[f"W{l}"] = np.random.randn(layer_dims[l], layer_dims[l-1]) * np.sqrt(2.0 / layer_dims[l-1])
-        parameters[f"b{l}"] = np.random.randn(layer_dims[l], 1) * np.sqrt(2.0 / layer_dims[l-1])
+        parameters[f"b{l}"] = rng.normal(size=(layer_dims[l], 1)) * 0.1
     
     #데이터 준비
 
@@ -414,12 +416,12 @@ def experiment_A_extra2(X,Y,X_test,Y_test):
     historys_A_5=[]
     parameters_seeds={}
     for i in range(1,4):
-        parameters_seeds[f"A-3_seed={i}"]=initialize_parameters_deep(A_layer_dim["A-3"],i)
-        parameters_seeds[f"A-5_seed={i}"]=initialize_parameters_deep(A_layer_dim["A-5"],i)
+        parameters_seeds[f"A-3_seed={i-1}"]=initialize_parameters_deep(A_layer_dim["A-3"],i-1)
+        parameters_seeds[f"A-5_seed={i-1}"]=initialize_parameters_deep(A_layer_dim["A-5"],i-1)
 
     for i in range(1,4):
-        parameters,history_A_3=L_layer_model(X, Y, A_layer_dim[f"A-{3}"], 30000, 0.2, X_test, Y_test,parameters_seeds[f"A-3_seed={i}"])
-        parameters,history_A_5=L_layer_model(X, Y, A_layer_dim[f"A-{5}"], 30000, 0.2, X_test, Y_test,parameters_seeds[f"A-5_seed={i}"])
+        parameters,history_A_3=L_layer_model(X, Y, A_layer_dim[f"A-{3}"], 30000, 0.2, X_test, Y_test,parameters_seeds[f"A-3_seed={i-1}"])
+        parameters,history_A_5=L_layer_model(X, Y, A_layer_dim[f"A-{5}"], 30000, 0.2, X_test, Y_test,parameters_seeds[f"A-5_seed={i-1}"])
         historys_A_3.append(history_A_3)
         historys_A_5.append(history_A_5)
 
@@ -459,7 +461,7 @@ def experiment_B(X,Y,X_test,Y_test):
         parameters = {}
         layer_dims=B_layer_dim[f"B-{i}"]
         for l in range(1,len(layer_dims)):
-
+            np.random.seed(0)
             parameters[f"W{l}"] = np.random.randn(layer_dims[l], layer_dims[l-1])*0.01
             parameters[f"b{l}"] = np.zeros((layer_dims[l], 1))
         parameters_list.append(parameters)
@@ -635,7 +637,7 @@ def main():
             name = f"B-{i + 1}"
             print(name,"He 시험 정확도: ", test_accuracy_He[i],"randn 시험 정확도: ", test_accuracy_randn[i])
 
-    #run_experiment_B()
+    run_experiment_B()
 
     
 if __name__ == "__main__":
