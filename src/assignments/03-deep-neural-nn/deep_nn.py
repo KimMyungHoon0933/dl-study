@@ -455,13 +455,14 @@ def experiment_B(X,Y,X_test,Y_test):
 
     historys_randn=[]
 
-
+    np.random.seed(0)
 
     for i in range(1,L+1):
         parameters = {}
         layer_dims=B_layer_dim[f"B-{i}"]
+
         for l in range(1,len(layer_dims)):
-            np.random.seed(0)
+
             parameters[f"W{l}"] = np.random.randn(layer_dims[l], layer_dims[l-1])*0.01
             parameters[f"b{l}"] = np.zeros((layer_dims[l], 1))
         parameters_list.append(parameters)
@@ -624,10 +625,10 @@ def main():
         experiment_A_extra2(X_train,Y_train,X_test,Y_test)
 
     
-    run_experiment_A_result()
-    plt.show()
-    run_experiment_A_extra1()
-    run_experiment_A_extra2()
+    #run_experiment_A_result()
+    #plt.show()
+    #run_experiment_A_extra1()
+    #run_experiment_A_extra2()
 
 
     def run_experiment_B():
