@@ -254,3 +254,67 @@ randn * 0.01 초기화에서는 신경망이 깊어질수록 학습 비용의 �
  앞쪽 층의 가중치 기울기 dW가 작아져 업데이트가 거의 되지 않게 된다.
 
 
+## 막혔던 점 
+
+기울기 검증 과정에서 문제가 있었다. 
+
+- 증상
+ 
+> 기울기 오차:  0.7530335965698509
+
+- 원인 
+
+```
+    for i in range(L-1, 0, -1):
+        dW_reshape = np.asarray(grads[f"dW{i}"]).flatten()
+        db_reshape = np.asarray(grads[f"db{i}"]).flatten()
+
+        parts.append(dW_reshape)
+        parts.append(db_reshape)
+```
+
+역전파 과정과 동일한 코드 방식을 사용하여 flatten 시킬려고 하여 오류가 발생하였다.
+이는 theta의 경우 순전파 과정 코드를 사용하였기에 grad_check에서 만들어지는 수치적 기울기는
+1 레이어 L를 형태로 나열 되어 해석 기울기와 다른 순서로 나열 되게 되었다.
+
+- 결과 
+
+이를 해결하기 위해서 flatten 과정을 순전파와 동일하게 나열 되도록 바꾸어 해결하였다.
+
+```
+def flatten_grads(grads):
+    L = len(grads) // 2
+    parts = []
+
+    for i in range(1, L+1 ):
+        dW_reshape = np.asarray(grads[f"dW{i}"]).flatten()
+        db_reshape = np.asarray(grads[f"db{i}"]).flatten()
+
+        parts.append(dW_reshape)
+        parts.append(db_reshape)
+
+    theta = np.concatenate(parts)
+    return theta
+```
+
+**실행 결과** 
+
+> 기울기 오차: 4.425873650008288e-11
+
+## 잘 모르겠는 것
+
+아직 완벽하게 실험 A에서 A-5가 A-4 보다 더 적은 반복 횟수로 
+정확도를 90퍼를 도달한 이유에 대해서 명확한 설명을 하지 못하였다.
+
+개인적으로 이를 총 두가지 이유로 생각하고 있다. 
+반복 횟수가 낫다는 것은 최적화에서 깊이가 끌어오르는 것이 아닌가 라고 생각하였다.
+
+하지만 기울기 소실과 같은 문제와 연산량 등을 생각해보면 심층 신경망이 최적화의 유리하지 
+않다 할 수 있다. 
+
+따라서 컨볼루션과 자연어 처리 분야에서 모델의 크기가 커지고 깊어 질수록,  <BR>
+일반화 성능이 좋아지기에 이것이 기여 하여서 빠르게 일반화 성능이 높아졌다고 해석 하였다.
+
+하지만 이를 증명하기 위해서는 A-5와 A-6 사이에서도 좀 더 명확한 성능 변화가 있어야 한다고 생각한다.
+결과표를 보면 명확한 성능 변화가 보이지는 않는다. 
+그렇기에 현재 해석이 확실한 해석인지가 명확하지 않다.
