@@ -215,7 +215,7 @@ def L_layer_model(X, Y, layer_dims, num_iterations, learning_rate, X_test, Y_tes
             test_cost_function
         )
 
-        if((i+1)%100==0):
+        if((i+1)%1==0):
             predict_train = predict(parameters, X)
             predict_test = predict(parameters, X_test)
 
