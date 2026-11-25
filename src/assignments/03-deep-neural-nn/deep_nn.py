@@ -499,6 +499,16 @@ def experiment_B(X,Y,X_test,Y_test):
 
     plt.tight_layout()
     plt.show()
+
+    b3_costs = historys_randn[2]["cost_list"]  # index 2는 B-3
+
+    first_cost = b3_costs[0]
+    final_cost = b3_costs[-1]
+    cost_decrease = first_cost - final_cost
+
+
+    print(f"B-3 학습 비용 감소량: {cost_decrease:.8e}")
+
     return test_accuracy_He,test_accuracy_randn
 
 
@@ -633,10 +643,10 @@ def main():
         experiment_A_extra2(X_train,Y_train,X_test,Y_test)
 
     
-    #run_experiment_A_result()
-    #plt.show()
-    #run_experiment_A_extra1()
-    #run_experiment_A_extra2()
+    run_experiment_A_result()
+    plt.show()
+    run_experiment_A_extra1()
+    run_experiment_A_extra2()
 
 
     def run_experiment_B():
