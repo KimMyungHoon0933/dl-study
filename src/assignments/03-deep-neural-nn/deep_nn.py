@@ -30,11 +30,12 @@ def sigmoid(z):
     exp_z = np.exp(z[~positive])
     A[~positive] = exp_z / (1 + exp_z)
 
-    return A # A = (1,n)
+    return A # A = (n^[L],m)
 
 def relu(x):
-    x=np.maximum(0,x)
-    return x 
+    # Z=(1,n)
+    A=np.maximum(0,x)
+    return A  # A = (n^[L],m)
 
 
 #데이터 
@@ -66,30 +67,32 @@ def initialize_parameters_deep(layer_dims,seed=None):
         parameters[f"W{l}"] = np.random.randn(layer_dims[l], layer_dims[l-1]) * np.sqrt(2.0 / layer_dims[l-1])
         parameters[f"b{l}"] = np.zeros((layer_dims[l], 1))
 
-    return parameters
+    return parameters # 
 
 #선형 결합
 def linear_forward(A_prev, W, b):
+    # A_prev = (n^l-1,m) W = (n^l,n^l-1) b = (n^l,1) 
     cache={}
     Z = W @ A_prev + b
     cache["W"] = W 
     cache["b"] = b 
     cache["Z"] = Z 
     cache["A_prev"]=A_prev
-    return Z,cache
+    return Z,cache # Z = (n^l,m)
     
 def linear_activation_forward(A_prev, W, b, activation):
-
+    # A_prev = (n^l,m) W = (n^l,n^l-1) b = (n^l,1) 
     Z,cache = linear_forward(A_prev, W, b)
     A = activation(Z)
 
     cache["A"]=A
     cache["activation"]=activation
 
-    return A,cache
+    return A,cache    #  A= (n^l,m) 
 
 #순전파
 def L_model_forward(X, parameters):
+    # X = (l^[0],m)
     caches={}
     A_prev=X
     L = len(parameters) // 2
@@ -106,33 +109,37 @@ def L_model_forward(X, parameters):
         caches[f"{l}"]=cache
 
 
-    return AL,ZL,caches
+    return AL,ZL,caches #AL= (n^L,m)  ZL= (n^L,m) 
 
 #비용함수
 def compute_cost(ZL,Y):
+    #ZL= (n^L,m)  Y= (1,m)
     L = np.logaddexp(0, ZL) - Y * ZL
     J=np.sum(L)/ZL.shape[1]
-    return J #(1,n)
+    return J #(1,m)
 
 # 역전파 파라미터
 def linear_backward(dZ, cache):
+    #dZ= (n^[l],m)
     dW= (dZ @ cache["A_prev"].T) /dZ.shape[1]
     db = np.sum(dZ,axis=1 ,keepdims= True)/dZ.shape[1]
     dA_prev= cache["W"].T @dZ
-    return dA_prev,dW,db
+    return dA_prev,dW,db  #dA_prev= (n^[l],m) dW=(n^[l],n^[l-1]) db=(n^[l],1)
 
 # 역전파 dz 계산
 def linear_activation_backward(dA, cache, activation):
+        #dZ= (n^[l],m)
     if (activation == relu):
         dZ = dA * (cache["Z"] > 0)
     if  (activation == sigmoid):
         dZ=dA* cache["Z"]*(1-cache["Z"])
 
     dA_prev,dW,db=linear_backward(dZ, cache)
-    return dA_prev,dW,db
+    return dA_prev,dW,db #dA_prev= (n^[l],m) dW=(n^[l],n^[l-1]) db=(n^[l],1)
         
 #모델 역전파 
 def L_model_backward(ZL, Y, caches):
+     #ZL= (n^L,m)  Y= (1,m)
     grads={}
     L= len(caches)
 
@@ -152,7 +159,7 @@ def L_model_backward(ZL, Y, caches):
         grads[f"db{i}"]=db
 
     
-    return grads
+    return grads #dW=(n^[l],n^[l-1]) db=(n^[l],1)
 
 #가중치 업데이트
 def update_parameters(parameters, grads, learning_rate):
@@ -162,16 +169,17 @@ def update_parameters(parameters, grads, learning_rate):
         parameters[f"W{i}"]=  parameters[f"W{i}"] - learning_rate * grads[f"dW{i}"]
         parameters[f"b{i}"]=  parameters[f"b{i}"] - learning_rate * grads[f"db{i}"]
 
-    return parameters
+    return parameters #dW=(n^[l],n^[l-1]) db=(n^[l],1)
 
 #예측
 def predict(parameters, X):
     AL,_,_=L_model_forward(X,parameters)
     predict= (AL >= 0.5).astype(int)
-    return predict
+    return predict # Y^{hat} = (1,n)
 
 #전체 모델 
 def L_layer_model(X, Y, layer_dims, num_iterations, learning_rate, X_test, Y_test,parameters=None):
+    #X=(n^[0],m) Y = (1,n)
     L=len(layer_dims)
     if parameters is None:
         parameters = initialize_parameters_deep(layer_dims)
