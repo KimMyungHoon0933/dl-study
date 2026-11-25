@@ -294,7 +294,7 @@ randn * 0.01 초기화에서는 신경망이 깊어질수록 학습 비용의 �
 
 ```
 def flatten_grads(grads):
-    L = len(grads) // 2
+    L = sum(key.startswith("dW") for key in grads)
     parts = []
 
     for i in range(1, L+1 ):
