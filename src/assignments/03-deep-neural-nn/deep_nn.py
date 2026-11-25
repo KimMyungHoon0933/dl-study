@@ -132,7 +132,7 @@ def linear_activation_backward(dA, cache, activation):
     if (activation == relu):
         dZ = dA * (cache["Z"] > 0)
     if  (activation == sigmoid):
-        dZ=dA* cache["Z"]*(1-cache["Z"])
+        dZ=dA* cache["A"]*(1-cache["A"])
 
     dA_prev,dW,db=linear_backward(dZ, cache)
     return dA_prev,dW,db #dA_prev= (n^[l],m) dW=(n^[l],n^[l-1]) db=(n^[l],1)
