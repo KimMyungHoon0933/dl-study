@@ -585,25 +585,30 @@ def main():
     parameters,history=L_layer_model(X_train, Y_train, layer_dims, 30000, 0.2, X_test, Y_test,parameters)
     print("환원 훈련 정확도: ", history["train_accuracy"][-1])
     print("환원 정확도: ",history["test_accuracy"][-1])
+    print("환원 훈련 비용: ",history["cost_list"][-1])
+    print("환원 시험 비용: ",history["test_cost_list"][-1])
 
     def predict_fn(X_grid):
         w, b = initialize(X_train.shape[0])
 
-        params, _, _ = optimize(
+        params, _, cost_array = optimize(
             w, b, X_train, Y_train,
             num_iterations=30000,
             learning_rate=0.2
         )
 
-        return logistic_predict(params["w"], params["b"], X_grid)
+        return logistic_predict(params["w"], params["b"], X_grid),cost_array
 
-    predict_train=predict_fn(X_train)
+    predict_train,cost_array_train=predict_fn(X_train)
     train_accuracy=np.mean(predict_train == Y_train)
     print("로지스틱 회귀 훈련 정확도: ",train_accuracy)
+    print("로지스틱 회귀 훈련 비용: ",cost_array_train[-1])
     
-    predict_test=predict_fn(X_test)
+    
+    predict_test,cost_array_test=predict_fn(X_test)
     test_accuracy=np.mean(predict_test == Y_test)
     print("로지스틱 회귀 시험 정확도: ",test_accuracy)
+    print("로지스틱 회귀 시험 비용: ",cost_array_test[-1])
 
     # 시험 정확도 체크
     layer_dims = [2, 16, 16, 1]
